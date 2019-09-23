@@ -49,6 +49,18 @@ To run simply run the ansible playbook command with all the other files you've j
 
 `ansible-playbook -i inventory open-ondemand.yml --extra-vars=@overrides.yml`
 
+## Site Specific tasks
+
+You may use the file [site-specific.yml](tasks/site-specific.yml) to run site specific tasks.
+This file should never be updated in this repo so are free to modify it without worry that you'll
+have to merge it.
+
+Use the command `git update-index --assume-unchanged tasks/site-specific.yml` to get rid of it
+showing up all the time in git diffs.
+  
+Use the command `git update-index --no-assume-unchanged  tasks/site-specific.yml` if you do want
+to start tracking it again.
+
 ## Tags
 
 ### Configuring
