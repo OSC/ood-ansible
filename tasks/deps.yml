@@ -1,0 +1,42 @@
+- name: install the os dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+  - "{{ os_dependencies }}"
+  when: os_dependencies is defined
+
+- name: install the dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+  - git
+  - ruby
+  - nodejs
+  - curl
+  - npm
+  - make
+  - gcc
+  - "{{ g_plus_plus }}"
+  - "{{ ffi_devel_package }}"
+  - "{{ libz_devel_package }}"
+  - "{{ apache_package_name }}"
+  - "{{ sqlite_devel_package }}"
+  - "{{ ruby_devel_package }}"
+
+- name: install all the gems we need
+  gem:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    state: present
+    user_install: no
+  become: true
+  loop:
+  - { name: 'bundler', version: '1.13.7' }
+  - { name: 'rake', version: '12.3.3' }
+
+- include: passenger.yml
+  

@@ -1,0 +1,34 @@
+- name: template apache file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  become: true
+  when: configure_w_ansible is defined and configure_w_ansible
+  loop:
+  - { src: "ood-portal.conf.j2", dest: "{{ apache_conf_dir }}/ood-portal.conf" }
+  notify:
+  - restart apache httpd
+
+- name: template ood yml files 
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  become: true
+  loop:
+  - { src: "ood_portal.yml.j2", dest: "{{ ood_base_conf_dir }}/ood_portal.yml" }
+  - { src: "nginx_stage.yml.j2", dest: "{{ ood_base_conf_dir }}/nginx_stage.yml" }
+
+- name: enable Debain apache mods
+  file:
+    src: "{{ apache_etc_dir }}/mods-available/{{ item }}.load"
+    dest: "{{ apache_etc_dir }}/mods-enabled/{{ item }}.load"
+    state: link
+  become: true
+  when: ansible_os_family == "Debian"
+  loop:
+  - rewrite
+  - lua
+  - headers
+  - proxy
+  - proxy_http
+

@@ -1,0 +1,243 @@
+# Ansible generated 
+# Do not modify this file, modify the Ansible template or variables
+# and re-run the playbook
+
+{% if httpd_listen_addr_port is defined %}
+{% for addr in httpd_listen_addr_port %}
+Listen {{ addr }}
+{% endfor %}
+{% endif %}
+
+{% if ssl is defined and httpd_use_rewrites %}
+<VirtualHost *:80>
+  RewriteEngine On
+  RewriteRule ^(.*) {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}$1 [R=301,NE,L]
+</VirtualHost>
+{% endif %}
+
+
+# The Open OnDemand portal VirtualHost
+#
+<VirtualHost *:{{ httpd_port }}>
+{% if ssl is defined %}
+  ServerName {{ servername }}
+{% endif %}
+
+  ErrorLog  "{{ apache_log_dir }}/{{ servername }}_error{% if ssl is defined %}ssl{% endif %}.log"
+  CustomLog "{{ apache_log_dir }}/{{ servername }}_access{% if ssl is defined %}ssl{% endif %}.log" combined
+
+{% if httpd_use_rewrites %}
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} !^({{ servername }}(:{{ httpd_port }})?)?$ [NC]
+  RewriteRule ^(.*) {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}$1 [R=301,NE,L]
+{% endif %}
+
+{% if ssl is defined %}
+{% for arg in httpd_ssl_opts %}
+  {{ arg }}
+{% endfor %}
+{% endif %}
+
+  # Lua configuration
+  #
+{% if lua_root is defined %}
+  LuaRoot "{{ lua_root }}"
+{% endif %}
+  LogLevel lua_module:{{ lua_log_level }}
+
+  # Log authenticated user requests (requires min log level: info)
+  LuaHookLog logger.lua logger
+
+  # Authenticated-user to system-user mapping configuration
+  #
+  SetEnv OOD_USER_MAP_CMD "{{ user_map_cmd }}"
+{% if http_user_env is defined %}
+  SetEnv OOD_USER_ENV "{{ http_user_env }}"
+{% endif %}
+{% if httpd_map_fail_uri is defined %}
+  SetEnv OOD_MAP_FAIL_URI "{{ httpd_map_fail_uri }}"
+{% endif %}
+
+  # Per-user Nginx (PUN) configuration
+  # NB: Apache will need sudo privs to control the PUNs
+  #
+  SetEnv OOD_PUN_STAGE_CMD "{{ pun_stage_cmd }}"
+
+  #
+  # Below is used for sub-uri's this Open OnDemand portal supports
+  #
+
+{% if httpd_public_uri is defined and httpd_public_root is defined %}
+  # Serve up publicly available assets from local file system:
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ httpd_public_uri }}/favicon.ico
+  #     will be redirected to the file => {{ httpd_public_root }}/favicon.ico
+  Alias "{{ httpd_public_uri }}" "{{ httpd_public_root }}"
+  <Directory "{{ httpd_public_root }}">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+  </Directory>
+{% endif %}
+
+{% if node_uri is defined %}
+  # Reverse proxy traffic to backend webserver through IP sockets:
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ node_uri }}/HOST/PORT/index.html
+  #     #=> http://HOST:PORT{{ node_uri }}/HOST/PORT/index.html
+  #
+  <LocationMatch "^{{ node_uri }}/(?<host>{{ host_regex }})/(?<port>\d+)">
+    {% for auth in httpd_auth  %}
+    {{ auth }}
+    {% endfor %}
+
+    # ProxyPassReverse implementation
+    Header edit Location "^[^/]+//[^/]+" ""
+
+    # ProxyPassReverseCookieDomain implemenation
+    Header edit* Set-Cookie ";\s*(?i)Domain[^;]*" ""
+
+    # ProxyPassReverseCookiePath implementation
+    Header edit* Set-Cookie ";\s*(?i)Path[^;]*" ""
+    Header edit  Set-Cookie "^([^;]+)" "$1; Path={{ node_uri }}/%{MATCH_HOST}e/%{MATCH_PORT}e"
+
+    LuaHookFixups node_proxy.lua node_proxy_handler
+  </LocationMatch>
+{% endif %}
+
+{% if rnode_uri is defined %}
+  # Reverse "relative" proxy traffic to backend webserver through IP sockets:
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ rnode_uri }}/HOST/PORT/index.html
+  #     #=> http://HOST:PORT/index.html
+  #
+  <LocationMatch "^{{ rnode_uri }}/(?<host>{{ host_regex }})/(?<port>\d+)(?<uri>/.*|)">
+    {% for auth in httpd_auth  %}
+    {{ auth }}
+    {% endfor %}
+
+    # ProxyPassReverse implementation
+    Header edit Location "^([^/]+//[^/]+)|(?=/)" "{{ rnode_uri }}/%{MATCH_HOST}e/%{MATCH_PORT}e"
+
+    # ProxyPassReverseCookieDomain implemenation
+    Header edit* Set-Cookie ";\s*(?i)Domain[^;]*" ""
+
+    # ProxyPassReverseCookiePath implementation
+    Header edit* Set-Cookie ";\s*(?i)Path[^;]*" ""
+    Header edit  Set-Cookie "^([^;]+)" "$1; Path={{ rnode_uri }}/%{MATCH_HOST}e/%{MATCH_PORT}e"
+
+    LuaHookFixups node_proxy.lua node_proxy_handler
+  </LocationMatch>
+{% endif %}
+
+{% if pun_uri is defined %}
+  # Reverse proxy traffic to backend PUNs through Unix domain sockets:
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ pun_uri }}/dev/app/simulations/1
+  #     #=> unix:/path/to/socket|http://localhost{{ pun_uri }}/dev/app/simulations/1
+  #
+  SetEnv OOD_PUN_URI "{{ pun_uri }}"
+  <Location "{{ pun_uri }}">
+    {% for auth in httpd_auth  %}
+    {{ auth }}
+    {% endfor %}
+
+    ProxyPassReverse "http://localhost{{ pun_uri }}"
+
+    # ProxyPassReverseCookieDomain implementation (strip domain)
+    Header edit* Set-Cookie ";\s*(?i)Domain[^;]*" ""
+
+    # ProxyPassReverseCookiePath implementation (less restrictive)
+    Header edit* Set-Cookie ";\s*(?i)Path\s*=(?-i)(?!\s*{{ pun_uri }})[^;]*" "; Path={{ pun_uri }}"
+
+    SetEnv OOD_PUN_SOCKET_ROOT "{{ pun_socket_root }}"
+    SetEnv OOD_PUN_MAX_RETRIES "{{ pun_max_retries }}"
+    LuaHookFixups pun_proxy.lua pun_proxy_handler
+
+    {% if analytics_url is defined and analytics_id is defined %}
+    SetEnv OOD_ANALYTICS_TRACKING_URL "{{ analytics_url }}"
+    SetEnv OOD_ANALYTICS_TRACKING_ID  "{{ analytics_id }}"
+    LuaHookLog analytics.lua analytics_handler
+    {% endif %}
+  </Location>
+{% endif %}
+
+{% if nginx_uri is defined %}
+  # Control backend PUN for authenticated user:
+  # NB: See mod_ood_proxy for more details.
+  #
+  #    {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ nginx_uri }}/stop
+  #    #=> stops the authenticated user's PUN
+  #
+  SetEnv OOD_NGINX_URI "{{ nginx_uri }}"
+  <Location "{{ nginx_uri }}">
+    {% for auth in httpd_auth  %}
+    {{ auth }}
+    {% endfor %}
+
+    LuaHookFixups nginx.lua nginx_handler
+  </Location>
+{% endif %}
+
+{% if root_uri is defined %}
+  # Redirect root URI to specified URI
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}/
+  #     #=> {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ root_uri }}
+  #
+  RedirectMatch ^/$ "{{ root_uri }}"
+{% endif %}
+
+{% if logout_uri is defined and logout_redirect is defined %}
+  # Redirect logout URI to specified redirect URI
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ logout_uri }}
+  #     #=> {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ logout_redirect }}
+  #
+  Redirect "{{ logout_uri }}" "{{ logout_redirect }}"
+{% endif %}
+
+{% if oidc_uri is defined %}
+  # OpenID Connect redirect URI:
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ logoutoidc_uri_uri }}
+  #     #=> handled by mod_auth_openidc
+  #
+  <Location "{{ oidc_uri }}">
+    {% for auth in httpd_auth  %}
+    {{ auth }}
+    {% endfor %}
+  </Location>
+{% endif %}
+
+{% if oidc_discover_uri is defined and oidc_discover_root is defined %}
+  # Discover URI for OpenID Connect (used for multiple Id Providers):
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ oidc_discover_uri }}
+  #     #=> {{ oidc_discover_root }}/
+  #
+  Alias "{{ oidc_discover_uri }}" "{{ oidc_discover_root }}"
+  <Directory "{{  oidc_discover_root }}">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+  </Directory>
+{% endif %}
+
+{% if register_uri is defined and register_root is defined %}
+  # Register and/or unregister the mapping of an authenticated-user to a system-user
+  # NB: This is not needed for regular expression mapping
+  #
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ register_uri }}
+  #     #=> {{ register_root }}/
+  #
+  Alias "{{ register_uri }}" "{{ register_root }}"
+  <Directory "{{ register_root }}">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+
+    {% for auth in httpd_auth  %}
+    {{ auth }}
+    {% endfor %}
+  </Directory>
+{% endif %}
+</VirtualHost>
