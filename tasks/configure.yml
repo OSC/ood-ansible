@@ -32,3 +32,13 @@
   - proxy
   - proxy_http
 
+- name: enable Suse apache mods
+  blockinfile:
+    path: "{{ apache_etc_dir }}/loadmodule.conf"
+    block: |
+      LoadModule lua_module                     /usr/lib64/apache2-prefork/mod_lua.so
+      LoadModule headers_module                 /usr/lib64/apache2-prefork/mod_headers.so
+      LoadModule proxy_module                   /usr/lib64/apache2-prefork/mod_proxy.so
+      LoadModule proxy_http_module              /usr/lib64/apache2-prefork/mod_proxy_http.so
+  when: ansible_os_family == "Suse"
+  become: true
