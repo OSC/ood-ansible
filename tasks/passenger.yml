@@ -63,9 +63,3 @@
   - "{{ nginx_apps_dir }}/sys"
   - "{{ nginx_apps_dir }}/usr"
   - "{{ nginx_apps_dir }}/dev"
-
-- name: template locations file
-  template:
-    src: "locations.ini.j2"
-    dest: "{{ passenger_lib_dir }}/locations.ini"
-  become: true

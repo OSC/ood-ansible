@@ -1,3 +1,9 @@
+- name: template passenger locations ini file
+  template:
+    src: "locations.ini.j2"
+    dest: "{{ passenger_lib_dir }}/locations.ini"
+  become: true
+
 - name: template apache file
   template:
     src: "{{ item.src }}"
