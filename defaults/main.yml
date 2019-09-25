@@ -57,6 +57,8 @@ nginx_dir: "{{ ood_base_dir }}/nginx"
 
 configure_w_ansible: true
 
+ruby_lib_dir: "/usr/lib64/ruby/"
+
 ######## START default OS related configs ############
 # OS defaults are RHEL
 apache_package_name: httpd

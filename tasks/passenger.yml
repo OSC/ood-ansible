@@ -63,3 +63,32 @@
   - "{{ nginx_apps_dir }}/sys"
   - "{{ nginx_apps_dir }}/usr"
   - "{{ nginx_apps_dir }}/dev"
+
+- name: make a tmp dir
+  shell: mktemp -d
+  register: tmpdir
+
+- name: make passenger_native_support.so Makefile
+  shell: ruby {{ passenger_base_dir }}/src/ruby_native_extension/extconf.rb
+  args:
+    chdir: "{{ tmpdir.stdout }}"
+
+- name: make the passenger_native_support.so
+  make:
+    chdir: "{{ tmpdir.stdout }}"
+
+- name: move passenger_native_support.so to support libraries
+  copy:
+    src: "{{ tmpdir.stdout }}/passenger_native_support.so"
+    dest:  "{{ ruby_lib_dir }}"
+    owner: root
+    group: root
+    mode: '0755'
+    remote_src: yes
+  become: true
+
+- name: cleanup tmp dir
+  file:
+    path: "{{ tmpdir.stdout }}"
+    state: absent
+  become: true
