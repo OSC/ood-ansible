@@ -47,6 +47,16 @@
   become: true
   loop: "{{ ood_core_libs }}"
 
+- name: make nginx config files for core sys apps
+  file:
+    path: "{{ nginx_apps_dir }}/sys/{{ item }}.conf"
+    state: touch
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  loop: "{{ ood_base_apps }}"
+
 - name: make version file
   copy:
     content: "{{ ood_source_version }}"

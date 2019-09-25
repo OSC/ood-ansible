@@ -3,3 +3,7 @@
     name: "{{ apache_service_name }}"
     state: restarted
   become: true
+
+- name: update nginx stage
+  shell: "{{ ood_base_dir }}/nginx_stage/sbin/update_nginx_stage"
+  become: true

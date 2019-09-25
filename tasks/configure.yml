@@ -15,14 +15,18 @@
   notify:
   - restart apache httpd
 
-- name: template ood yml files 
+- name: template ood_portal.yml
   template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "ood_portal.yml.j2"
+    dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
   become: true
-  loop:
-  - { src: "ood_portal.yml.j2", dest: "{{ ood_base_conf_dir }}/ood_portal.yml" }
-  - { src: "nginx_stage.yml.j2", dest: "{{ ood_base_conf_dir }}/nginx_stage.yml" }
+
+- name: template nginx_stage.yml
+  template:
+    src: "nginx_stage.yml.j2"
+    dest: "{{ ood_base_conf_dir }}/nginx_stage.yml"
+  become: true
+  notify: update nginx stage
 
 - name: enable Debain apache mods
   file:
