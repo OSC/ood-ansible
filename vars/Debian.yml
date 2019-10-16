@@ -16,3 +16,6 @@ os_dependencies:
 
 os_directories:
 - "/var/run/{{ apache_service_name }}"
+
+ruby_lib_dir: "/usr/lib/ruby"
+
