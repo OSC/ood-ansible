@@ -80,7 +80,7 @@
 - name: move passenger_native_support.so to support libraries
   copy:
     src: "{{ tmpdir.stdout }}/passenger_native_support.so"
-    dest:  "{{ ruby_lib_dir }}"
+    dest:  "{{ ruby_lib_dir }}/passenger_native_support.so"
     owner: root
     group: root
     mode: '0755'
