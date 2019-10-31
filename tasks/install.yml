@@ -27,7 +27,7 @@
 
 - name: move apps to their directories
   copy:
-    src: "{{ ood_source_dir }}/build/apps/{{ item }}"
+    src: "{{ ood_source_dir }}/apps/{{ item }}"
     dest: "{{ ood_sys_app_dir }}"
     owner: root
     group: root
