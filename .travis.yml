@@ -19,4 +19,4 @@ install:
 - pip install ansible
 
 script:
-- tests/run_playbook.sh
+- travis_wait 30 tests/run_playbook.sh
