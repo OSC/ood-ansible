@@ -1,11 +1,13 @@
 # Open Ondemand Ansible Role
 
+[![Build Status](https://travis-ci.org/OSC/ood-ansible.svg?branch=master)](https://travis-ci.org/OSC/ood-ansible)
+
 ## Disclaimer
 
 This is currently a work in progress. It may or may not work on all systems and **is not yet production ready**.
 Please only use this for developmental or proof of concept purposes while we work to harden it.
 
-It was tested on Ubuntu Bionic, Opensuse Tumbleweed 20190921, and Fedora 30.
+It was tested on Ubuntu Bionic, Debian Buster, Opensuse Tumbleweed 20190921, and Fedora 30 containers.
 
 ## Getting Started
 

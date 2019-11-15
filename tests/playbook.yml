@@ -1,0 +1,4 @@
+- hosts: ondemand-hosts
+
+  roles:
+  - ood-ansible
