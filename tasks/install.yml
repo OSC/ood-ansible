@@ -36,6 +36,14 @@
   become: true
   loop: "{{ ood_base_apps }}"
 
+# Have to remove this test directory because it doesn't copy well because 
+# it has recursive symlinks that throw OSError: [Errno 40] Too many levels of symbolic links
+- name: rm findit2 test directory
+  file:
+    path: "{{ ood_source_dir }}/apps/files/lib/findit2/test"
+    state: absent
+  become: true
+
 - name: move core libs to their directories
   copy:
     src: "{{ ood_source_dir }}/{{ item }}"
