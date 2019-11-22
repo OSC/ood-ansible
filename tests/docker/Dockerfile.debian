@@ -1,0 +1,3 @@
+FROM debian:buster
+
+run apt-get update && apt-get install -y sudo python

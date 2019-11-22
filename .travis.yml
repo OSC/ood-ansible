@@ -1,0 +1,26 @@
+---
+language: python
+python: "3.7"
+
+branches:
+  only:
+  - master
+  - /^v\d/
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+
+services:
+- docker
+
+install:
+- pip install ansible
+
+script:
+- tests/check_syntax.sh
+- tests/start_containers.sh
+- tests/run_playbook.sh --tags="deps"
+- travis_wait 45 tests/run_playbook.sh --tags="build"
+- tests/run_playbook.sh --tags="install,configure"
