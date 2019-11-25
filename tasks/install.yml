@@ -25,6 +25,17 @@
   loop: "{{ os_directories }}"
   when: os_directories is defined
 
+# Have to remove these test directories because they don't copy well.  They have
+# recursive symlinks that throw OSError: [Errno 40] Too many levels of symbolic links
+- name: rm findit2 test directory
+  file:
+    path: "{{ ood_source_dir }}/apps/files/{{ item }}"
+    state: absent
+  become: true
+  loop:
+  - "node_modules/findit/test"
+  - "lib/findit2/test"
+
 - name: move apps to their directories
   copy:
     src: "{{ ood_source_dir }}/apps/{{ item }}"

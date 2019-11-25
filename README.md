@@ -1,6 +1,6 @@
 # Open Ondemand Ansible Role
 
-[![Build Status](https://travis-ci.org/OSC/ood-ansible.svg?branch=master)](https://travis-ci.org/OSC/ood-ansible)
+[![Build Status](https://travis-ci.com/OSC/ood-ansible.svg?branch=master)](https://travis-ci.com/OSC/ood-ansible)
 
 ## Disclaimer
 
