@@ -18,9 +18,14 @@ services:
 install:
 - pip install ansible
 
+env: 
+- SRC_INV=inventory-src
+- RPM_INV=inventory-src
+
 script:
 - tests/check_syntax.sh
 - tests/start_containers.sh
-- tests/run_playbook.sh --tags="deps"
-- travis_wait 45 tests/run_playbook.sh --tags="build"
-- tests/run_playbook.sh --tags="install,configure"
+- tests/run_playbook.sh --tags="deps" -i "$SRC_INV"
+- travis_wait 45 tests/run_playbook.sh --tags="build" -i "$SRC_INV"
+- tests/run_playbook.sh --tags="install,configure" -i "$SRC_INV"
+- tests/run_playbook.sh -i "$RPM_INV"

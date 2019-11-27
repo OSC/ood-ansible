@@ -58,6 +58,12 @@ configure_w_ansible: true
 
 ruby_lib_dir: "/usr/lib64/ruby/"
 
+### install from rpm related configs
+# flip this flag to instead install from rpm
+install_from_src: true
+rpm_repo_url: "https://yum.osc.edu/ondemand/1.6/ondemand-release-web-1.6-4.noarch.rpm"
+###
+
 ######## START default OS related configs ############
 # OS defaults are RHEL
 apache_package_name: httpd

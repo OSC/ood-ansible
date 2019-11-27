@@ -1,0 +1,21 @@
+- name: install the rpm repo
+  package:
+    name: "{{ rpm_repo_url }}"
+    state: present
+
+- name: install additional rpms
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+  - "{{ additional_rpm_installs }}"
+  when: additional_rpm_installs is defined
+
+- name: enable scl repos in rhel
+  shell: "subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
+  when: ansible_distribution == "Red Hat Enterprise Linux"
+
+- name: install ondemand
+  package:
+    name: ondemand
+    state: present

@@ -1,0 +1,8 @@
+apache_package_name: httpd24
+apache_service_name: httpd24
+
+
+apache_base_dir: "/opt/rh/httpd24/root"
+apache_etc_dir: "/opt/rh/httpd24/root/etc/httpd"
+apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
+container_apache_restart_cmd: "{{ apache_base_dir }}/sbin/httpd-scl-wrapper -k restart"

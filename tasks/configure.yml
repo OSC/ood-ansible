@@ -3,6 +3,7 @@
     src: "locations.ini.j2"
     dest: "{{ passenger_lib_dir }}/locations.ini"
   become: true
+  when: install_from_src
 
 - name: template apache file
   template:

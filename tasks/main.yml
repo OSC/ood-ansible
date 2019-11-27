@@ -1,16 +1,30 @@
 - name: include distribution variables
-  include_vars: "{{ ansible_os_family }}.yml"
+  include_vars: "{{ ansible_distribution }}.yml"
+  tags: [ 'always' ]
+
+- name: include scl related overrides
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+  when: (ansible_distribution == "CentOS") and 
+        not (install_from_src)
   tags: [ 'always' ]
 
 - include: deps.yml
   tags: [ 'deps' ]
+  when: install_from_src
 
 - include: build.yml
   tags: [ 'build' ]
+  when: install_from_src
 
-- include: install.yml
+- include: install-src.yml
   become: true
   tags: [ 'install' ]
+  when: install_from_src
+
+- include: install-rpm.yml
+  become: true
+  tags: [ 'install' ]
+  when: not install_from_src
 
 - include: configure.yml
   tags: [ 'configure' ]
