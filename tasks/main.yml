@@ -3,9 +3,8 @@
   tags: [ 'always' ]
 
 - name: include scl related overrides
-  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-  when: (ansible_distribution == "CentOS") and 
-        not (install_from_src)
+  include_vars: "{{ ansible_distribution }}-scl.yml"
+  when: install_from_src != true
   tags: [ 'always' ]
 
 - include: deps.yml
@@ -24,7 +23,7 @@
 - include: install-rpm.yml
   become: true
   tags: [ 'install' ]
-  when: not install_from_src
+  when: install_from_src != true
 
 - include: configure.yml
   tags: [ 'configure' ]
