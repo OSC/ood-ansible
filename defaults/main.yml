@@ -51,8 +51,10 @@ nginx_lib_dir: "/var/lib/ondemand-nginx"
 nginx_config_dir: "{{ nginx_lib_dir }}/config"
 nginx_puns_dir: "{{ nginx_config_dir }}/puns"
 nginx_apps_dir: "{{ nginx_config_dir }}/apps"
-nginx_mime_file: "{{ passenger_lib_dir }}/mime.types"
 nginx_dir: "{{ ood_base_dir }}/nginx"
+nginx_bin: "{{ nginx_dir }}/bin/nginx"
+nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
+locations_ini: "{{ passenger_lib_dir }}/locations.ini"
 
 configure_w_ansible: true
 
