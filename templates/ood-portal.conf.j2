@@ -19,12 +19,12 @@ Listen {{ addr }}
 # The Open OnDemand portal VirtualHost
 #
 <VirtualHost *:{{ httpd_port }}>
-{% if ssl is defined %}
+{% if servername is defined %}
   ServerName {{ servername }}
-{% endif %}
 
-  ErrorLog  "{{ apache_log_dir }}/{{ servername }}_error{% if ssl is defined %}ssl{% endif %}.log"
-  CustomLog "{{ apache_log_dir }}/{{ servername }}_access{% if ssl is defined %}ssl{% endif %}.log" combined
+  ErrorLog  "{{ apache_log_dir }}/{{ servername }}_error{% if ssl is defined %}_ssl{% endif %}.log"
+  CustomLog "{{ apache_log_dir }}/{{ servername }}_access{% if ssl is defined %}_ssl{% endif %}.log" combined
+{% endif %}
 
 {% if httpd_use_rewrites %}
   RewriteEngine On
@@ -33,8 +33,8 @@ Listen {{ addr }}
 {% endif %}
 
 {% if ssl is defined %}
-{% for arg in httpd_ssl_opts %}
-  {{ arg }}
+{% for opt in ssl %}
+  {{ opt }}
 {% endfor %}
 {% endif %}
 
