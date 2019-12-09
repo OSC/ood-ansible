@@ -199,7 +199,7 @@ Listen {{ addr }}
 {% if oidc_uri is defined %}
   # OpenID Connect redirect URI:
   #
-  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ logoutoidc_uri_uri }}
+  #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ oidc_uri }}
   #     #=> handled by mod_auth_openidc
   #
   <Location "{{ oidc_uri }}">
