@@ -1,21 +1,29 @@
-# Open Ondemand Ansible Role
+# Open OnDemand Ansible Role
 
 [![Build Status](https://travis-ci.com/OSC/ood-ansible.svg?branch=master)](https://travis-ci.com/OSC/ood-ansible)
 
-## Disclaimer
+## Usage
 
-This is currently a work in progress. It may or may not work on all systems and **is not yet production ready**.
-Please only use this for developmental or proof of concept purposes while we work to harden it.
+This ansible role installs and configures [Open OnDemand](https://openondemand.org/) on various Linux distributions.
 
-It was tested on Ubuntu Bionic, Debian Buster, Opensuse Tumbleweed 20190921, and Fedora 30 containers.
+### Install from source or RPM
+
+This role was developed for users of non RPM systems like Ubuntu, Debian or Arch because Open OnDemand does not
+currently supply packages for those platforms.
+
+There is a toggle provided `install_from_src` which is by default true. When true, this role will git pull the
+Open OnDemand source code, build it (after installing dependencies) and push the resulting build to the appropriate
+destination directories.
+
+However, there is an RPM provided by the developers and if this flag is set to `false` this role will instead install
+the rpm and configure the resulting installation.
 
 ## Getting Started
 
-First you're going to create a new working directory and get this playbook.
+First pull this repo into where you keep your roles.  Shown is the `.ansible` folder in your home directory.
 
 ```bash
-mkdir ood-ansible
-git clone https://github.com/OSC/ood-ansible.git roles/ondemand
+git clone https://github.com/OSC/ood-ansible.git ~/.ansible/roles/ondemand
 ```
 
 ### Simple playbook
@@ -33,7 +41,7 @@ Now you can make a simple playbook
 ## Overrides
 
 Look at all the variables in [the defaults](defaults/main.yml) and override any of them that you wish or need to.
-Save all these overrides to a file in the root directory (../.. from this file).
+Save all these overrides to a file that you can then call with `--extra-vars=@overrides.yml`
 
 ## Make an inventory file
 
@@ -65,6 +73,9 @@ to start tracking it again.
 
 ## Tags
 
+Switch to a given git tag if you want to install a specific older version from the source code.
+This is because installation directories changed from 1.6.20 to 1.7.x.  
+
 ### Configuring
 
 `ansible-playbook -i inventory open-ondemand.yml --tags configure --extra-vars=@overrides.yml`
@@ -86,11 +97,12 @@ to start tracking it again.
 ### Using your own Passgenger/nginx stack
 
 If you've built your own Passgener/nginx stack then set `passenger_remote_dl` to `false` and the playbook
-won't download Passgenger's tars from GitHub.
+won't download Passgenger's tars from GitHub.  This only applies when `install_from_src` is true.
 
 It will still expect them locally in `passenger_src_dir` though, so you'll have to tar them up appropriately
 with versions and so on. See [this task](tasks/passenger.yml) for more details.
 
 ## Contributing
 
-If you run into an issue or have a feature request or fixed some issue, let us know! PRs welcome!
+If you run into an issue or have a feature request or fixed some issue, let us know! PRs welcome! Even if you 
+just have a question, feel free to open a ticket.

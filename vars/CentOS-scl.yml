@@ -1,0 +1,19 @@
+apache_package_name: httpd24-httpd
+apache_service_name: httpd24-httpd
+
+
+apache_base_dir: "/opt/rh/httpd24/root"
+apache_etc_dir: "/opt/rh/httpd24/root/etc/httpd"
+apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
+apache_log_dir: "/var/log/httpd24"
+container_apache_restart_cmd: "{{ apache_base_dir }}/sbin/httpd-scl-wrapper -k restart"
+
+additional_rpm_installs: 
+- centos-release-scl
+
+
+# TODO these bits change in version 1.7.x and up.
+nginx_root: "/opt/rh/ondemand/root"
+nginx_bin: "{{ nginx_root }}/sbin/nginx"
+nginx_mime_types: "{{ nginx_root }}/etc/nginx/mime.types"
+locations_ini: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini"

@@ -5,7 +5,6 @@
     owner: root
     group: root
     mode: '0755'
-  become: true
   loop:
   - "{{ ood_base_apache_dir }}"
   - "{{ ood_app_dir }}"
@@ -21,7 +20,6 @@
   file:
     path: "{{ item }}"
     state: directory
-  become: true
   loop: "{{ os_directories }}"
   when: os_directories is defined
 
@@ -31,7 +29,6 @@
   file:
     path: "{{ ood_source_dir }}/apps/files/{{ item }}"
     state: absent
-  become: true
   loop:
   - "node_modules/findit/test"
   - "lib/findit2/test"
@@ -44,7 +41,6 @@
     group: root
     mode: '0755'
     remote_src: yes
-  become: true
   loop: "{{ ood_base_apps }}"
 
 - name: move core libs to their directories
@@ -55,7 +51,6 @@
     group: root
     mode: '0755'
     remote_src: yes
-  become: true
   loop: "{{ ood_core_libs }}"
 
 - name: make nginx config files for core sys apps
@@ -65,24 +60,20 @@
     owner: root
     group: root
     mode: '0644'
-  become: true
   loop: "{{ ood_base_apps }}"
 
 - name: make version file
   copy:
     content: "{{ ood_source_version }}"
     dest: "{{ ood_base_dir }}/VERSION"
-  become: true
 
 - name: cleanup build logfiles
   file:
     path: "{{ ood_sys_app_dir }}/log/production.log"
     state: absent
-  become: true
   loop: "{{ ood_base_apps }}"
 
 - name: give the apache user rights to nginx_stage
   template:
     src: ood-sudoers.j2
     dest: /etc/sudoers.d/ood
-  become: true

@@ -52,8 +52,7 @@ proxy_user: "{{ apache_user }}"
 
 # Path to NGINX executable used by OnDemand
 #
-#nginx_bin: "{{ passenger_support_binaries_dir }}/nginx"
-nginx_bin: "{{ nginx_dir }}/bin/nginx"
+nginx_bin: "{{ nginx_bin }}"
 
 # White-list of signals that can be sent to the NGINX process
 #
@@ -65,11 +64,11 @@ nginx_bin: "{{ nginx_dir }}/bin/nginx"
 
 # Path to NGINX 'mime.types' file used by OnDemand
 #
-mime_types_path: "{{ nginx_dir }}/conf/mime.types"
+mime_types_path: "{{ nginx_mime_types }}"
 
 # Path to Passenger 'locations.ini' file used by OnDemand.
 #
-passenger_root: "{{ passenger_lib_dir }}/locations.ini"
+passenger_root: "{{ locations_ini }}"
 
 
 # Path to Ruby binary used by nginx_stage

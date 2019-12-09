@@ -3,12 +3,11 @@
 TESTDIR="$( cd "$(dirname "$0")" || . ; pwd -P )"
 
 export TESTDIR=$TESTDIR
-export INV_FILE="$TESTDIR/inventory"
 export PLAYBOOK="$TESTDIR/playbook.yml"
 export ANSIBLE_CONFIG="$TESTDIR/ansible.cfg"
 
 start_containers(){
-  DISTS="debian ubuntu fedora"
+  DISTS="debian ubuntu fedora centos7"
 
   for DIST in $DISTS
   do
