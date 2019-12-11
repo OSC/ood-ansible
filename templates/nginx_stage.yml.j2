@@ -30,6 +30,13 @@
 #   OOD_DASHBOARD_TITLE: "Open OnDemand"
 #   OOD_BRAND_BG_COLOR: "#53565a"
 #   OOD_BRAND_LINK_ACTIVE_BG_COLOR: "#fff"
+{% if pun_custom_env is defined and pun_custom_env|length > 0 %}
+#
+pun_custom_env:
+{% for entry in lookup('dict', pun_custom_env) %}
+  {{ entry.key }}: "{{ entry.value }}"
+{% endfor %}
+{% endif %}
 
 # List of environment variables to pass onto PUN environment
 # from /etc/ood/profile. Example below shows some default
@@ -41,6 +48,14 @@
 #  - MANPATH
 #  - SCLS
 #  - X_SCLS
+{% if pun_custom_env_declarations|length > 0 %}
+pun_custom_env_declarations:
+{% for env in pun_custom_env_declarations  %}
+- {{ env }}
+{% endfor %}
+{% else %}
+pun_custom_env_declarations: []
+{% endif %}
 
 # Location of the ERB templates used in the generation of the NGINX configs
 #
