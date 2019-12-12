@@ -51,8 +51,8 @@ Listen {{ addr }}
   # Authenticated-user to system-user mapping configuration
   #
   SetEnv OOD_USER_MAP_CMD "{{ user_map_cmd }}"
-{% if http_user_env is defined %}
-  SetEnv OOD_USER_ENV "{{ http_user_env }}"
+{% if user_env is defined %}
+  SetEnv OOD_USER_ENV "{{ user_env }}"
 {% endif %}
 {% if httpd_map_fail_uri is defined %}
   SetEnv OOD_MAP_FAIL_URI "{{ httpd_map_fail_uri }}"
