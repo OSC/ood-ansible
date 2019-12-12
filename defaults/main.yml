@@ -66,6 +66,12 @@ install_from_src: true
 rpm_repo_url: "https://yum.osc.edu/ondemand/1.6/ondemand-release-web-1.6-4.noarch.rpm"
 ###
 
+
+######## START nginx_stage.yml related configs ############
+pun_custom_env_declarations: []
+# pun_custom_env is undefined by default
+######## END nginx_stage.yml related configs ############
+
 ######## START default OS related configs ############
 # OS defaults are RHEL
 apache_package_name: httpd
