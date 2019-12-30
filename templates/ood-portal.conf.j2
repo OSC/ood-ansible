@@ -43,7 +43,10 @@ Listen {{ addr }}
 {% if lua_root is defined %}
   LuaRoot "{{ lua_root }}"
 {% endif %}
-  LogLevel lua_module:{{ lua_log_level }}
+
+{% for logger in httpd_loggers %}
+  {{ logger }}
+{% endfor %}
 
   # Log authenticated user requests (requires min log level: info)
   LuaHookLog logger.lua logger
@@ -62,6 +65,7 @@ Listen {{ addr }}
   # NB: Apache will need sudo privs to control the PUNs
   #
   SetEnv OOD_PUN_STAGE_CMD "{{ pun_stage_cmd }}"
+
 
   #
   # Below is used for sub-uri's this Open OnDemand portal supports
@@ -126,6 +130,7 @@ Listen {{ addr }}
     Header edit  Set-Cookie "^([^;]+)" "$1; Path={{ rnode_uri }}/%{MATCH_HOST}e/%{MATCH_PORT}e"
 
     LuaHookFixups node_proxy.lua node_proxy_handler
+
   </LocationMatch>
 {% endif %}
 
