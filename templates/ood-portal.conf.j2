@@ -67,6 +67,14 @@ Listen {{ addr }}
   SetEnv OOD_PUN_STAGE_CMD "{{ pun_stage_cmd }}"
 
 
+{% if httpd_extra is defined %}
+  #
+  # Custom entries specific to this site
+  #
+  {{ httpd_extra }}
+
+{% endif %}
+
   #
   # Below is used for sub-uri's this Open OnDemand portal supports
   #
