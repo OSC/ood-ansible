@@ -93,6 +93,13 @@ libz_devel_package: zlib-devel
 
 ######## START Apache and ood_portal.yml configs ############
 
+# Use this variable to define anything you need inside ood VirtualHost that
+# isn't already there.
+# Tip: Could be multi-line yml with | or >, so you could add new Location
+# directives or a whole lot more.
+#
+# httpd_extra:
+
 # httpd_listen_addr_port:
 # - 80
 # - 443
