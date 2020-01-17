@@ -56,6 +56,7 @@ nginx_bin: "{{ nginx_dir }}/bin/nginx"
 nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
 locations_ini: "{{ passenger_lib_dir }}/locations.ini"
 
+apache_service_enabled: true
 configure_w_ansible: true
 
 ruby_lib_dir: "/usr/lib64/ruby/"
