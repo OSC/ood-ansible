@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 ---
 #
 # Portal configuration
@@ -122,7 +123,7 @@ root_uri: {{ root_uri }}
 #       id: 'UA-79331310-4'
 # Default: null (do not track)
 {% if analytics_url is defined and analytics_id is defined %}
-analytics: 
+analytics:
   url: "{{ analytics_url }}"
   id: "{{ analytics_id }}"
 {% else %}

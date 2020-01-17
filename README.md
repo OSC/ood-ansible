@@ -67,14 +67,14 @@ have to merge it.
 
 Use the command `git update-index --assume-unchanged tasks/site-specific.yml` to get rid of it
 showing up all the time in git diffs.
-  
+
 Use the command `git update-index --no-assume-unchanged  tasks/site-specific.yml` if you do want
 to start tracking it again.
 
 ## Tags
 
 Switch to a given git tag if you want to install a specific older version from the source code.
-This is because installation directories changed from 1.6.20 to 1.7.x.  
+This is because installation directories changed from 1.6.20 to 1.7.x.
 
 ### Configuring
 
@@ -104,5 +104,5 @@ with versions and so on. See [this task](tasks/passenger.yml) for more details.
 
 ## Contributing
 
-If you run into an issue or have a feature request or fixed some issue, let us know! PRs welcome! Even if you 
+If you run into an issue or have a feature request or fixed some issue, let us know! PRs welcome! Even if you
 just have a question, feel free to open a ticket.

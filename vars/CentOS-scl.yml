@@ -8,7 +8,7 @@ apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
 apache_log_dir: "/var/log/httpd24"
 container_apache_restart_cmd: "{{ apache_base_dir }}/sbin/httpd-scl-wrapper -k restart"
 
-additional_rpm_installs: 
+additional_rpm_installs:
 - centos-release-scl
 
 

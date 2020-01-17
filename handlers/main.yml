@@ -3,6 +3,7 @@
   systemd:
     name: "{{ apache_service_name }}"
     state: restarted
+    enabled: "{{ apache_service_enabled }}"
   become: true
   when: ansible_connection == "ssh" or ansible_connection == "local"
   listen: "restart apache httpd"
