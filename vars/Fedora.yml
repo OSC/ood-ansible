@@ -3,5 +3,5 @@ os_dependencies:
 - redhat-rpm-config
 - libnsl
 
-additional_rpm_installs: 
+additional_rpm_installs:
 - centos-release-scl

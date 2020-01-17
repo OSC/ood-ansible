@@ -1,8 +1,6 @@
-# Ansible generated 
-# Do not modify this file, modify the Ansible template or variables
-# and re-run the playbook
-
+# {{ ansible_managed }}
 {% if httpd_listen_addr_port is defined %}
+
 {% for addr in httpd_listen_addr_port %}
 Listen {{ addr }}
 {% endfor %}
@@ -14,7 +12,6 @@ Listen {{ addr }}
   RewriteRule ^(.*) {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}$1 [R=301,NE,L]
 </VirtualHost>
 {% endif %}
-
 
 # The Open OnDemand portal VirtualHost
 #

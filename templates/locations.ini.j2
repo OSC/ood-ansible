@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 [locations]
 packaging_method=tar
 bin_dir={{ passenger_base_dir }}/bin
@@ -5,7 +6,7 @@ support_binaries_dir={{ passenger_support_binaries_dir }}
 lib_dir={{ passenger_lib_dir }}
 helper_scripts_dir={{ passenger_base_dir }}/src/helper-scripts
 resources_dir={{ passenger_base_dir }}/resources
-include_dir={{ passenger_support_binaries_dir }}/include 
+include_dir={{ passenger_support_binaries_dir }}/include
 doc_dir={{ passenger_base_dir }}/doc
 ruby_libdir={{ passenger_base_dir }}/src/ruby_supportlib
 node_libdir={{ passenger_base_dir }}/src/nodejs_supportlib

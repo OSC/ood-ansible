@@ -40,7 +40,7 @@ passenger_url: "{{ passenger_release_url }}/{{ passenger_tar }}"
 passenger_nginx_url: "{{ passenger_release_url }}/{{ nginx_tar }}"
 passenger_agent_url: "{{ passenger_release_url }}/{{ agent_tar }}"
 
-# override when you've built/packaged your own 
+# override when you've built/packaged your own
 passenger_remote_dl: true
 passenger_src_dir: "{{ ood_build_dir }}/passenger-src"
 passenger_lib_dir: "{{ ood_base_dir }}/passenger-lib"
@@ -158,7 +158,7 @@ httpd_public_root: "/var/www/ood/public"
 logout_uri: "/logout"
 logout_redirect: "/pun/sys/dashboard/logout"
 
-# oidc_uri: 
+# oidc_uri:
 # oidc_discover_uri:
 # oidc_discover_root:
 
