@@ -75,6 +75,7 @@ pun_custom_env_declarations: []
 
 ######## START default OS related configs ############
 # OS defaults are RHEL
+apache_service_enabled: true
 apache_package_name: httpd
 apache_service_name: httpd
 apache_user: apache

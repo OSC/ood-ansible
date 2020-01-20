@@ -53,3 +53,10 @@
       LoadModule proxy_http_module              /usr/lib64/apache2-prefork/mod_proxy_http.so
   when: ansible_os_family == "Suse"
   become: true
+
+- name: start apache service
+  systemd:
+    name: "{{ apache_service_name }}"
+    state: started
+    enabled: "{{ apache_service_enabled }}"
+  when: _ssh_local_connection
