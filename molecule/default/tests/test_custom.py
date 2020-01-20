@@ -25,3 +25,8 @@ def test_cluster_is_configured(host):
 def test_nginx_min_uid(host):
     nginx_conf = '/etc/ood/config/nginx_stage.yml'
     assert host.file(nginx_conf).contains("min_uid: 500")
+
+def test_ood_portal_conf(host):
+    ood_portal_conf = '/opt/rh/httpd24/root/etc/httpd/conf.d/ood-portal.conf'
+    header = '# Generated using ood-portal-generator version'
+    assert host.file(ood_portal_conf).contains(header)

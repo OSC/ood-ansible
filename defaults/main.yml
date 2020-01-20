@@ -57,10 +57,7 @@ nginx_bin: "{{ nginx_dir }}/bin/nginx"
 nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
 locations_ini: "{{ passenger_lib_dir }}/locations.ini"
 
-configure_w_ansible: true
-#
-# https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html
-# cluster:
+ood_portal_generator: false
 
 ruby_lib_dir: "/usr/lib64/ruby/"
 
@@ -75,7 +72,6 @@ rpm_repo_url: "https://yum.osc.edu/ondemand/1.6/ondemand-release-web-1.6-4.noarc
 pun_custom_env_declarations: []
 # pun_custom_env is undefined by default
 ######## END nginx_stage.yml related configs ############
-
 
 ######## START default OS related configs ############
 # OS defaults are RHEL
