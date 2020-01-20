@@ -4,7 +4,6 @@
   roles:
     - role: ood-ansible
       install_from_src: false
-      apache_service_enabled: true
       _container_connection: false
       _ssh_local_connection: true
 
@@ -13,7 +12,6 @@
   roles:
     - role: ood-ansible
       install_from_src: false
-      apache_service_enabled: true
       ood_portal_generator: true
       _container_connection: false
       _ssh_local_connection: true

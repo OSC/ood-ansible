@@ -9,18 +9,18 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-  become: true
-  when: configure_w_ansible is defined and configure_w_ansible
   loop:
   - { src: "ood-portal.conf.j2", dest: "{{ apache_conf_dir }}/ood-portal.conf" }
-  notify:
-  - restart apache httpd
+  become: true
+  when: not ood_portal_generator
+  notify: restart apache httpd
 
 - name: template ood_portal.yml
   template:
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
   become: true
+  notify: update ood portal
 
 - name: template nginx_stage.yml
   template:

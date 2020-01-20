@@ -17,3 +17,18 @@
 - name: update nginx stage
   shell: "{{ ood_base_dir }}/nginx_stage/sbin/update_nginx_stage"
   become: true
+
+- name: update ood portal
+  shell: "{{ ood_base_dir }}/ood-portal-generator/sbin/update_ood_portal --force"
+  when: ood_portal_generator
+  ignore_errors: yes
+  become: true
+  notify:
+    - restart apache httpd
+    - restart httpd htcacheclean
+
+- name: restart httpd htcacheclean
+  systemd:
+    name: httpd24-htcacheclean
+    state: restarted
+  become: true
