@@ -1,0 +1,3 @@
+_container_connection: ansible_connection == "podman" or ansible_connection == "docker"
+_ssh_local_connection: ansible_connection == "ssh" or ansible_connection == "local"
+container_apache_restart_cmd: "/usr/sbin/httpd -k restart"

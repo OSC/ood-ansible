@@ -7,6 +7,7 @@ Listen {{ addr }}
 {% endif %}
 
 {% if ssl is defined and httpd_use_rewrites %}
+
 <VirtualHost *:80>
   RewriteEngine On
   RewriteRule ^(.*) {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}$1 [R=301,NE,L]

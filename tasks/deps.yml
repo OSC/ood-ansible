@@ -39,4 +39,3 @@
   - { name: 'rake', version: '12.3.3' }
 
 - include: passenger.yml
-  

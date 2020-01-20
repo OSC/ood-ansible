@@ -1,0 +1,27 @@
+---
+- name: Converge
+  hosts: instance
+  roles:
+    - role: ood-ansible
+      install_from_src: false
+      _container_connection: false
+      _ssh_local_connection: true
+
+- name: Custom
+  hosts: custom
+  roles:
+    - role: ood-ansible
+      install_from_src: false
+      update_ood_portal: true
+      _container_connection: false
+      _ssh_local_connection: true
+
+- hosts: all
+  tasks:
+    - name: create ood user
+      user:
+        name: ood
+    - name: create debug user apache auth user ood:ood
+      copy:
+        content: 'ood:$apr1$EOza4zZK$fuKLibf.WGN2E5MuovgQs.'
+        dest: /opt/rh/httpd24/root/etc/httpd/.htpasswd

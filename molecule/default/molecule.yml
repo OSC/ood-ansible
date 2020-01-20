@@ -1,0 +1,45 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+lint:
+  name: yamllint
+
+platforms:
+  - name: instance
+    image: centos:7
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#    published_ports:
+#      - "80:80"
+  - name: custom
+    image: centos:7
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+    options:
+      x:
+        - ANSIBLE0012
+        - '303' # systemctl used in place of systemd module
+        - '305' # Use shell only when shell functionality is required
+        - '301' # Commands should not change things if nothing needs doing
+
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
