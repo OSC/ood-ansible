@@ -32,5 +32,9 @@
   when: cluster is defined
   tags: [ 'configure' ]
 
+- include: apps.yml
+  when: ood_apps is defined
+  tags: [ 'configure' ]
+
 - include: site-specific.yml
   tags: [ 'configure', 'site' ]
