@@ -1,0 +1,38 @@
+- name: Create apps base directory
+  file:
+    path: "{{ ood_base_conf_dir }}/apps"
+    state: directory
+
+- name: Create apps directory
+  file:
+    path: "{{ ood_base_conf_dir }}/apps/{{ item }}"
+    state: directory
+  loop: "{{ ood_apps.keys() | list }}"
+
+- name: Create apps submit dir
+  file:
+    dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/submit"
+    state: directory
+  when: item.value.submit is defined
+  loop: "{{ ood_apps | default({}) | dict2items }}"
+
+- name: Create apps submit template/file
+  copy:
+    content: "{{ item.value.submit | to_nice_yaml }}"
+    dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/submit/submit.yml.erb"
+  when: item.value.submit is defined
+  loop: "{{ ood_apps | default({}) | dict2items }}"
+
+- name: Create apps yml file with cluster name
+  template:
+    src: app.yml.j2
+    dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/{{ item.value.cluster }}.yml"
+  when: item.value.cluster is defined
+  loop: "{{ ood_apps | default({}) | dict2items }}"
+
+- name: Create apps env file
+  template:
+    src: env.j2
+    dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/env"
+  when: item.value.env is defined
+  loop: "{{ ood_apps | default({}) | dict2items }}"
