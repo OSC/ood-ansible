@@ -15,6 +15,16 @@
       install_from_src: false
       apache_service_enabled: true
       ood_portal_generator: true
+      cluster:
+        v2:
+          metadata:
+            title: my_cluster
+          login:
+            host: my_host
+          job:
+            adapter: slurm
+            bin: /usr/local
+          batch_connect:
       _container_connection: false
       _ssh_local_connection: true
 
