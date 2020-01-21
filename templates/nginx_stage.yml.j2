@@ -211,6 +211,9 @@ passenger_root: "{{ locations_ini }}"
 # user
 #
 #min_uid: 1000
+{% if nginx_min_uid is defined %}
+min_uid: {{ nginx_min_uid }}
+{% endif %}
 
 # Restrict starting up per-user NGINX process as user with this shell.
 # NB: This only affects the `pun` command, you are still able to start or stop

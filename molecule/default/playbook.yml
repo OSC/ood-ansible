@@ -15,6 +15,7 @@
       install_from_src: false
       apache_service_enabled: true
       ood_portal_generator: true
+      nginx_min_uid: 500
       _container_connection: false
       _ssh_local_connection: true
 
