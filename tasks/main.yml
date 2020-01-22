@@ -4,7 +4,7 @@
 
 - name: include scl related overrides
   include_vars: "{{ ansible_distribution }}-scl.yml"
-  when: install_from_src != true
+  when: not install_from_src
   tags: [ 'always' ]
 
 - include: deps.yml
@@ -23,7 +23,7 @@
 - include: install-rpm.yml
   become: true
   tags: [ 'install' ]
-  when: install_from_src != true
+  when: not install_from_src
 
 - include: configure.yml
   tags: [ 'configure' ]

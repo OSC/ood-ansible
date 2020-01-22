@@ -5,13 +5,13 @@
     state: restarted
     enabled: "{{ apache_service_enabled }}"
   become: true
-  when: ansible_connection == "ssh" or ansible_connection == "local"
+  when: _ssh_local_connection
   listen: "restart apache httpd"
 
 - name: restart apache in container
   shell: "{{ container_apache_restart_cmd }}"
   become: true
-  when: ansible_connection == "podman" or ansible_connection == "docker"
+  when: _container_connection
   listen: "restart apache httpd"
 
 - name: update nginx stage
