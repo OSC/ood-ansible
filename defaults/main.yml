@@ -47,6 +47,7 @@ passenger_lib_dir: "{{ ood_base_dir }}/passenger-lib"
 passenger_support_binaries_dir: "{{ passenger_lib_dir }}/support-binaries"
 passenger_base_dir: "{{ ood_base_dir }}/passenger"
 
+# nginx_min_uid: 500
 nginx_lib_dir: "/var/lib/ondemand-nginx"
 nginx_config_dir: "{{ nginx_lib_dir }}/config"
 nginx_puns_dir: "{{ nginx_config_dir }}/puns"
