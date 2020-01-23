@@ -25,6 +25,7 @@
             adapter: slurm
             bin: /usr/local
           batch_connect:
+      nginx_min_uid: 500
       _container_connection: false
       _ssh_local_connection: true
 

@@ -21,3 +21,7 @@ def test_cluster_is_configured(host):
     assert host.file(cluster_yml).contains("    adapter: slurm")
     assert host.file(cluster_yml).contains("    bin: /usr/local")
     assert host.file(cluster_yml).contains("  batch_connect:")
+
+def test_nginx_min_uid(host):
+    nginx_conf = '/etc/ood/config/nginx_stage.yml'
+    assert host.file(nginx_conf).contains("min_uid: 500")
