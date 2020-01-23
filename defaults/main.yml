@@ -57,8 +57,10 @@ nginx_bin: "{{ nginx_dir }}/bin/nginx"
 nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
 locations_ini: "{{ passenger_lib_dir }}/locations.ini"
 
-apache_service_enabled: true
 configure_w_ansible: true
+#
+# https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html
+# cluster:
 
 ruby_lib_dir: "/usr/lib64/ruby/"
 
@@ -73,6 +75,7 @@ rpm_repo_url: "https://yum.osc.edu/ondemand/1.6/ondemand-release-web-1.6-4.noarc
 pun_custom_env_declarations: []
 # pun_custom_env is undefined by default
 ######## END nginx_stage.yml related configs ############
+
 
 ######## START default OS related configs ############
 # OS defaults are RHEL
@@ -90,7 +93,6 @@ ruby_devel_package: ruby-devel
 ffi_devel_package: libffi-devel
 libz_devel_package: zlib-devel
 ######## END default OS related configs ############
-
 
 
 ######## START Apache and ood_portal.yml configs ############
@@ -126,7 +128,6 @@ httpd_auth:
 - AuthUserFile "{{ apache_etc_dir }}/.htpasswd"
 - RequestHeader unset Authorization
 - Require valid-user
-
 
 lua_root: "{{ ood_base_dir }}/mod_ood_proxy/lib"
 lua_log_level: info
