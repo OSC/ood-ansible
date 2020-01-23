@@ -1,0 +1,6 @@
+{% if item.value.submit is defined %}
+{% set dummy = item.value.pop('submit') %}
+{{ item.value | combine({'submit': 'submit/submit.yml.erb'}) | to_nice_yaml }}
+{% else %}
+{{ item.value | to_nice_yaml }}
+{% endif %}
