@@ -32,6 +32,10 @@
   when: cluster is defined
   tags: [ 'configure' ]
 
+- include: install-apps.yml
+  when: ood_install_apps is defined
+  tags: [ 'install' ]
+
 - include: apps.yml
   when: ood_apps is defined
   tags: [ 'configure' ]
