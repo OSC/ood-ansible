@@ -2,3 +2,5 @@
 os_dependencies:
 - redhat-rpm-config
 - libnsl
+
+apache_oidc_mod_package:  mod_auth_openidc

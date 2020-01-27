@@ -5,8 +5,8 @@ import testinfra.utils.ansible_runner
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']
 ).get_hosts('custom')
-
 apps_d = "/etc/ood/config/apps"
+
 
 def test_cluster_is_configured(host):
     cluster_d = "/etc/ood/config/clusters.d"
@@ -23,14 +23,17 @@ def test_cluster_is_configured(host):
     assert host.file(cluster_yml).contains("    bin: /usr/local")
     assert host.file(cluster_yml).contains("  batch_connect:")
 
+
 def test_nginx_min_uid(host):
     nginx_conf = '/etc/ood/config/nginx_stage.yml'
     assert host.file(nginx_conf).contains("min_uid: 500")
+
 
 def test_ood_portal_conf(host):
     ood_portal_conf = '/opt/rh/httpd24/root/etc/httpd/conf.d/ood-portal.conf'
     header = '# Generated using ood-portal-generator version'
     assert host.file(ood_portal_conf).contains(header)
+
 
 def test_apps(host):
     assert host.file(apps_d).is_directory
@@ -78,3 +81,8 @@ def test_apps_dashboard(host):
     assert host.file(f"{dashboard_d}").is_directory
     assert host.file(f"{dashboard_d}/env").exists
     assert host.file(f"{dashboard_d}/env").contains('MOTD_FORMAT=markdown')
+
+
+def test_oidc_httpd_module(host):
+    oidc_mod = "httpd24-mod_auth_openidc"
+    assert host.package(oidc_mod).is_installed

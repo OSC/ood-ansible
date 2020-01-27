@@ -38,4 +38,12 @@
   - { name: 'bundler', version: '1.13.7' }
   - { name: 'rake', version: '12.3.3' }
 
+- name: install apache openidc mod
+  package:
+    name: "{{ apache_oidc_mod_package }}"
+    state: present
+  when: oidc_uri is defined or
+        oidc_discover_uri is defined or
+        oidc_discover_root is defined
+
 - include: passenger.yml

@@ -11,6 +11,14 @@
   - "{{ additional_rpm_installs }}"
   when: additional_rpm_installs is defined
 
+- name: install apache openidc mod
+  package:
+    name: "{{ apache_oidc_mod_package }}"
+    state: present
+  when: oidc_uri is defined or
+        oidc_discover_uri is defined or
+        oidc_discover_root is defined
+
 - name: enable scl repos in rhel
   shell: "subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
   when: ansible_distribution == "Red Hat Enterprise Linux"

@@ -42,6 +42,7 @@
         dashboard:
           env:
             motd_format: markdown
+      oidc_uri: /oidc
       _container_connection: false
       _ssh_local_connection: true
 

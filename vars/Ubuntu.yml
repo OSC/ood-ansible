@@ -6,6 +6,7 @@ apache_etc_dir: "/etc/{{ apache_service_name }}"
 apache_conf_dir: "{{ apache_etc_dir }}/conf-enabled"
 apache_log_dir: "/var/log/{{ apache_service_name }}"
 container_apache_restart_cmd: ". {{ apache_etc_dir }}/envvars && /usr/sbin/apache2 -k start"
+apache_oidc_mod_package:  libapache2-mod-auth-openidc
 
 sqlite_devel_package: libsqlite3-dev
 ruby_devel_package: ruby-dev
