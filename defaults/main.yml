@@ -27,6 +27,17 @@ ood_core_libs:
 - ood-portal-generator
 - ood_auth_map
 
+## Apps install example
+# ood_install_apps:
+#   jupyter:
+#     repo: https://github.com/OSC/bc_example_jupyter.git
+#     dest: {{ ood_sys_app_dir }}  # default creates
+#     version: master        # default
+#   customdir: # will create /var/www/ood/apps/my/dir/customdir
+#     repo: https://github.com/OSC/bc_example_jupyter.git
+#     dest: /var/www/ood/apps/my/dir
+#     version: v1.0.1
+#
 ## Apps config example
 # ood_apps:
 #   bc_desktop:

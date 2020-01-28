@@ -25,6 +25,13 @@
           batch_connect:
       nginx_min_uid: 500
       apache_service_enabled: true
+      ood_install_apps:
+        jupyter:
+          repo: https://github.com/OSC/bc_example_jupyter.git
+        customdir:
+          repo: https://github.com/OSC/bc_example_jupyter.git
+          dest: "/var/www/ood/apps/dev/"
+          version: v1.0.1
       ood_apps:
         bc_desktop:
           title: "remote desktop"

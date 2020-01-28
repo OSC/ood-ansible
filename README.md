@@ -94,10 +94,10 @@ This is because installation directories changed from 1.6.20 to 1.7.x.
 
 ## Toggles and advanced uses
 
-### Using your own Passgenger/nginx stack
+### Using your own Passenger/nginx stack
 
-If you've built your own Passgener/nginx stack then set `passenger_remote_dl` to `false` and the playbook
-won't download Passgenger's tars from GitHub.  This only applies when `install_from_src` is true.
+If you've built your own Passenger/nginx stack then set `passenger_remote_dl` to `false` and the playbook
+won't download Passenger's tars from GitHub.  This only applies when `install_from_src` is true.
 
 It will still expect them locally in `passenger_src_dir` though, so you'll have to tar them up appropriately
 with versions and so on. See [this task](tasks/passenger.yml) for more details.
