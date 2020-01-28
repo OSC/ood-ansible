@@ -43,6 +43,11 @@
           env:
             motd_format: markdown
       oidc_uri: /oidc
+      ood_auth_openidc:
+        OIDCSessionMaxDuration: 28888
+        OIDCClientID: myid
+        OIDCProviderMetadataURL: https://localhost/
+        OIDCCryptoPassphrase: mycryptopass
       _container_connection: false
       _ssh_local_connection: true
 

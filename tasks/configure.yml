@@ -54,6 +54,16 @@
   when: ansible_os_family == "Suse"
   become: true
 
+- name: add OpenIDC config to Apache
+  template:
+    src: auth_openidc.conf.j2
+    dest: "{{ apache_conf_dir }}/auth_openidc.conf"
+    mode: 0640
+    group: "{{ apache_user }}"
+  become: true
+  when: ood_auth_openidc is defined
+  notify: restart apache httpd
+
 - name: start apache service
   systemd:
     name: "{{ apache_service_name }}"

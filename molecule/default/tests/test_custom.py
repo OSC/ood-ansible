@@ -86,3 +86,20 @@ def test_apps_dashboard(host):
 def test_oidc_httpd_module(host):
     oidc_mod = "httpd24-mod_auth_openidc"
     assert host.package(oidc_mod).is_installed
+
+
+def test_oidc_auth_openidc_conf(host):
+    auth_openidc_conf = "/opt/rh/httpd24/root/etc/httpd/conf.d/auth_openidc.conf"
+    assert host.file(auth_openidc_conf).exists
+    assert host.file(auth_openidc_conf).contains(
+        'OIDCSessionInactivityTimeout 28800'
+    )
+    assert host.file(auth_openidc_conf).contains(
+        'OIDCSessionMaxDuration 28888'
+    )
+    assert host.file(auth_openidc_conf).contains(
+        'OIDCRedirectURI https://localhost/oidc'
+    )
+    assert host.file(auth_openidc_conf).contains(
+        'OIDCClientID myid'
+    )
