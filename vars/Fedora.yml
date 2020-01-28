@@ -5,3 +5,5 @@ os_dependencies:
 
 additional_rpm_installs:
 - centos-release-scl
+
+apache_oidc_mod_package:  mod_auth_openidc

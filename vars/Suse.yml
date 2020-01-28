@@ -3,3 +3,4 @@ g_plus_plus: gcc-c++
 apache_etc_dir: "/etc/apache2"
 apache_user: wwwrun
 apache_log_dir: "/var/log/apache2"
+apache_oidc_mod_package:  apache2-mod_auth_openidc

@@ -11,6 +11,7 @@ container_apache_restart_cmd: "{{ apache_base_dir }}/sbin/httpd-scl-wrapper -k r
 additional_rpm_installs:
 - centos-release-scl
 
+apache_oidc_mod_package:  httpd24-mod_auth_openidc
 
 # TODO these bits change in version 1.7.x and up.
 nginx_root: "/opt/rh/ondemand/root"

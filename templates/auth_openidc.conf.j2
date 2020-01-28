@@ -1,0 +1,4 @@
+{% set _auth_openidc = default_auth_openidc | combine(ood_auth_openidc) %}
+{% for key, value in _auth_openidc.items() %}
+{{ key }} {{ value | quote }}
+{% endfor %}

@@ -1,3 +1,10 @@
 _container_connection: ansible_connection == "podman" or ansible_connection == "docker"
 _ssh_local_connection: ansible_connection == "ssh" or ansible_connection == "local"
 container_apache_restart_cmd: "/usr/sbin/httpd -k restart"
+default_auth_openidc:
+  OIDCRedirectURI: "https://{{ servername }}{{ oidc_uri }}"
+  OIDCSessionInactivityTimeout: 28800
+  OIDCSessionMaxDuration: 28800
+  OIDCRemoteUserClaim: preferred_username
+  OIDCPassClaimsAs: environment
+  OIDCStripCookies: mod_auth_openidc_session mod_auth_openidc_session_chunks mod_auth_openidc_session_0 mod_auth_openidc_session_1
