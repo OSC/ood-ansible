@@ -5,8 +5,8 @@ import testinfra.utils.ansible_runner
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']
 ).get_hosts('custom')
-
 apps_d = "/etc/ood/config/apps"
+
 
 def test_cluster_is_configured(host):
     cluster_d = "/etc/ood/config/clusters.d"
@@ -14,23 +14,26 @@ def test_cluster_is_configured(host):
     assert host.file(cluster_d).is_directory
     assert host.file(cluster_yml).exists
     assert host.file(cluster_yml).contains("v2:")
-    assert host.file(cluster_yml).contains("  metadata:")
-    assert host.file(cluster_yml).contains("    title: my_cluster")
-    assert host.file(cluster_yml).contains("  login:")
-    assert host.file(cluster_yml).contains("    host: my_host")
-    assert host.file(cluster_yml).contains("  job:")
-    assert host.file(cluster_yml).contains("    adapter: slurm")
-    assert host.file(cluster_yml).contains("    bin: /usr/local")
-    assert host.file(cluster_yml).contains("  batch_connect:")
+    assert host.file(cluster_yml).contains("metadata:")
+    assert host.file(cluster_yml).contains("title: my_cluster")
+    assert host.file(cluster_yml).contains("login:")
+    assert host.file(cluster_yml).contains("host: my_host")
+    assert host.file(cluster_yml).contains("job:")
+    assert host.file(cluster_yml).contains("adapter: slurm")
+    assert host.file(cluster_yml).contains("bin: /usr/local")
+    assert host.file(cluster_yml).contains("batch_connect:")
+
 
 def test_nginx_min_uid(host):
     nginx_conf = '/etc/ood/config/nginx_stage.yml'
     assert host.file(nginx_conf).contains("min_uid: 500")
 
+
 def test_ood_portal_conf(host):
     ood_portal_conf = '/opt/rh/httpd24/root/etc/httpd/conf.d/ood-portal.conf'
     header = '# Generated using ood-portal-generator version'
     assert host.file(ood_portal_conf).contains(header)
+
 
 def test_apps(host):
     assert host.file(apps_d).is_directory
@@ -44,7 +47,7 @@ def test_apps_bc_desktop_config(host):
     assert host.file(bc_desktop_yml).contains('title: remote desktop')
     assert host.file(bc_desktop_yml).contains("cluster: my_cluster")
     assert host.file(bc_desktop_yml).contains("attributes:")
-    assert host.file(bc_desktop_yml).contains("    desktop: xfce")
+    assert host.file(bc_desktop_yml).contains("desktop: xfce")
 
 
 def test_apps_bc_desktop_submit(host):
@@ -78,3 +81,23 @@ def test_apps_dashboard(host):
     assert host.file(f"{dashboard_d}").is_directory
     assert host.file(f"{dashboard_d}/env").exists
     assert host.file(f"{dashboard_d}/env").contains('MOTD_FORMAT=markdown')
+
+
+def test_apps_install(host):
+    sys_apps_d = "/var/www/ood/apps/sys"
+    jupyter_d = f"{sys_apps_d}/jupyter"
+
+    assert host.file(jupyter_d).is_directory
+    assert host.file(f"{jupyter_d}/.git/config").contains(
+        "OSC/bc_example_jupyter"
+    )
+
+    customdir_d = "/var/www/ood/apps/dev/customdir"
+
+    assert host.file(customdir_d).is_directory
+    assert host.file(f"{customdir_d}/.git/config").contains(
+        "OSC/bc_example_jupyter"
+    )
+    assert host.file(f"{customdir_d}/.git/HEAD").contains(
+        "1f770d1c00be4ec281a7d016c5471d55ae28fca1"
+    )
