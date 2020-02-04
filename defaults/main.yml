@@ -27,7 +27,19 @@ ood_core_libs:
 - ood-portal-generator
 - ood_auth_map
 
-## Apps install example
+## Manage cluster example, default undef
+# cluster:
+#   v2:
+#     metadata:
+#       title: my_cluster
+#     login:
+#       host: my_host
+#     job:
+#       adapter: slurm
+#       bin: /usr/local
+#     batch_connect:
+#
+## Apps install example, default undef
 # ood_install_apps:
 #   jupyter:
 #     repo: https://github.com/OSC/bc_example_jupyter.git
@@ -38,7 +50,7 @@ ood_core_libs:
 #     dest: /var/www/ood/apps/my/dir
 #     version: v1.0.1
 #
-## Apps config example
+## Apps config example, default undef
 # ood_apps:
 #   bc_desktop:
 #     title: "remote desktop"
@@ -56,6 +68,13 @@ ood_core_libs:
 #   dashboard:
 #     env:
 #       motd_format: markdown
+#
+## Apache for mod_auth_openidc, default undef
+# ood_auth_openidc:
+#   OIDCSessionMaxDuration: 28888
+#   OIDCClientID: myid
+#   OIDCProviderMetadataURL: https://localhost/
+#   OIDCCryptoPassphrase: mycryptopass
 
 passenger_version: "6.0.4"
 nginx_version: "1.17.3"
