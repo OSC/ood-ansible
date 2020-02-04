@@ -4,6 +4,7 @@
   roles:
     - role: ood-ansible
       install_from_src: false
+      rnode_uri: "/myrnode"
       _container_connection: false
       _ssh_local_connection: true
 

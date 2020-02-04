@@ -24,7 +24,6 @@ def test_cluster_is_configured(host):
     assert host.file(cluster_yml).contains("batch_connect:")
 
 
-
 def test_nginx_min_uid(host):
     nginx_conf = '/etc/ood/config/nginx_stage.yml'
     assert host.file(nginx_conf).contains("min_uid: 500")
@@ -90,19 +89,19 @@ def test_oidc_httpd_module(host):
 
 
 def test_oidc_auth_openidc_conf(host):
-    auth_openidc_conf = "/opt/rh/httpd24/root/etc/httpd/conf.d/auth_openidc.conf"
-    assert host.file(auth_openidc_conf).exists
-    assert host.file(auth_openidc_conf).contains(
+    auth_oidc_cnf = "/opt/rh/httpd24/root/etc/httpd/conf.d/auth_openidc.conf"
+    assert host.file(auth_oidc_cnf).exists
+    assert host.file(auth_oidc_cnf).contains(
         'OIDCSessionInactivityTimeout 28800'
     )
-    assert host.file(auth_openidc_conf).contains(
+    assert host.file(auth_oidc_cnf).contains(
         'OIDCSessionMaxDuration 28888'
     )
-    assert host.file(auth_openidc_conf).contains(
+    assert host.file(auth_oidc_cnf).contains(
         'OIDCRedirectURI https://localhost/oidc'
     )
-    assert host.file(auth_openidc_conf).contains(
-        'OIDCClientID myid'
+    assert host.file(auth_oidc_cnf).contains('OIDCClientID myid')
+
 
 def test_apps_install(host):
     sys_apps_d = "/var/www/ood/apps/sys"

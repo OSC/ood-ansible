@@ -190,7 +190,7 @@ host_regex: "{{ host_regex }}"
 # Example:
 #     rnode_uri: '/rnode'
 # Default: null (disable this feature)
-{% if rnode_uri is defined %}rnode_uri: {{ node_uri }}
+{% if rnode_uri is defined %}rnode_uri: {{ rnode_uri }}
 {% else %}#rnode_uri: null
 {% endif %}
 
