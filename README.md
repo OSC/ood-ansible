@@ -94,6 +94,131 @@ This is because installation directories changed from 1.6.20 to 1.7.x.
 
 ## Toggles and advanced uses
 
+### Using this role to manage cluster and apps
+There are a few variables in this role that enable Open OnDemand customisations
+and configuration.
+
+#### `cluster`
+This is simply a bypass of its content to `/etc/ood/config/clusters.d/<cluster_title>.yml`.
+
+For example
+```yaml
+cluster:
+  v2:
+    metadata:
+      title: my_cluster
+    login:
+      host: my_host
+    job:
+      adapter: slurm
+      bin: /usr/local
+    batch_connect:
+```
+Will produce `/etc/ood/config/clusters.d/my_cluster.yml` with the exact content.
+```yaml
+v2:
+  metadata:
+    title: my_cluster
+  ...
+```
+Cluster file is named using `v2.metadata.title`.
+
+More details can be found on [Open OnDemand documentation](https://osc.github.io/ood-documentation/master/installation/add-cluster-config.html) and [Cluster Config Schema v2](https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html).
+
+#### `ood_install_apps`
+This ensure applications from custom repositories are created in the
+apps directory(default or custom).
+Its accepts a dict like those of [git module](https://docs.ansible.com/ansible/latest/modules/git_module.html). The main key names app directory, created in `dest:`, where `repo:`
+will be cloned. Only `repo:` is required.
+
+##### Example
+```yaml
+ood_install_apps:
+  jupyter:
+    repo: https://github.com/OSC/bc_example_jupyter.git
+    dest: "{{ ood_sys_app_dir }}"  # defaults (optional)
+    version: master                # defaults (optional)
+  customdir: # will create /var/www/ood/apps/my/dir/customdir
+    repo: https://github.com/OSC/bc_example_rstudio
+    dest: /var/www/ood/apps/my/dir
+    version: v1.0.1
+```
+The above example will
+ * clone `OSC/bc_example_jupyter` to `/var/www/ood/apps/sys/jupyter`
+ * clone `OSC/bc_example_rstudio` to `/var/www/ood/apps/my/dir/customdir`
+
+#### `ood_apps`
+This variable bypass all yaml to its `<app>` directory into `<cluster>.yml` file when `cluster` attribute is present. It will name the config file with cluster name and with exception of `submit` and `env`, which are treated different, all keys are pass it to it.
+
+##### Example
+```yaml
+ood_apps:
+  bc_desktop:
+    title: "remote desktop"
+    cluster: my_cluster
+    attributes:
+      desktop: xfce
+    submit:
+      script:
+        native:
+          - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
+          - "1"
+  files:
+    env:
+      ood_shell: /bin/bash
+```
+The above example will create
+```
+/etc/ood/config
+└── apps
+    ├── bc_desktop
+    │   ├── my_cluster.yml
+    │   └── submit
+    │       └── submit.yml.erb
+    └── files
+        └── env
+```
+
+`env` produce a `key=value` file.
+
+```bash
+$ cat /etc/ood/config/apps/files/env
+OOD_SHELL=/bin/bash
+```
+
+`submit` create _submit_ directory with a `submit.yml.erb` containing all
+the yaml _key=value_ below `submit` key.
+
+```bash
+$ cat /etc/ood/config/apps/bc_desktop/submit/submit.yml.erb
+script:
+    native:
+        - '<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>'
+        - '1'
+```
+
+#### `ood_auth_openidc`
+This variable [configure Apache for mod_auth_openidc](https://osc.github.io/ood-documentation/master/authentication/tutorial-oidc-keycloak-rhel7/install_mod_auth_openidc.html#add-keycloak-config-to-ondemand-apache-for-mod-auth-openidc)
+
+##### Example
+```yaml
+ood_auth_openidc:
+  OIDCSessionMaxDuration: 28888
+  OIDCClientID: myid
+  OIDCProviderMetadataURL: https://localhost/
+  OIDCCryptoPassphrase: mycryptopass
+  "LDAPTrustedGlobalCert CA_BASE64": /etc/ssl/my/cert/path
+
+default_auth_openidc:
+  OIDCRedirectURI: "https://{{ servername }}{{ oidc_uri }}"
+  OIDCSessionInactivityTimeout: 28800
+  OIDCSessionMaxDuration: 28800
+  OIDCRemoteUserClaim: preferred_username
+  OIDCPassClaimsAs: environment
+  OIDCStripCookies: mod_auth_openidc_session mod_auth_openidc_session_chunks mod_auth_openidc_session_0 mod_auth_openidc_session_1
+```
+It basically produce `/opt/rh/httpd24/root/etc/httpd/conf.d/auth_openidc.conf` file with listed `key value` merged with default values. Values defined on `ood_auth_openidc` overwrites any `default_auth_openidc` values.
+
 ### Using your own Passenger/nginx stack
 
 If you've built your own Passenger/nginx stack then set `passenger_remote_dl` to `false` and the playbook
