@@ -95,13 +95,17 @@ This is because installation directories changed from 1.6.20 to 1.7.x.
 ## Toggles and advanced uses
 
 ### Using this role to manage cluster and apps
-There are a few variables in this role that enable Open OnDemand customisations
+
+There are a few variables in this role that enable Open OnDemand customizations
 and configuration.
 
 #### `cluster`
-This is simply a bypass of its content to `/etc/ood/config/clusters.d/<cluster_title>.yml`.
+
+This configuration writes its content to `/etc/ood/config/clusters.d/<cluster_title>.yml`.
+The name of the file is extracted from `v2.metadata.title` of the configuration.
 
 For example
+
 ```yaml
 cluster:
   v2:
@@ -114,24 +118,28 @@ cluster:
       bin: /usr/local
     batch_connect:
 ```
+
 Will produce `/etc/ood/config/clusters.d/my_cluster.yml` with the exact content.
+
 ```yaml
 v2:
   metadata:
     title: my_cluster
   ...
 ```
-Cluster file is named using `v2.metadata.title`.
 
 More details can be found on [Open OnDemand documentation](https://osc.github.io/ood-documentation/master/installation/add-cluster-config.html) and [Cluster Config Schema v2](https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html).
 
 #### `ood_install_apps`
-This ensure applications from custom repositories are created in the
-apps directory(default or custom).
-Its accepts a dict like those of [git module](https://docs.ansible.com/ansible/latest/modules/git_module.html). The main key names app directory, created in `dest:`, where `repo:`
-will be cloned. Only `repo:` is required.
 
-##### Example
+This configuration installs applications from custom repositories into the apps directory (default or custom).
+It accepts a dictionary like those of [git module](https://docs.ansible.com/ansible/latest/modules/git_module.html).
+The main key is the resulting directory name where `repo` is cloned under the `dest` directory.
+
+Only `repo:` is required.
+
+##### ood\_install\_apps example
+
 ```yaml
 ood_install_apps:
   jupyter:
@@ -143,14 +151,25 @@ ood_install_apps:
     dest: /var/www/ood/apps/my/dir
     version: v1.0.1
 ```
+
 The above example will
- * clone `OSC/bc_example_jupyter` to `/var/www/ood/apps/sys/jupyter`
- * clone `OSC/bc_example_rstudio` to `/var/www/ood/apps/my/dir/customdir`
+
+* clone `OSC/bc_example_jupyter` to `/var/www/ood/apps/sys/jupyter`
+* clone `OSC/bc_example_rstudio` to `/var/www/ood/apps/my/dir/customdir`
 
 #### `ood_apps`
-This variable bypass all yaml to its `<app>` directory into `<cluster>.yml` file when `cluster` attribute is present. It will name the config file with cluster name and with exception of `submit` and `env`, which are treated different, all keys are pass it to it.
 
-##### Example
+This allows you to configure the `bc_desktop` application and write environment files for other applications.
+
+In the simplest case, when given an `env` key it will write out key value pairs an env file.
+
+In the more complex case of `bc_desktop`, it writes its content to a `<cluster>.yml` file (where the filename is
+the `cluster` attribute of the content) _and_ writes the the content of `submit` key to the `submit.yml.erb` file.
+
+The examples below should illustrate these two points.
+
+##### ood\_apps example
+
 ```yaml
 ood_apps:
   bc_desktop:
@@ -167,8 +186,10 @@ ood_apps:
     env:
       ood_shell: /bin/bash
 ```
+
 The above example will create
-```
+
+```text
 /etc/ood/config
 └── apps
     ├── bc_desktop
@@ -179,7 +200,7 @@ The above example will create
         └── env
 ```
 
-`env` produce a `key=value` file.
+`env` produce a `key=value` file.  Note the capitalization of the keys.
 
 ```bash
 $ cat /etc/ood/config/apps/files/env
@@ -195,12 +216,20 @@ script:
     native:
         - '<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>'
         - '1'
+
+$ cat /etc/ood/config/apps/bc_desktop/submit/my_cluster.yml
+title: "remote desktop"
+cluster: my_cluster
+attributes:
+  desktop: xfce
 ```
 
 #### `ood_auth_openidc`
-This variable [configure Apache for mod_auth_openidc](https://osc.github.io/ood-documentation/master/authentication/tutorial-oidc-keycloak-rhel7/install_mod_auth_openidc.html#add-keycloak-config-to-ondemand-apache-for-mod-auth-openidc)
+
+This variable [configures Apache for mod_auth_openidc](https://osc.github.io/ood-documentation/master/authentication/tutorial-oidc-keycloak-rhel7/install_mod_auth_openidc.html#add-keycloak-config-to-ondemand-apache-for-mod-auth-openidc)
 
 ##### Example
+
 ```yaml
 ood_auth_openidc:
   OIDCSessionMaxDuration: 28888
@@ -217,7 +246,11 @@ default_auth_openidc:
   OIDCPassClaimsAs: environment
   OIDCStripCookies: mod_auth_openidc_session mod_auth_openidc_session_chunks mod_auth_openidc_session_0 mod_auth_openidc_session_1
 ```
-It basically produce `/opt/rh/httpd24/root/etc/httpd/conf.d/auth_openidc.conf` file with listed `key value` merged with default values. Values defined on `ood_auth_openidc` overwrites any `default_auth_openidc` values.
+
+It produces an `auth_openidc.conf` file with listed `key value` merged with default values.
+Values defined on `ood_auth_openidc` overwrites any `default_auth_openidc` values.
+
+See [auth\_openidc](https://github.com/zmartzone/mod_auth_openidc) for more information on that module.
 
 ### Using your own Passenger/nginx stack
 
