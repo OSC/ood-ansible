@@ -2,7 +2,6 @@
   template:
     src: "locations.ini.j2"
     dest: "{{ passenger_lib_dir }}/locations.ini"
-  become: true
   when: install_from_src
 
 - name: template apache file
@@ -11,7 +10,6 @@
     dest: "{{ item.dest }}"
   loop:
   - { src: "ood-portal.conf.j2", dest: "{{ apache_conf_dir }}/ood-portal.conf" }
-  become: true
   when: not ood_portal_generator
   notify: restart apache httpd
 
@@ -19,14 +17,12 @@
   template:
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
-  become: true
   notify: update ood portal
 
 - name: template nginx_stage.yml
   template:
     src: "nginx_stage.yml.j2"
     dest: "{{ ood_base_conf_dir }}/nginx_stage.yml"
-  become: true
   notify: update nginx stage
 
 - name: enable Debain apache mods
@@ -34,7 +30,6 @@
     src: "{{ apache_etc_dir }}/mods-available/{{ item }}.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/{{ item }}.load"
     state: link
-  become: true
   when: ansible_os_family == "Debian"
   loop:
   - rewrite
@@ -52,7 +47,6 @@
       LoadModule proxy_module                   /usr/lib64/apache2-prefork/mod_proxy.so
       LoadModule proxy_http_module              /usr/lib64/apache2-prefork/mod_proxy_http.so
   when: ansible_os_family == "Suse"
-  become: true
 
 - name: add OpenIDC config to Apache
   template:
@@ -60,7 +54,6 @@
     dest: "{{ apache_conf_dir }}/auth_openidc.conf"
     mode: 0640
     group: "{{ apache_user }}"
-  become: true
   when: ood_auth_openidc is defined
   notify: restart apache httpd
 
