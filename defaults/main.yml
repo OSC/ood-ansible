@@ -197,6 +197,12 @@ pun_max_retries: 5
 nginx_uri: /nginx
 root_uri: "{{ pun_uri }}/sys/dashboard"
 
+nginx_app_root:
+  dev: "{{ ood_dev_app_dir }}/%{owner}/gateway/%{name}"
+  usr: "{{ ood_usr_app_dir }}/%{owner}/gateway/%{name}"
+  sys: "{{ ood_sys_app_dir }}/%{name}"
+
+
 # analytics_url: "http://www.google-analytics.com/collect"
 # analytics_id: "123-my-id"
 
