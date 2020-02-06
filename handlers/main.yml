@@ -31,4 +31,6 @@
   systemd:
     name: httpd24-htcacheclean
     state: restarted
+  # FIXME: debian could benefit from this, but would need additional installs
+  when: not install_from_src and _ssh_local_connection
   become: true
