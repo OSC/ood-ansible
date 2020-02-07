@@ -15,7 +15,7 @@ There is a toggle provided `install_from_src` which is by default false. When tr
 Open OnDemand source code, build it (after installing dependencies) and push the resulting build to the appropriate
 destination directories.
 
-The default behavior is is to install the rpm and configure the resulting installation and skip a lot of these tasks
+The default behavior is to install the rpm and configure the resulting installation and skip a lot of these tasks
 that build the source code.
 
 ## Getting Started
