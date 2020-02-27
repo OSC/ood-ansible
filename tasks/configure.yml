@@ -25,7 +25,7 @@
     dest: "{{ ood_base_conf_dir }}/nginx_stage.yml"
   notify: update nginx stage
 
-- name: enable Debain apache mods
+- name: enable Debian apache mods
   file:
     src: "{{ apache_etc_dir }}/mods-available/{{ item }}.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/{{ item }}.load"
@@ -37,6 +37,13 @@
   - headers
   - proxy
   - proxy_http
+
+- name: enable Debian ssl mod
+  file:
+    src: "{{ apache_etc_dir }}/mods-available/ssl.load"
+    dest: "{{ apache_etc_dir }}/mods-enabled/ssl.load"
+    state: link
+  when: ansible_os_family == "Debian" and ssl is defined
 
 - name: enable Suse apache mods
   blockinfile:

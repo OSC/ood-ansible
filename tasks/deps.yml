@@ -2,16 +2,19 @@
   package:
     name: "{{ item }}"
     state: present
-  become: true
   loop:
   - "{{ os_dependencies }}"
   when: os_dependencies is defined
+
+- name: fresh debians need to update
+  apt:
+    update_cache: yes
+  when:  ansible_os_family == 'Debian'
 
 - name: install the dependencies
   package:
     name: "{{ item }}"
     state: present
-  become: true
   loop:
   - git
   - ruby
@@ -33,7 +36,6 @@
     version: "{{ item.version }}"
     state: present
     user_install: no
-  become: true
   loop:
   - { name: 'bundler', version: '1.13.7' }
   - { name: 'rake', version: '12.3.3' }
@@ -47,3 +49,4 @@
         oidc_discover_root is defined
 
 - include: passenger.yml
+  become: false

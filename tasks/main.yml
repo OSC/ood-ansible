@@ -8,6 +8,7 @@
   tags: [ 'always' ]
 
 - include: deps.yml
+  become: true
   tags: [ 'deps' ]
   when: install_from_src
 
