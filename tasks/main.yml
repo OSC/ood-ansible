@@ -30,8 +30,8 @@
   become: true
   tags: [ 'configure' ]
 
-- include: cluster.yml
-  when: cluster is defined
+- include: clusters.yml
+  when: clusters is defined
   tags: [ 'configure' ]
 
 - include: install-apps.yml

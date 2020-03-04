@@ -14,16 +14,21 @@
     - role: ood-ansible
       install_from_src: false
       ood_portal_generator: true
-      cluster:
-        v2:
-          metadata:
-            title: my_cluster
-          login:
-            host: my_host
-          job:
-            adapter: slurm
-            bin: /usr/local
-          batch_connect:
+      clusters:
+        another_cluster:
+          v2:
+            metadata:
+              title: Another Cluster
+        my_cluster:
+          v2:
+            metadata:
+              title: my_cluster
+            login:
+              host: my_host
+            job:
+              adapter: slurm
+              bin: /usr/local
+            batch_connect:
       nginx_min_uid: 500
       apache_service_enabled: true
       ood_install_apps:
