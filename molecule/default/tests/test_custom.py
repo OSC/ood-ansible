@@ -6,10 +6,10 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']
 ).get_hosts('custom')
 apps_d = "/etc/ood/config/apps"
+cluster_d = "/etc/ood/config/clusters.d"
 
 
 def test_cluster_is_configured(host):
-    cluster_d = "/etc/ood/config/clusters.d"
     cluster_yml = f"{cluster_d}/my_cluster.yml"
     assert host.file(cluster_d).is_directory
     assert host.file(cluster_yml).exists
@@ -22,6 +22,17 @@ def test_cluster_is_configured(host):
     assert host.file(cluster_yml).contains("adapter: slurm")
     assert host.file(cluster_yml).contains("bin: /usr/local")
     assert host.file(cluster_yml).contains("batch_connect:")
+
+
+def test_multiple_clusters_conf(host):
+    cluster_yml_1 = f"{cluster_d}/my_cluster.yml"
+    assert host.file(cluster_yml_1).exists
+
+    cluster_yml_2 = f"{cluster_d}/another_cluster.yml"
+    assert host.file(cluster_yml_2).exists
+    assert host.file(cluster_yml_2).contains("v2:")
+    assert host.file(cluster_yml_2).contains("metadata:")
+    assert host.file(cluster_yml_2).contains("title: Another Cluster")
 
 
 def test_nginx_min_uid(host):

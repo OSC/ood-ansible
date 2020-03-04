@@ -1,9 +1,0 @@
-- name: Create clusters.d directory
-  file:
-    path: "{{ ood_base_conf_dir }}/clusters.d"
-    state: directory
-
-- name: Add cluster configuration files
-  copy:
-    content: "{{ cluster | to_nice_yaml }}"
-    dest: "{{ ood_base_conf_dir }}/clusters.d/{{ cluster['v2']['metadata']['title'] }}.yml"
