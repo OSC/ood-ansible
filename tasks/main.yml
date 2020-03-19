@@ -32,14 +32,17 @@
 
 - include: clusters.yml
   when: clusters is defined
+  become: true
   tags: [ 'configure' ]
 
 - include: install-apps.yml
   when: ood_install_apps is defined
+  become: true
   tags: [ 'install' ]
 
 - include: apps.yml
   when: ood_apps is defined
+  become: true
   tags: [ 'configure' ]
 
 - include: site-specific.yml
