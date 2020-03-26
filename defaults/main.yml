@@ -106,13 +106,13 @@ nginx_bin: "{{ nginx_dir }}/bin/nginx"
 nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
 locations_ini: "{{ passenger_lib_dir }}/locations.ini"
 
-ood_portal_generator: false
+ood_portal_generator: true
 
 ruby_lib_dir: "/usr/lib64/ruby/"
 
 ### install from rpm related configs
-# flip this flag to instead install from rpm
-install_from_src: true
+# flip this flag to instead install from source
+install_from_src: false
 rpm_repo_url: "https://yum.osc.edu/ondemand/1.6/ondemand-release-web-1.6-4.noarch.rpm"
 ###
 

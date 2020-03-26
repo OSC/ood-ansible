@@ -4,6 +4,7 @@
 
 ### Ansible ###
 *.retry
+*/*/pytestdebug.log
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

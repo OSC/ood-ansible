@@ -11,12 +11,12 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
 This role was developed for users of non RPM systems like Ubuntu, Debian or Arch because Open OnDemand does not
 currently supply packages for those platforms.
 
-There is a toggle provided `install_from_src` which is by default true. When true, this role will git pull the
+There is a toggle provided `install_from_src` which is by default false. When true, this role will git pull the
 Open OnDemand source code, build it (after installing dependencies) and push the resulting build to the appropriate
 destination directories.
 
-However, there is an RPM provided by the developers and if this flag is set to `false` this role will instead install
-the rpm and configure the resulting installation.
+The default behavior is to install the rpm and configure the resulting installation and skip a lot of these tasks
+that build the source code.
 
 ## Getting Started
 

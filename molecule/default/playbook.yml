@@ -3,7 +3,7 @@
   hosts: instance
   roles:
     - role: ood-ansible
-      install_from_src: false
+      ood_portal_generator: false
       rnode_uri: "/myrnode"
       _container_connection: false
       _ssh_local_connection: true
@@ -12,8 +12,6 @@
   hosts: custom
   roles:
     - role: ood-ansible
-      install_from_src: false
-      ood_portal_generator: true
       clusters:
         another_cluster:
           v2:
