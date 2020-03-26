@@ -99,33 +99,45 @@ This is because installation directories changed from 1.6.20 to 1.7.x.
 There are a few variables in this role that enable Open OnDemand customizations
 and configuration.
 
-#### `cluster`
+#### `clusters`
 
-This configuration writes its content to `/etc/ood/config/clusters.d/<cluster_title>.yml`.
-The name of the file is extracted from `v2.metadata.title` of the configuration.
+This configuration writes its content to `/etc/ood/config/clusters.d/<cluster_key>.yml` for each cluster item on this dict.
 
 For example
 
 ```yaml
-cluster:
-  v2:
-    metadata:
-      title: my_cluster
-    login:
-      host: my_host
-    job:
-      adapter: slurm
-      bin: /usr/local
-    batch_connect:
+clusters:
+  my_cluster:
+    v2:
+      metadata:
+        title: my_cluster
+      login:
+        host: my_host
+      job:
+        adapter: slurm
+        bin: /usr/local
+      batch_connect:
+  another_cluster:
+    v2:
+      metadata:
+        title: Another Cluster
 ```
 
-Will produce `/etc/ood/config/clusters.d/my_cluster.yml` with the exact content.
+Will produce `/etc/ood/config/clusters.d/my_cluster.yml` and `/etc/ood/config/clusters.d/another_cluster.yml` with the exact content.
 
+##### my_cluster.yml
 ```yaml
 v2:
   metadata:
     title: my_cluster
   ...
+```
+
+##### another_cluster.yml
+```yaml
+v2:
+  metadata:
+    title: Another Cluster
 ```
 
 More details can be found on [Open OnDemand documentation](https://osc.github.io/ood-documentation/master/installation/add-cluster-config.html) and [Cluster Config Schema v2](https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html).

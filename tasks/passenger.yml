@@ -4,13 +4,17 @@
     state: directory
   become: true
   loop:
-  - "{{ passenger_src_dir }}"
   - "{{ ood_base_dir }}"
   - "{{ nginx_dir }}"
   - "{{ nginx_dir }}/bin"
   - "{{ nginx_dir }}/conf"
   - "{{ passenger_lib_dir }}"
   - "{{ passenger_support_binaries_dir }}"
+
+- name: init the passenger src directory
+  file:
+    path: "{{ passenger_src_dir }}"
+    state: directory
 
 - name: download the passenger tars
   get_url:
@@ -91,4 +95,3 @@
   file:
     path: "{{ tmpdir.stdout }}"
     state: absent
-  become: true
