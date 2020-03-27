@@ -44,6 +44,3 @@
   when: ood_apps is defined
   become: true
   tags: [ 'configure' ]
-
-- include: site-specific.yml
-  tags: [ 'configure', 'site' ]
