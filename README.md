@@ -59,18 +59,6 @@ To run simply run the ansible playbook command with all the other files you've j
 
 `ansible-playbook -i inventory open-ondemand.yml --extra-vars=@overrides.yml`
 
-## Site Specific tasks
-
-You may use the file [site-specific.yml](tasks/site-specific.yml) to run site specific tasks.
-This file should never be updated in this repo so are free to modify it without worry that you'll
-have to merge it.
-
-Use the command `git update-index --assume-unchanged tasks/site-specific.yml` to get rid of it
-showing up all the time in git diffs.
-
-Use the command `git update-index --no-assume-unchanged  tasks/site-specific.yml` if you do want
-to start tracking it again.
-
 ## Tags
 
 Switch to a given git tag if you want to install a specific older version from the source code.
@@ -87,10 +75,6 @@ This is because installation directories changed from 1.6.20 to 1.7.x.
 ### Everything except dependencies and building
 
 `ansible-playbook -i inventory open-ondemand.yml --skip-tags="deps,build" --extra-vars=@overrides.yml`
-
-### Only site specific tasks
-
-`ansible-playbook -i inventory open-ondemand.yml --tags="site" --skip-tags="configure" --extra-vars=@overrides.yml`
 
 ## Toggles and advanced uses
 
