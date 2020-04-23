@@ -18,7 +18,7 @@
 
 - name: Create apps submit template/file
   copy:
-    content: "{{ item.value.submit | to_nice_yaml }}"
+    content: "{{ item.value.submit }}"
     dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/submit/submit.yml.erb"
   when: item.value.submit is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"
