@@ -16,7 +16,7 @@ services:
 - docker
 
 install:
-- pip install ansible molecule
+- pip install ansible molecule docker
 
 script:
 - molecule lint
