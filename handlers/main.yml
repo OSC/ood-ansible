@@ -5,13 +5,6 @@
     state: restarted
     enabled: "{{ apache_service_enabled }}"
   become: true
-  when: _ssh_local_connection
-  listen: "restart apache httpd"
-
-- name: restart apache in container
-  shell: "{{ container_apache_restart_cmd }}"
-  become: true
-  when: _container_connection
   listen: "restart apache httpd"
 
 - name: update nginx stage
@@ -33,4 +26,4 @@
     state: restarted
   become: true
   # FIXME: debian could benefit from this, but would need additional installs
-  when: (not install_from_src) and _ssh_local_connection | bool
+  when: not install_from_src

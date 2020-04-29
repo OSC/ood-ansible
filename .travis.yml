@@ -16,12 +16,8 @@ services:
 - docker
 
 install:
-- pip install ansible
+- pip install ansible molecule
 
 script:
-- tests/check_syntax.sh
-- tests/start_containers.sh
-- tests/run_playbook.sh --tags="deps" -i tests/inventory-src --extra-vars "@tests/extra_vars.json"
-- travis_wait 45 tests/run_playbook.sh --tags="build" -i tests/inventory-src --extra-vars "@tests/extra_vars.json"
-- tests/run_playbook.sh --tags="install,configure" -i tests/inventory-src --extra-vars "@tests/extra_vars.json"
-- tests/run_playbook.sh -i tests/inventory-rpm
+- molecule lint
+- molecule test
