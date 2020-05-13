@@ -5,8 +5,6 @@
     - role: ood-ansible
       ood_portal_generator: false
       rnode_uri: "/myrnode"
-      _container_connection: false
-      _ssh_local_connection: true
 
 - name: Custom
   hosts: custom
@@ -59,8 +57,6 @@
         OIDCClientID: myid
         OIDCProviderMetadataURL: https://localhost/
         OIDCCryptoPassphrase: mycryptopass
-      _container_connection: false
-      _ssh_local_connection: true
 
 - hosts: all
   tasks:
