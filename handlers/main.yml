@@ -1,11 +1,10 @@
 ---
-- name: restart apache in systemd
+- name: restart apache httpd
   systemd:
     name: "{{ apache_service_name }}"
     state: restarted
     enabled: "{{ apache_service_enabled }}"
   become: true
-  listen: "restart apache httpd"
 
 - name: update nginx stage
   shell: "{{ ood_base_dir }}/nginx_stage/sbin/update_nginx_stage"
