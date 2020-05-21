@@ -76,6 +76,7 @@
   shell: ruby {{ passenger_base_dir }}/src/ruby_native_extension/extconf.rb
   args:
     chdir: "{{ tmpdir.stdout }}"
+  become: true
 
 - name: make the passenger_native_support.so
   make:
