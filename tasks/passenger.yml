@@ -81,6 +81,7 @@
 - name: make the passenger_native_support.so
   make:
     chdir: "{{ tmpdir.stdout }}"
+  become: true
 
 - name: move passenger_native_support.so to support libraries
   copy:
