@@ -69,4 +69,3 @@
     name: "{{ apache_service_name }}"
     state: started
     enabled: "{{ apache_service_enabled }}"
-  when: _ssh_local_connection

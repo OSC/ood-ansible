@@ -5,8 +5,9 @@ dependency:
 driver:
   name: docker
 
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
 
 platforms:
   - name: instance

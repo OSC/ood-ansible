@@ -1,4 +1,0 @@
-[ondemand-hosts]
-fedora ansible_connection=docker ansible_python_interpreter=/usr/bin/python3
-ubuntu ansible_connection=docker
-debian ansible_connection=docker
