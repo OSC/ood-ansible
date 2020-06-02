@@ -51,6 +51,7 @@
         dashboard:
           env:
             motd_format: markdown
+            ood_dataroot: "/mnt/newfs/$USER"
       oidc_uri: /oidc
       ood_auth_openidc:
         OIDCSessionMaxDuration: 28888
