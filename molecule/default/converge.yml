@@ -40,11 +40,11 @@
           cluster: my_cluster
           attributes:
             desktop: xfce
-          submit:
+          submit: |
             script:
               native:
-                - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
-                - "1"
+                - '<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>'
+                - '1'
         files:
           env:
             ood_shell: /bin/bash

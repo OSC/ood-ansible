@@ -169,15 +169,21 @@ The examples below should illustrate these two points.
 ```yaml
 ood_apps:
   bc_desktop:
-    title: "remote desktop"
-    cluster: my_cluster
+    title: "xfce desktop"
+    cluster: "my_cluster"
+    form:
+      - desktop
+      - hours
     attributes:
-      desktop: xfce
-    submit:
+      hours:
+        value: 1
+      desktop: "xfce"
+    submit: |
+      ---
       script:
         native:
-          - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
-          - "1"
+          - "-t"
+          - "<%= '%02d:00:00' % hours %>"
   files:
     env:
       ood_shell: /bin/bash
@@ -203,21 +209,26 @@ $ cat /etc/ood/config/apps/files/env
 OOD_SHELL=/bin/bash
 ```
 
-`submit` create _submit_ directory with a `submit.yml.erb` containing all
-the yaml _key=value_ below `submit` key.
+`submit` create _submit_ directory with a `submit.yml.erb` containing the
+raw string data you've configured. Note that configuration is raw data and
+not yaml like the other configurations. This is to support Ruby ERB templating
+that is not easily formatted when read by Ansible as yaml.
 
 ```bash
 $ cat /etc/ood/config/apps/bc_desktop/submit/submit.yml.erb
+---
 script:
-    native:
-        - '<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>'
-        - '1'
+  native:
+    - "-t"
+    - "<%= '%02d:00:00' % hours %>"
 
 $ cat /etc/ood/config/apps/bc_desktop/submit/my_cluster.yml
 title: "remote desktop"
 cluster: my_cluster
 attributes:
-  desktop: xfce
+  hours:
+    value: 1
+  desktop: "xfce"
 ```
 
 #### `ood_auth_openidc`
