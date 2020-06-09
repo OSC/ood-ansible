@@ -18,6 +18,14 @@
 {% else %}#servername: null
 {% endif %}
 
+# The server name used for rewrites
+# Example:
+#     proxy_server: 'proxy.example.com'
+# Default: The value of servername
+{% if proxy_server is defined %}proxy_server: {{ proxy_server }}
+{% else %}#proxy_server: null
+{% endif %}
+
 # The port specification for the Virtual Host
 # Example:
 #     port: 8080
@@ -29,6 +37,7 @@ port: {{ httpd_port }}
 #     ssl:
 #       - 'SSLCertificateFile "/etc/pki/tls/certs/www.example.com.crt"'
 #       - 'SSLCertificateKeyFile "/etc/pki/tls/private/www.example.com.key"'
+# Default: null (no SSL support)
 {% if ssl is defined %}
 ssl:
 {% for item in ssl  %}
@@ -48,7 +57,28 @@ logroot: "{{ apache_log_dir }}"
 # Example:
 #     use_rewrites: false
 # Default: true
-use_rewrites: {{ httpd_use_rewrites }}
+use_rewrites: {{ httpd_use_rewrites | bool | lower }}
+
+# Should Maintenance Rewrite rules be added
+# Example:
+#   use_maintenance: false
+# Default: true
+use_maintenance: {{ use_maintenance | bool | lower }}
+
+# List of IPs to whitelist when maintenance is enabled
+# Example:
+#   maintenance_ip_whitelist:
+#     - 192.168.0..*
+#     - 192.168.1..*
+# Default: [] (no IPs whitelisted)
+{% if maintenance_ip_whitelist is defined and maintenance_ip_whitelist|length > 0 %}
+maintenance_ip_whitelist:
+{% for item in maintenance_ip_whitelist  %}
+  - '{{ item }}'
+{% endfor %}
+{% else %}
+maintenance_ip_whitelist: []
+{% endif %}
 
 # Root directory of the Lua handler code
 # Example:
@@ -253,7 +283,6 @@ pun_max_retries: {{ pun_max_retries }}
 {% if oidc_discover_root is defined %}oidc_discover_root: {{ oidc_discover_root }}
 {% else %}#oidc_discover_root: null
 {% endif %}
-
 
 #
 # Support for registering unmapped users
