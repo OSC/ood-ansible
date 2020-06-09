@@ -84,14 +84,15 @@ def test_apps_file(host):
     files_d = f"{apps_d}/files"
     assert host.file(f"{files_d}").is_directory
     assert host.file(f"{files_d}/env").exists
-    assert host.file(f"{files_d}/env").contains('OOD_SHELL=/bin/bash')
+    assert host.file(f"{files_d}/env").contains('OOD_SHELL="/bin/bash"')
 
 
 def test_apps_dashboard(host):
     dashboard_d = f"{apps_d}/dashboard"
     assert host.file(f"{dashboard_d}").is_directory
     assert host.file(f"{dashboard_d}/env").exists
-    assert host.file(f"{dashboard_d}/env").contains('MOTD_FORMAT=markdown')
+    assert host.file(f"{dashboard_d}/env").contains('MOTD_FORMAT="markdown"')
+    assert host.file(f"{dashboard_d}/env").contains('OOD_DATAROOT="/mnt/newfs/$USER"')
 
 
 def test_oidc_httpd_module(host):
