@@ -24,6 +24,7 @@
   when: ansible_distribution == "Red Hat Enterprise Linux"
 
 - name: install ondemand
-  package:
+  yum:
     name: ondemand
-    state: present
+    state: latest
+    update_cache: true
