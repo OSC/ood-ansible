@@ -69,12 +69,6 @@ ood_core_libs:
 #     env:
 #       motd_format: markdown
 #
-## Apache for mod_auth_openidc, default undef
-# ood_auth_openidc:
-#   OIDCSessionMaxDuration: 28888
-#   OIDCClientID: myid
-#   OIDCProviderMetadataURL: https://localhost/
-#   OIDCCryptoPassphrase: mycryptopass
 
 passenger_version: "6.0.4"
 nginx_version: "1.17.3"
@@ -97,6 +91,21 @@ passenger_lib_dir: "{{ ood_base_dir }}/passenger-lib"
 passenger_support_binaries_dir: "{{ passenger_lib_dir }}/support-binaries"
 passenger_base_dir: "{{ ood_base_dir }}/passenger"
 
+ood_portal_generator: true
+
+ruby_lib_dir: "/usr/lib64/ruby/"
+
+######## START install from rpm related configs ############
+# flip this flag to instead install from source
+install_from_src: false
+rpm_repo_url: "https://yum.osc.edu/ondemand/1.8/ondemand-release-web-1.8-1.noarch.rpm"
+######## END install from rpm related configs ############
+
+
+######## START nginx_stage.yml related configs ############
+pun_custom_env_declarations: []
+# pun_custom_env is undefined by default
+
 # nginx_min_uid: 500
 nginx_lib_dir: "/var/lib/ondemand-nginx"
 nginx_config_dir: "{{ nginx_lib_dir }}/config"
@@ -105,23 +114,10 @@ nginx_apps_dir: "{{ nginx_config_dir }}/apps"
 nginx_dir: "{{ ood_base_dir }}/nginx"
 nginx_bin: "{{ nginx_dir }}/bin/nginx"
 nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
+nginx_file_upload_max: 10737420000
 locations_ini: "{{ passenger_lib_dir }}/locations.ini"
-
-ood_portal_generator: true
-
-ruby_lib_dir: "/usr/lib64/ruby/"
-
-### install from rpm related configs
-# flip this flag to instead install from source
-install_from_src: false
-rpm_repo_url: "https://yum.osc.edu/ondemand/1.7/ondemand-release-web-1.7-1.noarch.rpm"
-###
-
-
-######## START nginx_stage.yml related configs ############
-pun_custom_env_declarations: []
-# pun_custom_env is undefined by default
 ######## END nginx_stage.yml related configs ############
+
 
 ######## START default OS related configs ############
 # OS defaults are RHEL
@@ -222,5 +218,12 @@ logout_redirect: "/pun/sys/dashboard/logout"
 
 # register_uri:
 # register_root:
+
+# # Apache for mod_auth_openidc, default undef
+# ood_auth_openidc:
+#   OIDCSessionMaxDuration: 28888
+#   OIDCClientID: myid
+#   OIDCProviderMetadataURL: https://localhost/
+#   OIDCCryptoPassphrase: mycryptopass
 
 ######## END Apache and ood_portal.yml configs ############

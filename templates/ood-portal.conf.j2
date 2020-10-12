@@ -22,15 +22,30 @@ Listen {{ addr }}
 
   ErrorLog  "{{ apache_log_dir }}/{{ servername }}_error{% if ssl is defined %}_ssl{% endif %}.log"
   CustomLog "{{ apache_log_dir }}/{{ servername }}_access{% if ssl is defined %}_ssl{% endif %}.log" combined
-{% endif %}
 
 {% if httpd_use_rewrites %}
   RewriteEngine On
   RewriteCond %{HTTP_HOST} !^({{ servername }}(:{{ httpd_port }})?)?$ [NC]
   RewriteRule ^(.*) {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}$1 [R=301,NE,L]
 {% endif %}
+{% endif %}
+
+{% if httpd_use_rewrites and use_maintenance %}
+  # Support maintenance page during outages of OnDemand
+  RewriteEngine On
+  RewriteCond {{ httpd_public_root }}/maintenance/index.html -f
+  RewriteCond /etc/ood/maintenance.enable -f
+  RewriteCond %{REQUEST_URI} !/public/maintenance/.*$
+{% for ip in maintenance_ip_whitelist %}
+  RewriteCond %{REMOTE_ADDR} !^<%= escape_ip(ip) %>
+{% endfor %}
+  RewriteRule ^.*$ {{ httpd_public_uri }}/maintenance/index.html [R=503,L]
+  ErrorDocument 503 {{ httpd_public_uri }}/maintenance/index.html
+  Header Set Cache-Control "max-age=0, no-store"
+{% endif %}
 
 {% if ssl is defined %}
+  SSLEngine On
 {% for opt in ssl %}
   {{ opt }}
 {% endfor %}
@@ -140,7 +155,7 @@ Listen {{ addr }}
   </LocationMatch>
 {% endif %}
 
-{% if pun_uri is defined %}
+{% if pun_uri is defined and nginx_uri is defined %}
   # Reverse proxy traffic to backend PUNs through Unix domain sockets:
   #
   #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ pun_uri }}/dev/app/simulations/1
@@ -170,9 +185,7 @@ Listen {{ addr }}
     LuaHookLog analytics.lua analytics_handler
     {% endif %}
   </Location>
-{% endif %}
 
-{% if nginx_uri is defined %}
   # Control backend PUN for authenticated user:
   # NB: See mod_ood_proxy for more details.
   #
