@@ -99,6 +99,8 @@ ruby_lib_dir: "/usr/lib64/ruby/"
 # flip this flag to instead install from source
 install_from_src: false
 rpm_repo_url: "https://yum.osc.edu/ondemand/1.8/ondemand-release-web-1.8-1.noarch.rpm"
+install_ondemand_dex: false
+ondemand_dex_package: ondemand-dex
 ######## END install from rpm related configs ############
 
 
@@ -212,6 +214,10 @@ httpd_public_root: "/var/www/ood/public"
 logout_uri: "/logout"
 logout_redirect: "/pun/sys/dashboard/logout"
 
+# write the OIDC settings in the same file as the ood-portal configurations
+# when using the ansible ood-portal.conf.j2 template
+oidc_settings_samefile: false
+
 # oidc_uri:
 # oidc_discover_uri:
 # oidc_discover_root:
@@ -225,5 +231,70 @@ logout_redirect: "/pun/sys/dashboard/logout"
 #   OIDCClientID: myid
 #   OIDCProviderMetadataURL: https://localhost/
 #   OIDCCryptoPassphrase: mycryptopass
+
+# # ood-portal-generator oidc configurations
+# oidc_provider_metadata_url: null
+# oidc_client_id: null
+# oidc_client_secret: null
+# oidc_remote_user_claim: preferred_username
+# oidc_scope: "openid profile email"
+# oidc_session_inactivity_timeout: 28800
+# oidc_session_max_duration: 28800
+# oidc_state_max_number_of_cookies: "10 true"
+# oidc_cookie_same_site: "On"
+# oidc_settings: {}
+# dex_settings: |
+#   dex:
+#     # Default based on if ssl key for ood-portal-generator is defined
+#     ssl: false
+#     # Only used if SSL is disabled
+#     http_port: "5556"
+#     # Only used if SSL is enabled
+#     https_port: "5554"
+#     # tls_cert and tls_key take OnDemand configured values for ssl and copy keys to /etc/ood/dex maintaining file names
+#     tls_cert: null
+#     tls_key: null
+#     storage_file: /etc/ood/dex/dex.db
+#     grpc: null
+#     expiry: null
+#     # Client ID, defaults to servername or FQDN
+#     client_id: null
+#     client_name: OnDemand
+#     # Client secret, value auto generated
+#     # A value that is a filesystem path can be used to store secret in a file
+#     client_secret: /etc/ood/dex/ondemand.secret
+#     # The OnDemand redirectURI is auto-generated, this option allows adding additional URIs
+#     client_redirect_uris: []
+#     # Additional Dex OIDC clients to configure
+#     static_clients: []
+#     # The following example is to configure OpenLDAP
+#     # Docs: https://github.com/dexidp/dex/blob/master/Documentation/connectors/ldap.md
+#     connectors:
+#       - type: ldap
+#         id: ldapg
+#         name: LDAP
+#         config:
+#           host: openldap.my_center.edu:636
+#           insecureSkipVerify: false
+#           bindDN: cn=admin,dc=example,dc=org
+#           bindPW: admin
+#           userSearch:
+#             baseDN: ou=People,dc=example,dc=org
+#             filter: "(objectClass=posixAccount)"
+#             username: uid
+#             idAttr: uid
+#             emailAttr: mail
+#             nameAttr: gecos
+#             preferredUsernameAttr: uid
+#           groupSearch:
+#             baseDN: ou=Groups,dc=example,dc=org
+#             filter: "(objectClass=posixGroup)"
+#             userMatchers:
+#               - userAttr: DN
+#                 groupAttr: member
+#             nameAttr: cn
+#     frontend:
+#       theme: ondemand
+#       dir: /usr/share/ondemand-dex/web
 
 ######## END Apache and ood_portal.yml configs ############
