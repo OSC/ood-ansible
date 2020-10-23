@@ -105,6 +105,10 @@ passenger_root: "{{ locations_ini }}"
 #
 #passenger_python: '/opt/ood/nginx_stage/bin/python'
 
+# Max file upload size in bytes (e.g., 10737420000)
+#
+nginx_file_upload_max: {{ nginx_file_upload_max }}
+
 # Root location of per-user NGINX configs
 #
 #pun_config_path: '/var/lib/ondemand-nginx/config/puns/%{user}.conf'

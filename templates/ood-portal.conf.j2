@@ -22,17 +22,51 @@ Listen {{ addr }}
 
   ErrorLog  "{{ apache_log_dir }}/{{ servername }}_error{% if ssl is defined %}_ssl{% endif %}.log"
   CustomLog "{{ apache_log_dir }}/{{ servername }}_access{% if ssl is defined %}_ssl{% endif %}.log" combined
-{% endif %}
 
 {% if httpd_use_rewrites %}
   RewriteEngine On
   RewriteCond %{HTTP_HOST} !^({{ servername }}(:{{ httpd_port }})?)?$ [NC]
   RewriteRule ^(.*) {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}$1 [R=301,NE,L]
 {% endif %}
+{% endif %}
+
+{% if httpd_use_rewrites and use_maintenance %}
+  # Support maintenance page during outages of OnDemand
+  RewriteEngine On
+  RewriteCond {{ httpd_public_root }}/maintenance/index.html -f
+  RewriteCond /etc/ood/maintenance.enable -f
+  RewriteCond %{REQUEST_URI} !/public/maintenance/.*$
+{% for ip in maintenance_ip_whitelist %}
+  RewriteCond %{REMOTE_ADDR} !^<%= escape_ip(ip) %>
+{% endfor %}
+  RewriteRule ^.*$ {{ httpd_public_uri }}/maintenance/index.html [R=503,L]
+  ErrorDocument 503 {{ httpd_public_uri }}/maintenance/index.html
+  Header Set Cache-Control "max-age=0, no-store"
+{% endif %}
 
 {% if ssl is defined %}
+  SSLEngine On
 {% for opt in ssl %}
   {{ opt }}
+{% endfor %}
+{% endif %}
+
+{% if oidc_settings_samefile %}
+  # OIDC configuration
+  #
+  OIDCProviderMetadataURL {{ oidc_provider_metadata_url }}
+  OIDCClientID {{ oidc_client_id }}
+  OIDCClientSecret {{ oidc_client_secret }}
+  OIDCRedirectURI {{ oidc_redirect_uri }}
+  OIDCRemoteUserClaim {{ oidc_remote_user_claim }}
+  OIDCScope "{{ oidc_scope }}"
+  OIDCCryptoPassphrase {{ oidc_crypto_passphrase }}
+  OIDCSessionInactivityTimeout {{ oidc_session_inactivity_timeout }}
+  OIDCSessionMaxDuration {{ oidc_session_max_duration }}
+  OIDCStateMaxNumberOfCookies {{ oidc_state_max_number_of_cookies }}
+  OIDCCookieSameSite {{ oidc_cookie_same_site }}
+{% for setting in oidc_settings %}
+  {{ setting }}
 {% endfor %}
 {% endif %}
 
@@ -96,9 +130,9 @@ Listen {{ addr }}
   #     #=> http://HOST:PORT{{ node_uri }}/HOST/PORT/index.html
   #
   <LocationMatch "^{{ node_uri }}/(?<host>{{ host_regex }})/(?<port>\d+)">
-    {% for auth in httpd_auth  %}
+{% for auth in httpd_auth  %}
     {{ auth }}
-    {% endfor %}
+{% endfor %}
 
     # ProxyPassReverse implementation
     Header edit Location "^[^/]+//[^/]+" ""
@@ -121,9 +155,9 @@ Listen {{ addr }}
   #     #=> http://HOST:PORT/index.html
   #
   <LocationMatch "^{{ rnode_uri }}/(?<host>{{ host_regex }})/(?<port>\d+)(?<uri>/.*|)">
-    {% for auth in httpd_auth  %}
+{% for auth in httpd_auth  %}
     {{ auth }}
-    {% endfor %}
+{% endfor %}
 
     # ProxyPassReverse implementation
     Header edit Location "^([^/]+//[^/]+)|(?=/)" "{{ rnode_uri }}/%{MATCH_HOST}e/%{MATCH_PORT}e"
@@ -140,7 +174,7 @@ Listen {{ addr }}
   </LocationMatch>
 {% endif %}
 
-{% if pun_uri is defined %}
+{% if pun_uri is defined and nginx_uri is defined %}
   # Reverse proxy traffic to backend PUNs through Unix domain sockets:
   #
   #     {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}{{ pun_uri }}/dev/app/simulations/1
@@ -148,9 +182,9 @@ Listen {{ addr }}
   #
   SetEnv OOD_PUN_URI "{{ pun_uri }}"
   <Location "{{ pun_uri }}">
-    {% for auth in httpd_auth  %}
+{% for auth in httpd_auth  %}
     {{ auth }}
-    {% endfor %}
+{% endfor %}
 
     ProxyPassReverse "http://localhost{{ pun_uri }}"
 
@@ -164,15 +198,13 @@ Listen {{ addr }}
     SetEnv OOD_PUN_MAX_RETRIES "{{ pun_max_retries }}"
     LuaHookFixups pun_proxy.lua pun_proxy_handler
 
-    {% if analytics_url is defined and analytics_id is defined %}
+{% if analytics_url is defined and analytics_id is defined %}
     SetEnv OOD_ANALYTICS_TRACKING_URL "{{ analytics_url }}"
     SetEnv OOD_ANALYTICS_TRACKING_ID  "{{ analytics_id }}"
     LuaHookLog analytics.lua analytics_handler
-    {% endif %}
-  </Location>
 {% endif %}
+  </Location>
 
-{% if nginx_uri is defined %}
   # Control backend PUN for authenticated user:
   # NB: See mod_ood_proxy for more details.
   #
@@ -181,9 +213,9 @@ Listen {{ addr }}
   #
   SetEnv OOD_NGINX_URI "{{ nginx_uri }}"
   <Location "{{ nginx_uri }}">
-    {% for auth in httpd_auth  %}
+{% for auth in httpd_auth  %}
     {{ auth }}
-    {% endfor %}
+{% endfor %}
 
     LuaHookFixups nginx.lua nginx_handler
   </Location>
@@ -214,9 +246,9 @@ Listen {{ addr }}
   #     #=> handled by mod_auth_openidc
   #
   <Location "{{ oidc_uri }}">
-    {% for auth in httpd_auth  %}
+{% for auth in httpd_auth  %}
     {{ auth }}
-    {% endfor %}
+{% endfor %}
   </Location>
 {% endif %}
 
@@ -246,9 +278,9 @@ Listen {{ addr }}
     Options Indexes FollowSymLinks
     AllowOverride None
 
-    {% for auth in httpd_auth  %}
+{% for auth in httpd_auth  %}
     {{ auth }}
-    {% endfor %}
+{% endfor %}
   </Directory>
 {% endif %}
 </VirtualHost>

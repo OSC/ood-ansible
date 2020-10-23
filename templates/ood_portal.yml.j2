@@ -8,7 +8,9 @@
 # Example:
 #     listen_addr_port: 443
 # Default: null (don't add any more listen directives)
-#listen_addr_port: null
+{% if listen_addr_port is defined %}listen_addr_port: {{ listen_addr_port }}
+{% else %}#listen_addr_port: null
+{% endif %}
 
 # The server name used for name-based Virtual Host
 # Example:
@@ -125,12 +127,9 @@ pun_stage_cmd: "{{ pun_stage_cmd }}"
 
 # List of Apache authentication directives
 # NB: Be sure the appropriate Apache module is installed for this
-# Default: (see below, uses basic auth with an htpasswd file)
+# Default: (see below, uses OIDC auth with Dex)
 #auth:
-#  - 'AuthType Basic'
-#  - 'AuthName "private"'
-#  - 'AuthUserFile "/opt/rh/httpd24/root/etc/httpd/.htpasswd"'
-#  - 'RequestHeader unset Authorization'
+#  - 'AuthType openid-connect'
 #  - 'Require valid-user'
 auth:
 {% for auth in httpd_auth  %}
@@ -306,4 +305,151 @@ pun_max_retries: {{ pun_max_retries }}
 # Default: null (display error to user if mapping fails)
 {% if register_root is defined %}register_root: {{ register_root }}
 {% else %}#register_root: null
+{% endif %}
+
+# OIDC metadata URL
+# Example:
+#     oidc_provider_metadata_url: https://example.com:5554/.well-known/openid-configuration
+# Default: null (value auto-generated if using Dex)
+{% if oidc_provider_metadata_url is defined %}oidc_provider_metadata_url: {{ oidc_provider_metadata_url }}
+{% else %}#oidc_provider_metadata_url: null
+{% endif %}
+
+# OIDC client ID
+# Example:
+#     oidc_client_id: ondemand.example.com
+# Default: null (value auto-generated if using Dex)
+{% if oidc_client_id is defined %}oidc_client_id: {{ oidc_client_id }}
+{% else %}#oidc_client_id: null
+{% endif %}
+
+# OIDC client secret
+# Example:
+#     oidc_client_secret: 334389048b872a533002b34d73f8c29fd09efc50
+# Default: null (value auto-generated if using Dex)
+{% if oidc_client_secret is defined %}oidc_client_secret: {{ oidc_client_secret }}
+{% else %}#oidc_client_secret: null
+{% endif %}
+
+# OIDC remote user claim. This is the claim that populates REMOTE_USER
+# Example:
+#     oidc_remote_user_claim: preferred_username
+# Default: preferred_username
+{% if oidc_remote_user_claim is defined %}oidc_remote_user_claim: {{ oidc_remote_user_claim }}
+{% else %}#oidc_remote_user_claim: preferred_username
+{% endif %}
+
+# OIDC scopes
+# Example:
+#     oidc_scope: "openid profile email groups"
+# Default: "openid profile email"
+{% if oidc_scope is defined %}oidc_scope: "{{ oidc_scope }}"
+{% else %}#oidc_scope: "openid profile email"
+{% endif %}
+
+# OIDC session inactivity timeout
+# Example:
+#     oidc_session_inactivity_timeout: 28800
+# Default: 28800
+{% if oidc_session_inactivity_timeout is defined %}oidc_session_inactivity_timeout: {{ oidc_session_inactivity_timeout }}
+{% else %}#oidc_session_inactivity_timeout: 28800
+{% endif %}
+
+# OIDC session max duration
+# Example:
+#     oidc_session_max_duration: 28800
+# Default: 28800
+{% if oidc_session_max_duration is defined %}oidc_session_max_duration: {{ oidc_session_max_duration }}
+{% else %}#oidc_session_max_duration: 28800
+{% endif %}
+
+# OIDC max number of state cookies and if to automatically clean old cookies
+# Example:
+#     oidc_state_max_number_of_cookies: "10 true"
+# Default: "10 true"
+{% if oidc_state_max_number_of_cookies is defined %}oidc_state_max_number_of_cookies: {{ oidc_state_max_number_of_cookies }}
+{% else %}#oidc_state_max_number_of_cookies: "10 true"
+{% endif %}
+
+# OIDC Enable SameSite cookie
+# When ssl is defined this defaults to 'Off'
+# When ssl is not defined this defaults to 'On'
+# Example:
+#     oidc_cookie_same_site: 'Off'
+# Default: 'On'
+{% if oidc_cookie_same_site is defined %}oidc_cookie_same_site: "{{ oidc_cookie_same_site }}"
+{% else %}#oidc_cookie_same_site: "On"
+{% endif %}
+
+# Additional OIDC settings as key-value pairs
+# Example:
+#     oidc_settings:
+#       OIDCPassIDTokenAs: serialized
+#       OIDCPassRefreshToken: On
+# Default: {} (empty hash)
+{% if oidc_settings is defined %}
+oidc_settings:
+{% for key, value in oidc_settings.items() %}
+{{ key }} {{ value | quote }}
+{% endfor %}
+{% endif %}
+
+# Dex configurations, values inside the "dex" structure are directly used to configure Dex
+# If the value for "dex" key is false or null, Dex support is disabled
+# Dex support will auto-enable if ondemand-dex package is installed
+{% if dex_settings is defined %}
+{{ dex_settings }}
+{% else %}
+#dex:
+  # Default based on if ssl key for ood-portal-generator is defined
+#  ssl: false
+  # Only used if SSL is disabled
+#  http_port: "5556"
+  # Only used if SSL is enabled
+#  https_port: "5554"
+  # tls_cert and tls_key take OnDemand configured values for ssl and copy keys to /etc/ood/dex maintaining file names
+#  tls_cert: null
+#  tls_key: null
+#  storage_file: /etc/ood/dex/dex.db
+#  grpc: null
+#  expiry: null
+  # Client ID, defaults to servername or FQDN
+#  client_id: null
+#  client_name: OnDemand
+  # Client secret, value auto generated
+  # A value that is a filesystem path can be used to store secret in a file
+#  client_secret: /etc/ood/dex/ondemand.secret
+   # The OnDemand redirectURI is auto-generated, this option allows adding additional URIs
+#  client_redirect_uris: []
+  # Additional Dex OIDC clients to configure
+#  static_clients: []
+  # The following example is to configure OpenLDAP
+  # Docs: https://github.com/dexidp/dex/blob/master/Documentation/connectors/ldap.md
+#  connectors:
+#    - type: ldap
+#      id: ldap
+#      name: LDAP
+#      config:
+#        host: openldap.my_center.edu:636
+#        insecureSkipVerify: false
+#        bindDN: cn=admin,dc=example,dc=org
+#        bindPW: admin
+#        userSearch:
+#          baseDN: ou=People,dc=example,dc=org
+#          filter: "(objectClass=posixAccount)"
+#          username: uid
+#          idAttr: uid
+#          emailAttr: mail
+#          nameAttr: gecos
+#          preferredUsernameAttr: uid
+#        groupSearch:
+#          baseDN: ou=Groups,dc=example,dc=org
+#          filter: "(objectClass=posixGroup)"
+#          userMatchers:
+#            - userAttr: DN
+#              groupAttr: member
+#          nameAttr: cn
+#  frontend:
+#    theme: ondemand
+#    dir: /usr/share/ondemand-dex/web
 {% endif %}

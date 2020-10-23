@@ -2,11 +2,23 @@
 
 [![Build Status](https://travis-ci.com/OSC/ood-ansible.svg?branch=master)](https://travis-ci.com/OSC/ood-ansible)
 
-## Usage
-
 This ansible role installs and configures [Open OnDemand](https://openondemand.org/) on various Linux distributions.
 
-### Install from source or RPM
+## Table of Contents
+
+- [Installing from source](#install-from-source-or-rpm)
+- [Tags](#tags)
+- [Overrides](#overrides)
+  - [Using this role to manage cluster and apps](#using-this-role-to-manage-cluster-and-apps)
+    - [clusters](#clusters)
+    - [ood_install_apps](#ood_install_apps)
+    - [ood_apps](#ood_apps)
+  - [Open ID Connect](#open-id-connect)
+    - [Install Dex](#install-dex)
+- [Using your own Passenger/nginx stack](#using-your-own-passenger/nginx-stack)
+- [Contributing](#contributing)
+
+## Install from source or RPM
 
 This role was developed for users of non RPM systems like Ubuntu, Debian or Arch because Open OnDemand does not
 currently supply packages for those platforms.
@@ -18,65 +30,19 @@ destination directories.
 The default behavior is to install the rpm and configure the resulting installation and skip a lot of these tasks
 that build the source code.
 
-## Getting Started
+## Tags
 
-First pull this repo into where you keep your roles.  Shown is the `.ansible` folder in your home directory.
+This role has these tags when you want to only run certain tasks.
 
-```bash
-git clone https://github.com/OSC/ood-ansible.git ~/.ansible/roles/ondemand
-```
-
-### Simple playbook
-
-Now you can make a simple playbook
-
-```yml
-# open-ondemand.yml
-- hosts: ondemand-hosts
-
-  roles:
-  - ondemand
-```
+- configure - will configure Open OnDemand and any apps
+- install - will install Open OnDemand and any apps
+- deps - install dependencies (only valid when building from source)
+- build - build the source code (only valid when building from source)
 
 ## Overrides
 
 Look at all the variables in [the defaults](defaults/main.yml) and override any of them that you wish or need to.
 Save all these overrides to a file that you can then call with `--extra-vars=@overrides.yml`
-
-## Make an inventory file
-
-Make an inventory file of all the hosts you want to install on, like so.
-
-```toml
-# inventory
-[ondemand-host]
-my-cool-site.net
-```
-
-## Running
-
-To run simply run the ansible playbook command with all the other files you've just created.
-
-`ansible-playbook -i inventory open-ondemand.yml --extra-vars=@overrides.yml`
-
-## Tags
-
-Switch to a given git tag if you want to install a specific older version from the source code.
-This is because installation directories changed from 1.6.20 to 1.7.x.
-
-### Configuring
-
-`ansible-playbook -i inventory open-ondemand.yml --tags configure --extra-vars=@overrides.yml`
-
-### Installing
-
-`ansible-playbook -i inventory open-ondemand.yml --tags install --extra-vars=@overrides.yml`
-
-### Everything except dependencies and building
-
-`ansible-playbook -i inventory open-ondemand.yml --skip-tags="deps,build" --extra-vars=@overrides.yml`
-
-## Toggles and advanced uses
 
 ### Using this role to manage cluster and apps
 
@@ -110,6 +76,7 @@ clusters:
 Will produce `/etc/ood/config/clusters.d/my_cluster.yml` and `/etc/ood/config/clusters.d/another_cluster.yml` with the exact content.
 
 ##### my_cluster.yml
+
 ```yaml
 v2:
   metadata:
@@ -118,13 +85,15 @@ v2:
 ```
 
 ##### another_cluster.yml
+
 ```yaml
 v2:
   metadata:
     title: Another Cluster
 ```
 
-More details can be found on [Open OnDemand documentation](https://osc.github.io/ood-documentation/master/installation/add-cluster-config.html) and [Cluster Config Schema v2](https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html).
+More details can be found on [Open OnDemand documentation](https://osc.github.io/ood-documentation/master/installation/add-cluster-config.html)
+and [Cluster Config Schema v2](https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html).
 
 #### `ood_install_apps`
 
@@ -134,7 +103,7 @@ The main key is the resulting directory name where `repo` is cloned under the `d
 
 Only `repo:` is required.
 
-##### ood\_install\_apps example
+##### ood_install_apps example
 
 ```yaml
 ood_install_apps:
@@ -150,8 +119,8 @@ ood_install_apps:
 
 The above example will
 
-* clone `OSC/bc_example_jupyter` to `/var/www/ood/apps/sys/jupyter`
-* clone `OSC/bc_example_rstudio` to `/var/www/ood/apps/my/dir/customdir`
+- clone `OSC/bc_example_jupyter` to `/var/www/ood/apps/sys/jupyter`
+- clone `OSC/bc_example_rstudio` to `/var/www/ood/apps/my/dir/customdir`
 
 #### `ood_apps`
 
@@ -164,7 +133,7 @@ the `cluster` attribute of the content) _and_ writes the the content of `submit`
 
 The examples below should illustrate these two points.
 
-##### ood\_apps example
+##### ood_apps example
 
 ```yaml
 ood_apps:
@@ -231,11 +200,20 @@ attributes:
   desktop: "xfce"
 ```
 
-#### `ood_auth_openidc`
+### Open Id Connect
 
-This variable [configures Apache for mod_auth_openidc](https://osc.github.io/ood-documentation/master/authentication/tutorial-oidc-keycloak-rhel7/install_mod_auth_openidc.html#add-keycloak-config-to-ondemand-apache-for-mod-auth-openidc)
+There are two ways you can [configure Apache for mod_auth_openidc](https://osc.github.io/ood-documentation/master/authentication/tutorial-oidc-keycloak-rhel7/install_mod_auth_openidc.html#add-keycloak-config-to-ondemand-apache-for-mod-auth-openidc)
 
-##### Example
+The first and simplest is by using the `ood_auth_openidc` dictionary to generate a separate config file
+for OIDC related configs.
+
+The second is to have ood-portal-generator write the OIDC configs directly into the `ood-portal.conf`
+file by using the named `oidc_*` variables like `oidc_provider_metadata_url` and `oidc_client_id`.
+You can view [the oidc defaults](defaults/main.yml#L235) to see a full list available.
+If you're using the ansible template to generate `ood-portal.conf` then you'll need the extra
+flag `oidc_settings_samefile` set to true.
+
+#### ood_auth_openidc example
 
 ```yaml
 ood_auth_openidc:
@@ -259,7 +237,11 @@ Values defined on `ood_auth_openidc` overwrites any `default_auth_openidc` value
 
 See [auth\_openidc](https://github.com/zmartzone/mod_auth_openidc) for more information on that module.
 
-### Using your own Passenger/nginx stack
+#### Install Dex
+
+To install dex for OIDC use set the flag `install_ondemand_dex` to true and it will install the RPM.
+
+## Using your own Passenger/nginx stack
 
 If you've built your own Passenger/nginx stack then set `passenger_remote_dl` to `false` and the playbook
 won't download Passenger's tars from GitHub.  This only applies when `install_from_src` is true.

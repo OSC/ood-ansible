@@ -28,3 +28,9 @@
     name: ondemand
     state: latest
     update_cache: true
+
+- name: install ondemand-dex
+  yum:
+    name: "{{ ondemand_dex_package }}"
+    state: latest
+  when: install_ondemand_dex
