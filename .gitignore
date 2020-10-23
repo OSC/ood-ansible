@@ -183,3 +183,7 @@ dmypy.json
 *lol
 
 # End of https://www.gitignore.io/api/test,python,ansible
+
+templates/ood_portal_example.yml
+templates/ood-portal.conf.erb
+templates/nginx_stage_example.yml
