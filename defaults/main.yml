@@ -108,6 +108,7 @@ ondemand_dex_package: ondemand-dex
 pun_custom_env_declarations: []
 # pun_custom_env is undefined by default
 
+# user_regex: '[\w@\.\-]+'
 # nginx_min_uid: 500
 nginx_lib_dir: "/var/lib/ondemand-nginx"
 nginx_config_dir: "{{ nginx_lib_dir }}/config"
@@ -190,7 +191,7 @@ pun_stage_cmd: "sudo {{ ood_base_dir }}/nginx_stage/sbin/nginx_stage"
 
 # node_uri: /node
 # rnode_uri: /rnode
-host_regex: "[^/]+"
+host_regex: '[^/]+'
 
 pun_uri: "/pun"
 pun_socket_root: "/var/run/ondemand-nginx"
