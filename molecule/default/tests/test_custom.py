@@ -35,9 +35,10 @@ def test_multiple_clusters_conf(host):
     assert host.file(cluster_yml_2).contains("title: Another Cluster")
 
 
-def test_nginx_min_uid(host):
+def test_custom_nginx_stage(host):
     nginx_conf = '/etc/ood/config/nginx_stage.yml'
     assert host.file(nginx_conf).contains("min_uid: 500")
+    assert host.file(nginx_conf).contains("user_regex: '^\\[A-Za-z0-9\\\\-_\\\\.\\]+@osu.edu\\$'")
 
 
 def test_ood_portal_conf(host):
@@ -110,7 +111,7 @@ def test_oidc_auth_openidc_conf(host):
         'OIDCSessionMaxDuration 28888'
     )
     assert host.file(auth_oidc_cnf).contains(
-        'OIDCRedirectURI https://localhost/oidc'
+        'OIDCRedirectURI https://localhost/custom-oidc-path'
     )
     assert host.file(auth_oidc_cnf).contains('OIDCClientID myid')
 
@@ -134,7 +135,7 @@ def test_apps_install(host):
         "1f770d1c00be4ec281a7d016c5471d55ae28fca1"
     )
 
-def test_ood_portal_defaults(host):
+def test_custom_ood_portal(host):
     portal_yml = f"/etc/ood/config/ood_portal.yml"
     assert host.file(portal_yml).exists
     assert host.file(portal_yml).contains("servername: localhost")
@@ -147,7 +148,7 @@ def test_ood_portal_defaults(host):
     assert host.file(portal_yml).contains('maintenance_ip_whitelist: \\[\\]')
     assert host.file(portal_yml).contains("lua_root: \"/opt/ood/mod_ood_proxy/lib\"")
     assert host.file(portal_yml).contains("lua_log_level: \"info\"")
-    assert host.file(portal_yml).contains("user_map_cmd: \"/opt/ood/ood_auth_map/bin/ood_auth_map.regex\"")
+    assert host.file(portal_yml).contains("user_map_cmd: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex --regex=''^(\\[A-Za-z0-9\\\\-_\\\\.\\]+)@osc.edu")
     assert host.file(portal_yml).contains("#user_env: null")
     assert host.file(portal_yml).contains("#map_fail_uri: null")
     assert host.file(portal_yml).contains("pun_stage_cmd: \"sudo /opt/ood/nginx_stage/sbin/nginx_stage\"")
@@ -163,13 +164,14 @@ def test_ood_portal_defaults(host):
     assert host.file(portal_yml).contains("public_root: \"/var/www/ood/public\"")
     assert host.file(portal_yml).contains("logout_uri: \"/logout\"")
     assert host.file(portal_yml).contains("logout_redirect: \"/pun/sys/dashboard/logout\"")
-    assert host.file(portal_yml).contains("#node_uri: null")
-    assert host.file(portal_yml).contains("#rnode_uri: null")
+    assert host.file(portal_yml).contains("host_regex: 'forge-(l|c)\\\\d+")
+    assert host.file(portal_yml).contains("node_uri: /custom-node-path")
+    assert host.file(portal_yml).contains("rnode_uri: /custom-rnode-path")
     assert host.file(portal_yml).contains("nginx_uri: /nginx")
     assert host.file(portal_yml).contains("pun_uri: \"/pun\"")
     assert host.file(portal_yml).contains("pun_socket_root: \"/var/run/ondemand-nginx\"")
     assert host.file(portal_yml).contains("pun_max_retries: 5")
-    assert host.file(portal_yml).contains("oidc_uri: /oidc")
+    assert host.file(portal_yml).contains("oidc_uri: /custom-oidc-path")
     assert host.file(portal_yml).contains("#oidc_discover_uri: null")
     assert host.file(portal_yml).contains("#oidc_discover_root: null")
     assert host.file(portal_yml).contains("#register_uri: null")

@@ -99,7 +99,7 @@ lua_log_level: "{{ lua_log_level }}"
 # Example:
 #     user_map_cmd: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex --regex=''^(\w+)@example.com$'''
 # Default: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex' (this echo's back auth-user)
-user_map_cmd: "{{ user_map_cmd }}"
+user_map_cmd: '{{ user_map_cmd }}'
 
 # Use an alternative CGI environment variable instead of REMOTE_USER for
 # determining the authenticated-user fed to the mapping script
@@ -203,7 +203,7 @@ logout_redirect: "{{ logout_redirect }}"
 #     host_regex: '[\w.-]+\.example\.com'
 # Default: '[^/]+' (allow reverse proxying to all hosts, this allows external
 # hosts as well)
-host_regex: "{{ host_regex }}"
+host_regex: '{{ host_regex }}'
 
 # Sub-uri used to reverse proxy to backend web server running on node that
 # knows the full URI path
