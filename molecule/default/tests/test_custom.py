@@ -38,7 +38,7 @@ def test_multiple_clusters_conf(host):
 def test_custom_nginx_stage(host):
     nginx_conf = '/etc/ood/config/nginx_stage.yml'
     assert host.file(nginx_conf).contains("min_uid: 500")
-    assert host.file(nginx_conf).contains("user_regex: '^\\[A-Za-z0-9\\\\-_\\\\.\\]+@osu.edu$")
+    assert host.file(nginx_conf).contains("user_regex: '^\\[A-Za-z0-9\\\\-_\\\\.\\]+@osu.edu\\$'")
 
 
 def test_ood_portal_conf(host):
