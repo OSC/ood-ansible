@@ -3,25 +3,23 @@ dependency:
   name: galaxy
 
 driver:
-  name: docker
+  name: ${CONTAINER_RT:-"docker"}
 
 lint: |
   set -e
   yamllint .
 
 platforms:
-  - name: instance
-    image: centos:7
+  - name: default
+    image: ${IMAGE:-"centos:7"}
     command: /sbin/init
     tmpfs:
       - /run
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-#    published_ports:
-#      - "80:80"
   - name: custom
-    image: centos:7
+    image: ${IMAGE:-"centos:7"}
     command: /sbin/init
     tmpfs:
       - /run

@@ -1,9 +1,8 @@
 ---
 - name: Converge
-  hosts: instance
+  hosts: default
   roles:
     - role: ood-ansible
-      ood_portal_generator: false
 
 - name: Custom
   hosts: custom
@@ -11,13 +10,3 @@
     - role: ood-ansible
   vars_files:
     - vars/custom.yml
-
-- hosts: all
-  tasks:
-    - name: create ood user
-      user:
-        name: ood
-    - name: create debug user apache auth user ood:ood
-      copy:
-        content: 'ood:$apr1$EOza4zZK$fuKLibf.WGN2E5MuovgQs.'
-        dest: /opt/rh/httpd24/root/etc/httpd/.htpasswd
