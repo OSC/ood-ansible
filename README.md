@@ -1,6 +1,6 @@
 # Open OnDemand Ansible Role
 
-[![Build Status](https://travis-ci.com/OSC/ood-ansible.svg?branch=master)](https://travis-ci.com/OSC/ood-ansible)
+[![Molecule Tests](https://github.com/OSC/ood-ansible/workflows/Molecule%20Tests/badge.svg)](https://github.com/OSC/ood-ansible/actions)
 
 This ansible role installs and configures [Open OnDemand](https://openondemand.org/) on various Linux distributions.
 
