@@ -3,7 +3,7 @@ dependency:
   name: galaxy
 
 driver:
-  name: ${CONTAINER_RT:-"docker"}
+  name: ${CONTAINER_RT:-docker}
 
 lint: |
   set -e
