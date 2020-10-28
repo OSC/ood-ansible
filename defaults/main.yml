@@ -99,6 +99,9 @@ ruby_lib_dir: "/usr/lib64/ruby/"
 # flip this flag to instead install from source
 install_from_src: false
 rpm_repo_url: "https://yum.osc.edu/ondemand/1.8/ondemand-release-web-1.8-1.noarch.rpm"
+rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
+# OSC's repo rpm isn't signed
+disable_gpg_check_rpm_repo: true
 install_ondemand_dex: false
 ondemand_dex_package: ondemand-dex
 ######## END install from rpm related configs ############

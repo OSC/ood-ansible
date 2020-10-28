@@ -1,7 +1,13 @@
+- name: install the rpm repo's key
+  rpm_key:
+    state: present
+    key: "{{ rpm_repo_key }}"
+
 - name: install the rpm repo
   package:
     name: "{{ rpm_repo_url }}"
     state: present
+    disable_gpg_check: "{{ disable_gpg_check_rpm_repo | bool }}"
 
 - name: install additional rpms
   package:
