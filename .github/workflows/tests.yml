@@ -1,0 +1,39 @@
+name: Molecule Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        image:
+          - 'centos:7'
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: install dependencies
+        run: |
+          python3 -m pip install ansible molecule molecule-docker docker testinfra
+      - name: run linter
+        run: molecule lint
+      - name: run tests
+        run: molecule test
+        env:
+          IMAGE: '${{ matrix.image }}'
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'

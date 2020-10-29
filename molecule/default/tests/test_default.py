@@ -4,19 +4,83 @@ import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']
-).get_hosts('all')
+).get_hosts('default')
 
 
-def test_ood_is_installed(host):
-    assert host.package("ondemand").is_installed
+def test_ood_portal_defaults(host):
+    portal_yml = f"/etc/ood/config/ood_portal.yml"
+    assert host.file(portal_yml).exists
+    assert host.file(portal_yml).contains("servername: localhost")
+    assert host.file(portal_yml).contains("#proxy_server: null")
+    assert host.file(portal_yml).contains("port: 80")
+    assert host.file(portal_yml).contains("# Default: null (no SSL support)")
+    assert host.file(portal_yml).contains("logroot: \"/var/log/httpd24\"")
+    assert host.file(portal_yml).contains("use_rewrites: false")
+    assert host.file(portal_yml).contains("use_maintenance: false")
+    assert host.file(portal_yml).contains('maintenance_ip_whitelist: \\[\\]')
+    assert host.file(portal_yml).contains("lua_root: \"/opt/ood/mod_ood_proxy/lib\"")
+    assert host.file(portal_yml).contains("lua_log_level: \"info\"")
+    assert host.file(portal_yml).contains("user_map_cmd: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex'")
+    assert host.file(portal_yml).contains("#user_env: null")
+    assert host.file(portal_yml).contains("#map_fail_uri: null")
+    assert host.file(portal_yml).contains("pun_stage_cmd: \"sudo /opt/ood/nginx_stage/sbin/nginx_stage\"")
+    assert host.file(portal_yml).contains("auth:")
+    assert host.file(portal_yml).contains("- 'AuthType Basic'")
+    assert host.file(portal_yml).contains("- 'AuthName \"private\"'")
+    assert host.file(portal_yml).contains("- 'AuthUserFile \"/opt/rh/httpd24/root/etc/httpd/.htpasswd\"'")
+    assert host.file(portal_yml).contains("- 'RequestHeader unset Authorization'")
+    assert host.file(portal_yml).contains("- 'Require valid-user'")
+    assert host.file(portal_yml).contains("root_uri: /pun/sys/dashboard")
+    assert host.file(portal_yml).contains("#analytics: null")
+    assert host.file(portal_yml).contains("public_uri: \"/public\"")
+    assert host.file(portal_yml).contains("public_root: \"/var/www/ood/public\"")
+    assert host.file(portal_yml).contains("logout_uri: \"/logout\"")
+    assert host.file(portal_yml).contains("logout_redirect: \"/pun/sys/dashboard/logout\"")
+    assert host.file(portal_yml).contains("host_regex: '\\[^/\\]+'")
+    assert host.file(portal_yml).contains("#node_uri: null")
+    assert host.file(portal_yml).contains("#rnode_uri: null")
+    assert host.file(portal_yml).contains("nginx_uri: /nginx")
+    assert host.file(portal_yml).contains("pun_uri: \"/pun\"")
+    assert host.file(portal_yml).contains("pun_socket_root: \"/var/run/ondemand-nginx\"")
+    assert host.file(portal_yml).contains("pun_max_retries: 5")
+    assert host.file(portal_yml).contains("#oidc_uri: null")
+    assert host.file(portal_yml).contains("#oidc_discover_uri: null")
+    assert host.file(portal_yml).contains("#oidc_discover_root: null")
+    assert host.file(portal_yml).contains("#register_uri: null")
+    assert host.file(portal_yml).contains("#register_root: null")
 
-
-def test_httpd_running(host):
-    httpd_process = host.process.filter(comm="httpd", user="apache")
-    assert len(httpd_process) > 0
-
-
-def test_httpd_running_and_enabled(host):
-    httpd = host.service("httpd24-httpd")
-    assert httpd.is_running
-    assert httpd.is_enabled
+def test_nginx_stage_defaults(host):
+    nginx_conf = '/etc/ood/config/nginx_stage.yml'
+    assert host.file(nginx_conf).contains("#ondemand_version_path: '/opt/ood/VERSION'")
+    assert host.file(nginx_conf).contains("#ondemand_portal: null")
+    assert host.file(nginx_conf).contains("#ondemand_title: null")
+    assert host.file(nginx_conf).contains("# pun_custom_env:")
+    assert host.file(nginx_conf).contains("pun_custom_env_declarations: \\[\\]")
+    assert host.file(nginx_conf).contains("proxy_user: \"apache\"")
+    assert host.file(nginx_conf).contains("nginx_bin: \"/opt/rh/ondemand/root/sbin/nginx\"")
+    assert host.file(nginx_conf).contains("#nginx_signals:")
+    assert host.file(nginx_conf).contains("mime_types_path: \"/opt/rh/ondemand/root/etc/nginx/mime.types\"")
+    assert host.file(nginx_conf).contains("passenger_root: \"/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini\"")
+    assert host.file(nginx_conf).contains("#passenger_nodejs: '/opt/ood/nginx_stage/bin/node'")
+    assert host.file(nginx_conf).contains("#passenger_python: '/opt/ood/nginx_stage/bin/python'")
+    assert host.file(nginx_conf).contains("nginx_file_upload_max: 10737420000")
+    assert host.file(nginx_conf).contains("#pun_config_path: '/var/lib/ondemand-nginx/config/puns/%{user}.conf'")
+    assert host.file(nginx_conf).contains("#pun_tmp_root: '/var/tmp/ondemand-nginx/%{user}'")
+    assert host.file(nginx_conf).contains("#pun_access_log_path: '/var/log/ondemand-nginx/%{user}/access.log'")
+    assert host.file(nginx_conf).contains("#pun_error_log_path: '/var/log/ondemand-nginx/%{user}/error.log'")
+    assert host.file(nginx_conf).contains("#pun_pid_path: '/var/run/ondemand-nginx/%{user}/passenger.pid'")
+    assert host.file(nginx_conf).contains("#pun_socket_path: '/var/run/ondemand-nginx/%{user}/passenger.sock'")
+    assert host.file(nginx_conf).contains("#pun_sendfile_root: '/'")
+    assert host.file(nginx_conf).contains("#pun_app_configs:")
+    assert host.file(nginx_conf).contains("#app_config_path:")
+    assert host.file(nginx_conf).contains("app_root:")
+    assert host.file(nginx_conf).contains("  dev: '/var/www/ood/apps/dev/%{owner}/gateway/%{name}'")
+    assert host.file(nginx_conf).contains("  usr: '/var/www/ood/apps/usr/%{owner}/gateway/%{name}'")
+    assert host.file(nginx_conf).contains("  sys: '/var/www/ood/apps/sys/%{name}'")
+    assert host.file(nginx_conf).contains("#app_request_uri:")
+    assert host.file(nginx_conf).contains("#app_token:")
+    assert host.file(nginx_conf).contains("#app_passenger_env:")
+    assert host.file(nginx_conf).contains("#user_regex: '\\[\\\\w@\\\\.\\\\-\\]+'")
+    assert host.file(nginx_conf).contains("#min_uid: 1000")
+    assert host.file(nginx_conf).contains("#disabled_shell: '/access/denied'")
+    assert host.file(nginx_conf).contains("#disable_bundle_user_config: true")
