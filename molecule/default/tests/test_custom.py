@@ -1,5 +1,5 @@
 import os
-
+import pytest
 import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
@@ -42,7 +42,8 @@ def test_custom_nginx_stage(host):
 
 
 def test_ood_portal_conf(host):
-    ood_portal_conf = '/opt/rh/httpd24/root/etc/httpd/conf.d/ood-portal.conf'
+    httpd_root = pytest.helpers.httpd_root_dir(host)
+    ood_portal_conf = "{0}/etc/httpd/conf.d/ood-portal.conf".format(httpd_root)
     header = '# Generated using ood-portal-generator version'
     assert host.file(ood_portal_conf).contains(header)
 
@@ -97,12 +98,14 @@ def test_apps_dashboard(host):
 
 
 def test_oidc_httpd_module(host):
-    oidc_mod = "httpd24-mod_auth_openidc"
+    oidc_mod = pytest.helpers.mod_auth_openidc(host)
     assert host.package(oidc_mod).is_installed
 
 
 def test_oidc_auth_openidc_conf(host):
-    auth_oidc_cnf = "/opt/rh/httpd24/root/etc/httpd/conf.d/auth_openidc.conf"
+    httpd_root = pytest.helpers.httpd_root_dir(host)
+    auth_oidc_cnf = "{0}/etc/httpd/conf.d/auth_openidc.conf".format(httpd_root)
+
     assert host.file(auth_oidc_cnf).exists
     assert host.file(auth_oidc_cnf).contains(
         'OIDCSessionInactivityTimeout 28800'
@@ -137,12 +140,15 @@ def test_apps_install(host):
 
 def test_custom_ood_portal(host):
     portal_yml = f"/etc/ood/config/ood_portal.yml"
+    httpd_root = pytest.helpers.httpd_root_dir(host)
+    log_dir = pytest.helpers.httpd_log_dir(host)
+
     assert host.file(portal_yml).exists
     assert host.file(portal_yml).contains("servername: localhost")
     assert host.file(portal_yml).contains("#proxy_server: null")
     assert host.file(portal_yml).contains("port: 80")
     assert host.file(portal_yml).contains("# Default: null (no SSL support)")
-    assert host.file(portal_yml).contains("logroot: \"/var/log/httpd24\"")
+    assert host.file(portal_yml).contains("logroot: \"{0}\"".format(log_dir))
     assert host.file(portal_yml).contains("use_rewrites: false")
     assert host.file(portal_yml).contains("use_maintenance: false")
     assert host.file(portal_yml).contains('maintenance_ip_whitelist: \\[\\]')
@@ -155,7 +161,7 @@ def test_custom_ood_portal(host):
     assert host.file(portal_yml).contains("auth:")
     assert host.file(portal_yml).contains("- 'AuthType Basic'")
     assert host.file(portal_yml).contains("- 'AuthName \"private\"'")
-    assert host.file(portal_yml).contains("- 'AuthUserFile \"/opt/rh/httpd24/root/etc/httpd/.htpasswd\"'")
+    assert host.file(portal_yml).contains("- 'AuthUserFile \"{0}/etc/httpd/.htpasswd\"'".format(httpd_root))
     assert host.file(portal_yml).contains("- 'RequestHeader unset Authorization'")
     assert host.file(portal_yml).contains("- 'Require valid-user'")
     assert host.file(portal_yml).contains("root_uri: /pun/sys/dashboard")
