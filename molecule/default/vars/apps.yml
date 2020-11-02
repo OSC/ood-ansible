@@ -41,21 +41,3 @@ ood_apps:
       ood_dataroot: "/mnt/newfs/$USER"
 
 apache_service_enabled: true
-
-# ood_portal.yml configs
-host_regex: 'forge-(l|c)\d+'
-user_map_cmd: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex --regex=''''^([A-Za-z0-9\-_\.]+)@osc.edu$'''''
-rnode_uri: '/custom-rnode-path'
-node_uri: '/custom-node-path'
-oidc_uri: '/custom-oidc-path'
-
-ood_auth_openidc:
-  OIDCSessionMaxDuration: 28888
-  OIDCClientID: myid
-  OIDCProviderMetadataURL: https://localhost/
-  OIDCCryptoPassphrase: mycryptopass
-
-
-# nginx_stage.yml configs
-nginx_min_uid: 500
-user_regex: '^[A-Za-z0-9\-_\.]+@osu.edu$'

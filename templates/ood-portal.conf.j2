@@ -1,13 +1,12 @@
 # {{ ansible_managed }}
-{% if httpd_listen_addr_port is defined %}
 
+{% if httpd_listen_addr_port is defined %}
 {% for addr in httpd_listen_addr_port %}
 Listen {{ addr }}
 {% endfor %}
 {% endif %}
 
 {% if ssl is defined and httpd_use_rewrites %}
-
 <VirtualHost *:80>
   RewriteEngine On
   RewriteRule ^(.*) {% if ssl is defined %}https{% else %}http{% endif %}://{{ servername }}:{{ httpd_port }}$1 [R=301,NE,L]
@@ -130,9 +129,9 @@ Listen {{ addr }}
   #     #=> http://HOST:PORT{{ node_uri }}/HOST/PORT/index.html
   #
   <LocationMatch "^{{ node_uri }}/(?<host>{{ host_regex }})/(?<port>\d+)">
-{% for auth in httpd_auth  %}
-    {{ auth }}
-{% endfor %}
+  {% for auth in httpd_auth  %}
+  {{ auth }}
+  {% endfor %}
 
     # ProxyPassReverse implementation
     Header edit Location "^[^/]+//[^/]+" ""
@@ -155,9 +154,9 @@ Listen {{ addr }}
   #     #=> http://HOST:PORT/index.html
   #
   <LocationMatch "^{{ rnode_uri }}/(?<host>{{ host_regex }})/(?<port>\d+)(?<uri>/.*|)">
-{% for auth in httpd_auth  %}
-    {{ auth }}
-{% endfor %}
+  {% for auth in httpd_auth  %}
+  {{ auth }}
+  {% endfor %}
 
     # ProxyPassReverse implementation
     Header edit Location "^([^/]+//[^/]+)|(?=/)" "{{ rnode_uri }}/%{MATCH_HOST}e/%{MATCH_PORT}e"
@@ -213,9 +212,9 @@ Listen {{ addr }}
   #
   SetEnv OOD_NGINX_URI "{{ nginx_uri }}"
   <Location "{{ nginx_uri }}">
-{% for auth in httpd_auth  %}
-    {{ auth }}
-{% endfor %}
+  {% for auth in httpd_auth  %}
+  {{ auth }}
+  {% endfor %}
 
     LuaHookFixups nginx.lua nginx_handler
   </Location>

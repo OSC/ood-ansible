@@ -19,6 +19,9 @@ jobs:
         image:
           - 'centos:7'
           - 'centos:8'
+        scenario:
+          - 'default'
+          - 'templates'
 
     steps:
       - name: checkout
@@ -34,7 +37,7 @@ jobs:
       - name: run linter
         run: molecule lint
       - name: run tests
-        run: molecule test
+        run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
