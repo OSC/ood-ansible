@@ -36,9 +36,9 @@ def test_multiple_clusters_conf(host):
 
 
 def test_custom_nginx_stage(host):
-    nginx_conf = '/etc/ood/config/nginx_stage.yml'
-    assert host.file(nginx_conf).contains("min_uid: 500")
-    assert host.file(nginx_conf).contains("user_regex: '^\\[A-Za-z0-9\\\\-_\\\\.\\]+@osu.edu\\$'")
+    actual = host.file('/etc/ood/config/nginx_stage.yml').content_string
+    expected = open('fixtures/nginx_stage.yml.custom', 'r').read()
+    assert actual == expected
 
 
 def test_ood_portal_conf(host):
@@ -139,46 +139,7 @@ def test_apps_install(host):
     )
 
 def test_custom_ood_portal(host):
-    portal_yml = f"/etc/ood/config/ood_portal.yml"
-    httpd_root = pytest.helpers.httpd_root_dir(host)
-    log_dir = pytest.helpers.httpd_log_dir(host)
-
-    assert host.file(portal_yml).exists
-    assert host.file(portal_yml).contains("servername: localhost")
-    assert host.file(portal_yml).contains("#proxy_server: null")
-    assert host.file(portal_yml).contains("port: 80")
-    assert host.file(portal_yml).contains("# Default: null (no SSL support)")
-    assert host.file(portal_yml).contains("logroot: \"{0}\"".format(log_dir))
-    assert host.file(portal_yml).contains("use_rewrites: false")
-    assert host.file(portal_yml).contains("use_maintenance: false")
-    assert host.file(portal_yml).contains('maintenance_ip_whitelist: \\[\\]')
-    assert host.file(portal_yml).contains("lua_root: \"/opt/ood/mod_ood_proxy/lib\"")
-    assert host.file(portal_yml).contains("lua_log_level: \"info\"")
-    assert host.file(portal_yml).contains("user_map_cmd: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex --regex=''^(\\[A-Za-z0-9\\\\-_\\\\.\\]+)@osc.edu")
-    assert host.file(portal_yml).contains("#user_env: null")
-    assert host.file(portal_yml).contains("#map_fail_uri: null")
-    assert host.file(portal_yml).contains("pun_stage_cmd: \"sudo /opt/ood/nginx_stage/sbin/nginx_stage\"")
-    assert host.file(portal_yml).contains("auth:")
-    assert host.file(portal_yml).contains("- 'AuthType Basic'")
-    assert host.file(portal_yml).contains("- 'AuthName \"private\"'")
-    assert host.file(portal_yml).contains("- 'AuthUserFile \"{0}/etc/httpd/.htpasswd\"'".format(httpd_root))
-    assert host.file(portal_yml).contains("- 'RequestHeader unset Authorization'")
-    assert host.file(portal_yml).contains("- 'Require valid-user'")
-    assert host.file(portal_yml).contains("root_uri: /pun/sys/dashboard")
-    assert host.file(portal_yml).contains("#analytics: null")
-    assert host.file(portal_yml).contains("public_uri: \"/public\"")
-    assert host.file(portal_yml).contains("public_root: \"/var/www/ood/public\"")
-    assert host.file(portal_yml).contains("logout_uri: \"/logout\"")
-    assert host.file(portal_yml).contains("logout_redirect: \"/pun/sys/dashboard/logout\"")
-    assert host.file(portal_yml).contains("host_regex: 'forge-(l|c)\\\\d+")
-    assert host.file(portal_yml).contains("node_uri: /custom-node-path")
-    assert host.file(portal_yml).contains("rnode_uri: /custom-rnode-path")
-    assert host.file(portal_yml).contains("nginx_uri: /nginx")
-    assert host.file(portal_yml).contains("pun_uri: \"/pun\"")
-    assert host.file(portal_yml).contains("pun_socket_root: \"/var/run/ondemand-nginx\"")
-    assert host.file(portal_yml).contains("pun_max_retries: 5")
-    assert host.file(portal_yml).contains("oidc_uri: /custom-oidc-path")
-    assert host.file(portal_yml).contains("#oidc_discover_uri: null")
-    assert host.file(portal_yml).contains("#oidc_discover_root: null")
-    assert host.file(portal_yml).contains("#register_uri: null")
-    assert host.file(portal_yml).contains("#register_root: null")
+    actual = host.file("/etc/ood/config/ood_portal.yml").content_string
+    fixture = "fixtures/ood_portal.yml.custom.{0}".format(pytest.helpers.httpd(host))
+    expected = open(fixture, 'r').read()
+    assert actual == expected
