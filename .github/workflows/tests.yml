@@ -18,6 +18,7 @@ jobs:
       matrix:
         image:
           - 'centos:7'
+          - 'centos:8'
 
     steps:
       - name: checkout
@@ -28,7 +29,8 @@ jobs:
           python-version: 3.8
       - name: install dependencies
         run: |
-          python3 -m pip install ansible molecule molecule-docker docker testinfra
+          python3 -m pip install ansible molecule molecule-docker docker testinfra pytest-helpers-namespace
+          ansible-galaxy collection install community.general
       - name: run linter
         run: molecule lint
       - name: run tests

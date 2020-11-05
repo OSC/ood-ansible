@@ -10,7 +10,6 @@ container_apache_restart_cmd: "{{ apache_base_dir }}/sbin/httpd-scl-wrapper -k r
 
 apache_oidc_mod_package:  httpd24-mod_auth_openidc
 
-# TODO these bits change in version 1.7.x and up.
 nginx_root: "/opt/rh/ondemand/root"
 nginx_bin: "{{ nginx_root }}/sbin/nginx"
 nginx_mime_types: "{{ nginx_root }}/etc/nginx/mime.types"

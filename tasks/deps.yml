@@ -55,7 +55,7 @@
   when: ansible_os_family != 'Debian'
 
 - name: install all the gems we need
-  gem:
+  community.general.gem:
     name: "{{ item.name }}"
     version: "{{ item.version }}"
     state: present

@@ -1,5 +1,5 @@
 import os
-
+import pytest
 import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
@@ -9,12 +9,15 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_ood_portal_defaults(host):
     portal_yml = f"/etc/ood/config/ood_portal.yml"
+    httpd_root = pytest.helpers.httpd_root_dir(host)
+    log_dir = pytest.helpers.httpd_log_dir(host)
+
     assert host.file(portal_yml).exists
     assert host.file(portal_yml).contains("servername: localhost")
     assert host.file(portal_yml).contains("#proxy_server: null")
     assert host.file(portal_yml).contains("port: 80")
     assert host.file(portal_yml).contains("# Default: null (no SSL support)")
-    assert host.file(portal_yml).contains("logroot: \"/var/log/httpd24\"")
+    assert host.file(portal_yml).contains("logroot: \"{0}\"".format(log_dir))
     assert host.file(portal_yml).contains("use_rewrites: false")
     assert host.file(portal_yml).contains("use_maintenance: false")
     assert host.file(portal_yml).contains('maintenance_ip_whitelist: \\[\\]')
@@ -27,7 +30,7 @@ def test_ood_portal_defaults(host):
     assert host.file(portal_yml).contains("auth:")
     assert host.file(portal_yml).contains("- 'AuthType Basic'")
     assert host.file(portal_yml).contains("- 'AuthName \"private\"'")
-    assert host.file(portal_yml).contains("- 'AuthUserFile \"/opt/rh/httpd24/root/etc/httpd/.htpasswd\"'")
+    assert host.file(portal_yml).contains("- 'AuthUserFile \"{0}/etc/httpd/.htpasswd\"'".format(httpd_root))
     assert host.file(portal_yml).contains("- 'RequestHeader unset Authorization'")
     assert host.file(portal_yml).contains("- 'Require valid-user'")
     assert host.file(portal_yml).contains("root_uri: /pun/sys/dashboard")

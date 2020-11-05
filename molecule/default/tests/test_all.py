@@ -1,6 +1,7 @@
 import os
-
+import sys
 import testinfra.utils.ansible_runner
+import pytest
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']
@@ -17,6 +18,6 @@ def test_httpd_running(host):
 
 
 def test_httpd_running_and_enabled(host):
-    httpd = host.service("httpd24-httpd")
+    httpd = host.service(pytest.helpers.httpd(host))
     assert httpd.is_running
     assert httpd.is_enabled
