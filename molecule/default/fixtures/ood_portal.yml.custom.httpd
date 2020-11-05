@@ -42,6 +42,26 @@ port: 80
 # Default: 'logs' (this is relative to ServerRoot)
 logroot: "/var/log/httpd"
 
+# Error log filename
+# Example:
+#     errorlog: 'error.log'
+# Default: 'error.log' (If 'servername' and 'ssl' options are defined 
+# the default value will be <servername>_error_ssl.log)
+errorlog: 'custom_defined_error.log'
+
+# Access log filename
+# Example:
+#     accesslog: 'access.log'
+# Default: 'access.log' (If 'servername' and 'ssl' options are defined 
+# the default value will be <servername>_access_ssl.log)
+accesslog: 'custom_defined_access.log'
+
+# Apache access log format (Don't specify log nickname see: http://httpd.apache.org/docs/current/mod/mod_log_config.html#transferlog)
+# Example:
+#     logformat: '"%v %h \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T"'
+# Default: Apache combined format
+logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"'
+
 # Should RewriteEngine be used
 # Example:
 #     use_rewrites: false
@@ -61,6 +81,20 @@ use_maintenance: true
 #     - 192.168.1..*
 # Default: [] (no IPs whitelisted)
 maintenance_ip_whitelist: []
+
+# Set Header Content-Security-Policy frame-ancestors.
+# Example:
+#   security_csp_frame_ancestors: https://ondemand.osc.edu
+# Example to disable setting:
+#   security_csp_frame_ancestors: false
+# Default: based on servername and ssl settings
+security_csp_frame_ancestors: http://my.proxy.server.edu
+
+# Set Header Strict-Transport-Security to help enforce SSL
+# Example:
+#   security_strict_transport: false
+# Default: true when ssl is enabled, false otherwise
+security_strict_transport: True
 
 # Root directory of the Lua handler code
 # Example:

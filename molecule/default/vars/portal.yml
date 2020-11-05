@@ -4,6 +4,11 @@ user_map_cmd: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex --regex=''''^([A-Za-
 rnode_uri: '/custom-rnode-path'
 node_uri: '/custom-node-path'
 oidc_uri: '/custom-oidc-path'
+httpd_error_log: 'custom_defined_error.log'
+httpd_access_log: 'custom_defined_access.log'
+httpd_logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"'
+security_csp_frame_ancestors: http://my.proxy.server.edu
+security_strict_transport: true
 
 ood_auth_openidc:
   OIDCSessionMaxDuration: 28888
