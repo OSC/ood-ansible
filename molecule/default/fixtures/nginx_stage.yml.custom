@@ -111,6 +111,10 @@ nginx_file_upload_max: 10737420000
 #
 #pun_error_log_path: '/var/log/ondemand-nginx/%{user}/error.log'
 
+# Custom format configuration for access log
+#
+pun_log_format: '$status|"$http_referer"|"$http_user_agent"|"$http_x_forwarded_for|$body_bytes_sent|$remote_addr|$remote_user|$time_local|"$request"'
+
 # Path to the per-user NGINX pid file
 #
 #pun_pid_path: '/var/run/ondemand-nginx/%{user}/passenger.pid'
