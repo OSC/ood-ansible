@@ -1,0 +1,1 @@
+../../default/tests/test_all.py

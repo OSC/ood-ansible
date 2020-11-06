@@ -1,6 +1,8 @@
 ---
-- name: Converge
+- name: Default installation
   hosts: default
+  vars:
+    ood_portal_generator: false
   roles:
     - role: ood-ansible
 
@@ -8,7 +10,7 @@
   hosts: custom
   roles:
     - role: ood-ansible
+  vars:
+    ood_portal_generator: false
   vars_files:
-    - vars/apps.yml
-    - vars/nginx.yml
     - vars/portal.yml

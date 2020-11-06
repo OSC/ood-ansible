@@ -1,0 +1,3 @@
+# nginx_stage.yml custom configurations
+nginx_min_uid: 500
+user_regex: '^[A-Za-z0-9\-_\.]+@osu.edu$'
