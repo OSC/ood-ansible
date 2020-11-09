@@ -52,10 +52,10 @@ Listen {{ addr }}
   Header always set Content-Security-Policy "frame-ancestors {{ security_csp_frame_ancestors }};"
 {% else %}
   Header always set Content-Security-Policy "frame-ancestors http{% if ssl is defined %}s{% endif %}://{{ proxy_server | default(servername) | default(ansible_fqdn) }};"
-{%- endif %}
+{% endif %}
 {% if ssl is defined or security_strict_transport is sameas true %}
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-{%- endif %}
+{% endif %}
 
 {% if ssl is defined %}
   SSLEngine On
