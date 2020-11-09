@@ -159,9 +159,11 @@ libz_devel_package: zlib-devel
 httpd_use_rewrites: true
 maintenance_ip_whitelist: []
 use_maintenance: true
+# security_csp_frame_ancestors:
+# security_strict_transport:
 
 servername: localhost
-#proxy_server:
+# proxy_server:
 httpd_port: 80
 
 # ssl_cert: "/etc/pki/tls/certs/www.example.com.crt"
@@ -185,6 +187,10 @@ lua_log_level: info
 
 httpd_loggers:
 - "LogLevel lua_module:{{ lua_log_level }}"
+
+# httpd_error_log: 'error.log'
+# httpd_access_log: 'access.log'
+# httpd_logformat:
 
 user_map_cmd: "{{ ood_base_dir }}/ood_auth_map/bin/ood_auth_map.regex"
 # user_env: REMOTE_USER

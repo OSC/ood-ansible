@@ -7,8 +7,9 @@
 <VirtualHost *:80>
   ServerName localhost
 
-  ErrorLog  "/var/log/httpd/localhost_error.log"
-  CustomLog "/var/log/httpd/localhost_access.log" combined
+  ErrorLog  "/var/log/httpd/custom_defined_error.log"
+  LogFormat "%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"
+  TransferLog "/var/log/httpd/custom_defined_access.log"
 
   RewriteEngine On
   RewriteCond %{HTTP_HOST} !^(localhost(:80)?)?$ [NC]
@@ -23,6 +24,8 @@
   ErrorDocument 503 /public/maintenance/index.html
   Header Set Cache-Control "max-age=0, no-store"
 
+  Header always set Content-Security-Policy "frame-ancestors http://my.proxy.server.edu;"
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 
 
   # Lua configuration
