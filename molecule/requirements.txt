@@ -1,0 +1,6 @@
+ansible
+docker
+molecule-docker
+molecule==3.1.5
+pytest-helpers-namespace
+testinfra==5.3.1

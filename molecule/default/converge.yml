@@ -12,3 +12,10 @@
     - vars/apps.yml
     - vars/nginx.yml
     - vars/portal.yml
+
+- name: Pam auth
+  hosts: default
+  roles:
+    - role: ood-ansible
+  vars_files:
+    - vars/pam_auth.yml

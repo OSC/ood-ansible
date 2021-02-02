@@ -175,6 +175,16 @@ httpd_port: 80
 # - "SSLCertificateKeyFile {{ ssl_cert_key }}"
 # - "SSLCertificateChainFile {{ ssl_cert_chain }}"
 
+# PAM can be used to authenticate users to OnDemand. Set it to true and
+# override httpd_auth
+ood_auth_pam: false
+# httpd_auth:
+#   - 'AuthType Basic'
+#   - 'AuthName "Open OnDemand"'
+#   - 'AuthBasicProvider PAM'
+#   - 'AuthPAMService ood'
+#   - 'Require valid-user'
+
 httpd_auth:
 - AuthType Basic
 - AuthName "private"

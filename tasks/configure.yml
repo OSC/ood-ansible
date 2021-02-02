@@ -1,3 +1,7 @@
+- name: Configure PAM auth
+  include_tasks: pam_auth.yml
+  when: ood_auth_pam|bool and ansible_os_family == "RedHat"
+
 - name: template passenger locations ini file
   template:
     src: "locations.ini.j2"

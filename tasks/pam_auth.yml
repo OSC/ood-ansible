@@ -1,0 +1,29 @@
+- name: Install the Apache PAM module
+  yum:
+    name: mod_authnz_pam
+    state: present
+
+- name: Copy PAM module into SCL Apache’s modules directory RHEL/CentOS 7 only
+  copy:
+    src: /usr/lib64/httpd/modules/mod_authnz_pam.so
+    dest: /opt/rh/httpd24/root/usr/lib64/httpd/modules/
+    remote_src: true
+  when: ansible_distribution_major_version == '7'
+
+- name: Enable the PAM Apache module
+  copy:
+    content: |
+      LoadModule authnz_pam_module modules/mod_authnz_pam.so
+    dest: "{{ apache_base_dir | default('')}}/etc/httpd/conf.modules.d/55-authnz_pam.conf"
+
+- name: Copy PAM module into SCL Apache’s modules directory RHEL/CentOS 7 only
+  copy:
+    src: /etc/pam.d/sshd
+    dest: /etc/pam.d/ood
+    remote_src: true
+
+- name: Allow the Apache user to read /etc/shadow
+  file:
+    path: /etc/shadow
+    mode: 0640
+    group: "{{ apache_user }}"
