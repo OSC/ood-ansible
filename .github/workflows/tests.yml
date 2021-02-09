@@ -32,7 +32,7 @@ jobs:
           python-version: 3.8
       - name: install dependencies
         run: |
-          python3 -m pip install ansible molecule==3.1.5 molecule-docker docker testinfra==5.3.1 pytest-helpers-namespace
+          python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
       - name: run linter
         run: molecule lint
