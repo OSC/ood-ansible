@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: ood
+  role_name: open_ondemand
   author: Jeff Ohrstrom
   company: Ohio Supercomputer Center
   description: Installs and configures Open OnDemand on various Linux distributions.
@@ -12,6 +12,7 @@ galaxy_info:
     - name: EL
       versions:
         - 7
+        - 8
     - name: Fedora
       versions:
         - 30
@@ -19,17 +20,10 @@ galaxy_info:
       versions:
         - bionic
   galaxy_tags:
-  - hpc
-  - supercomputing
-  - clustering
-  - ondemand
-  - gateway
-  - nginx
-  - apache
-  - passenger
-  - platform
-  - web
-  - portal
-  - molecule
+    - hpc
+    - supercomputing
+    - gateway
+    - portal
 
-  dependencies: []
+  dependencies:
+    - community.general.gem
