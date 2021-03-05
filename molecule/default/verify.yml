@@ -1,4 +1,3 @@
-
 - name: verify
   hosts: all
   vars_files:
@@ -42,5 +41,3 @@
 
   - include: verify_custom.yml
     when: inventory_hostname == "custom"
-
-
