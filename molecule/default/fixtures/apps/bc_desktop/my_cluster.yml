@@ -3,3 +3,4 @@ attributes:
 cluster: my_cluster
 submit: submit/submit.yml.erb
 title: remote desktop
+
