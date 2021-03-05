@@ -11,8 +11,8 @@ defaults:
 
 jobs:
 
-  release:
-    name: Release
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
     steps:
       - name: Check out the codebase.
