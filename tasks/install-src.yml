@@ -4,7 +4,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0755'
+    mode: 'u=rwX,g=rX,o=rX'
   loop:
   - "{{ ood_base_apache_dir }}"
   - "{{ ood_app_dir }}"
@@ -20,6 +20,7 @@
   file:
     path: "{{ item }}"
     state: directory
+    mode: 'u=rwX,g=rX,o=rX'
   loop: "{{ os_directories }}"
   when: os_directories is defined
 
@@ -39,7 +40,7 @@
     dest: "{{ ood_sys_app_dir }}"
     owner: root
     group: root
-    mode: '0755'
+    mode: 'u=rwX,g=rX,o=rX'
     remote_src: yes
   loop: "{{ ood_base_apps }}"
 
@@ -49,7 +50,7 @@
     dest: "{{ ood_base_dir }}"
     owner: root
     group: root
-    mode: '0755'
+    mode: 'u=rwX,g=rX,o=rX'
     remote_src: yes
   loop: "{{ ood_core_libs }}"
 
@@ -59,13 +60,14 @@
     state: touch
     owner: root
     group: root
-    mode: '0644'
+    mode: 'u=rwX,g=rX,o=rX'
   loop: "{{ ood_base_apps }}"
 
 - name: make version file
   copy:
     content: "{{ ood_source_version }}"
     dest: "{{ ood_base_dir }}/VERSION"
+    mode: 'u=rw,g=r,o=r'
 
 - name: cleanup build logfiles
   file:
@@ -77,3 +79,4 @@
   template:
     src: ood-sudoers.j2
     dest: /etc/sudoers.d/ood
+    mode: 'u=rw,g=,o='

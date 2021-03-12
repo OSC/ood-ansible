@@ -2,17 +2,20 @@
   file:
     path: "{{ ood_base_conf_dir }}/apps"
     state: directory
+    mode: 'u=rwX,g=rX,o=rX'
 
 - name: Create apps directory
   file:
     path: "{{ ood_base_conf_dir }}/apps/{{ item }}"
     state: directory
+    mode: 'u=rwX,g=rX,o=rX'
   loop: "{{ ood_apps.keys() | list }}"
 
 - name: Create apps submit dir
   file:
     dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/submit"
     state: directory
+    mode: 'u=rwX,g=rX,o=rX'
   when: item.value.submit is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"
 
@@ -20,6 +23,7 @@
   copy:
     content: "{{ item.value.submit }}"
     dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/submit/submit.yml.erb"
+    mode: 'u=rw,g=r,o=r'
   when: item.value.submit is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"
 
@@ -27,6 +31,7 @@
   template:
     src: app.yml.j2
     dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/{{ item.value.cluster }}.yml"
+    mode: 'u=rw,g=r,o=r'
   when: item.value.cluster is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"
 
@@ -34,5 +39,6 @@
   template:
     src: env.j2
     dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/env"
+    mode: 'u=rw,g=r,o=r'
   when: item.value.env is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"

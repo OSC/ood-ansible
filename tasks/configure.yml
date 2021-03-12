@@ -2,12 +2,14 @@
   template:
     src: "locations.ini.j2"
     dest: "{{ passenger_lib_dir }}/locations.ini"
+    mode: 'u=rw,g=r,o=r'
   when: install_from_src
 
 - name: template apache file
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: 'u=rw,g=r,o='
   loop:
   - { src: "ood-portal.conf.j2", dest: "{{ apache_conf_dir }}/ood-portal.conf" }
   when: not ood_portal_generator
@@ -17,12 +19,14 @@
   template:
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
+    mode: 'u=rw,g=r,o=r'
   notify: update ood portal
 
 - name: template nginx_stage.yml
   template:
     src: "nginx_stage.yml.j2"
     dest: "{{ ood_base_conf_dir }}/nginx_stage.yml"
+    mode: 'u=rw,g=r,o=r'
   notify: update nginx stage
 
 - name: enable Debian apache mods
@@ -59,7 +63,7 @@
   template:
     src: auth_openidc.conf.j2
     dest: "{{ apache_conf_dir }}/auth_openidc.conf"
-    mode: 0640
+    mode: 'u=rw,g=r,o='
     group: "{{ apache_user }}"
   when: ood_auth_openidc is defined
   notify: restart apache httpd

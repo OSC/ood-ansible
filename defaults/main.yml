@@ -45,10 +45,12 @@ ood_core_libs:
 #     repo: https://github.com/OSC/bc_example_jupyter.git
 #     dest: {{ ood_sys_app_dir }}  # default creates
 #     version: master        # default
+#     umask: '022' # default,File=rw-r-r,Dir=rwx-rx-rx
 #   customdir: # will create /var/www/ood/apps/my/dir/customdir
 #     repo: https://github.com/OSC/bc_example_jupyter.git
 #     dest: /var/www/ood/apps/my/dir
 #     version: v1.0.1
+#     umask: '002'
 #
 ## Apps config example, default undef
 # ood_apps:
