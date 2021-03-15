@@ -1,7 +1,7 @@
 - name: Create clusters.d directory
   file:
     path: "{{ ood_base_conf_dir }}/clusters.d"
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
     state: directory
 
 - name: Add cluster configuration files

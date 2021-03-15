@@ -2,20 +2,20 @@
   file:
     path: "{{ ood_base_conf_dir }}/apps"
     state: directory
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
 
 - name: Create apps directory
   file:
     path: "{{ ood_base_conf_dir }}/apps/{{ item }}"
     state: directory
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
   loop: "{{ ood_apps.keys() | list }}"
 
 - name: Create apps submit dir
   file:
     dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/submit"
     state: directory
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
   when: item.value.submit is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"
 

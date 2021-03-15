@@ -19,7 +19,7 @@
   template:
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
-    mode: 'u=rw,g=r,o=r'
+    mode: 'u=rw,g=r,o='
   notify: update ood portal
 
 - name: template nginx_stage.yml

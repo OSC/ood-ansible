@@ -4,7 +4,7 @@
     state: directory
     owner: root
     group: root
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
   loop:
   - "{{ ood_base_apache_dir }}"
   - "{{ ood_app_dir }}"
@@ -20,7 +20,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
   loop: "{{ os_directories }}"
   when: os_directories is defined
 
@@ -60,7 +60,7 @@
     state: touch
     owner: root
     group: root
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rw,g=r,o=r'
   loop: "{{ ood_base_apps }}"
 
 - name: make version file

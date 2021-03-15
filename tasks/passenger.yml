@@ -2,7 +2,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
   become: true
   loop:
   - "{{ ood_base_dir }}"
@@ -15,7 +15,7 @@
 - name: init the passenger src directory
   file:
     path: "{{ passenger_src_dir }}"
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
     state: directory
 
 - name: download the passenger tars
@@ -44,7 +44,7 @@
   copy:
     src: "mime.types"
     dest: "{{ nginx_dir }}/conf"
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rw,g=r,o=r'
   become: true
 
 - name: symlink passenger directory and nginx binary
@@ -62,7 +62,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 'u=rwX,g=rX,o=rX'
+    mode: 'u=rwx,g=rx,o=rx'
   become: true
   loop:
   - "{{ nginx_lib_dir }}"
