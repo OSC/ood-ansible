@@ -6,6 +6,7 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
 
 ## Table of Contents
 
+- [Version compatibility](#version-compatibility)
 - [Installing from source](#install-from-source-or-rpm)
 - [Tags](#tags)
 - [Overrides](#overrides)
@@ -17,6 +18,17 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
     - [Install Dex](#install-dex)
 - [Using your own Passenger/nginx stack](#using-your-own-passenger/nginx-stack)
 - [Contributing](#contributing)
+
+## Version compatibility
+
+This role's versioning will loosely follow the Open OnDemand versions it installs. The Major and
+minor versions of this role will be compatible with the corresponding major and minor versions of
+Open OnDemand.  Patch releases in this role will be compatible with the version of Open OnDemand
+it installs and configures but provide bug fixes or new features.
+
+As an example 1.8.0 of this role will be compatible with versions of Open OnDemand 1.8.x (which is currently 1.8.20).
+Version 1.8.1 of this role will still install version 1.8.20 of Open OnDemand but provide some bug fixes or
+new features to _this role_.
 
 ## Install from source or RPM
 
