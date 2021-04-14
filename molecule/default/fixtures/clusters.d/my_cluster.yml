@@ -1,0 +1,9 @@
+v2:
+    batch_connect: null
+    job:
+        adapter: slurm
+        bin: /usr/local
+    login:
+        host: my_host
+    metadata:
+        title: my_cluster

@@ -39,6 +39,6 @@ provisioner:
         - '301' # Commands should not change things if nothing needs doing
 
 verifier:
-  name: testinfra
+  name: ansible
   lint:
     name: flake8

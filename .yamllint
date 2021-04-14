@@ -21,6 +21,8 @@ rules:
   empty-lines:
     max: 3
     level: error
+    ignore: |
+      *fixtures*
   hyphens:
     level: error
   indentation: disable

@@ -1,0 +1,38 @@
+- name: verify
+  hosts: all
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+  - name: include distribution variables
+    include_vars: "../../vars/{{ ansible_distribution }}.yml"
+
+  - name: include scl related overrides
+    include_vars: "../../vars/{{ ansible_distribution }}-scl.yml"
+    when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
+
+  - name: get the package facts
+    ansible.builtin.package_facts:
+      manager: auto
+  
+  - name: ensure ondemand package is installed
+    fail:
+      msg: ondemand package was not installed.
+    when: "'ondemand' not in ansible_facts.packages"
+
+  - name: ensure {{ apache_service_name }} is running
+    ansible.builtin.systemd:
+      state: started
+      name: "{{ apache_service_name }}"
+
+  - name: copy fixture files to container
+    copy:
+      src: "{{ item }}"
+      dest: "/tmp/ood-portal.conf"
+    with_items:
+      - "fixtures/ood-portal.conf.{{ inventory_hostname }}.{{ apache_service_name }}"
+
+  - name: verify the config files
+    shell: "diff /tmp/{{ item }} {{ apache_conf_dir }}/{{ item }}"
+    with_items:
+      - "ood-portal.conf"
