@@ -1,5 +1,6 @@
 galaxy_info:
   role_name: open_ondemand
+  namespace: osc
   author: Jeff Ohrstrom
   company: Ohio Supercomputer Center
   description: Installs and configures Open OnDemand on various Linux distributions.
