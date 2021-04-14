@@ -27,6 +27,9 @@ There is a toggle provided `install_from_src` which is by default false. When tr
 Open OnDemand source code, build it (after installing dependencies) and push the resulting build to the appropriate
 destination directories.
 
+It's also important to note the `ood_source_version` configuration. This sets what branch or tag to pull the source
+code from. `master` maybe be unstable, while a `release_` branch is much more so. Tags like `v1.8.20` should work best.
+
 The default behavior is to install the rpm and configure the resulting installation and skip a lot of these tasks
 that build the source code.
 
