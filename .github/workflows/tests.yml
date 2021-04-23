@@ -66,6 +66,9 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
+          # everyone loves docker so, just install during the ci instead of requiring it for
+          # other folks
+          python3 -m pip install molecule-podman 
       - name: run linter
         run: molecule lint
       - name: run tests
