@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: src-build
+  roles:
+    - role: ood-ansible
+  vars:
+    install_from_src: true

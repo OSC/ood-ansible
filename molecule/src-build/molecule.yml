@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: ${CONTAINER_RT:-docker}
+
+lint: |
+  set -e
+  yamllint .
+
+platforms:
+  - name: src-build
+    image: ${IMAGE:-"ubuntu:20.04"}
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+    options:
+      x:
+        - ANSIBLE0012
+        - '303' # systemctl used in place of systemd module
+        - '305' # Use shell only when shell functionality is required
+        - '301' # Commands should not change things if nothing needs doing
+
+verifier:
+  name: ansible
+  lint:
+    name: flake8
