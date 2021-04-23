@@ -86,7 +86,7 @@
   ignore_errors: yes
 
 - name: output mkfile log
-  shell: "tail -n 100 {{ tmpdir.stdout }}/mkmf.log"
+  shell: "cat {{ tmpdir.stdout }}/mkmf.log"
   failed_when: make_file_result.rc > 0
 
 - name: make the passenger_native_support.so
