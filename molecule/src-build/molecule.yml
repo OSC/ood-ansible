@@ -15,7 +15,6 @@ platforms:
     command: /sbin/init
     tmpfs:
       - /run
-      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
