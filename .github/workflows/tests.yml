@@ -66,17 +66,11 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
-          # everyone loves docker so, just install during the ci instead of requiring it for
-          # other folks
-          python3 -m pip install molecule-podman 
       - name: run linter
         run: molecule lint
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
-          # for whatever reason docker doesn't set the right LIBPATH or LD_LIBRARY_PATH 
-          # or similar and will not build passenger .so libraries.
-          CONTAINER_RT: 'podman'
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
