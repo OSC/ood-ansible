@@ -4,21 +4,14 @@
     - ../../defaults/main.yml
 
   tasks:
-  - name: include distribution variables
-    include_vars: "../../vars/{{ ansible_distribution }}.yml"
-
-  - name: include scl related overrides
-    include_vars: "../../vars/{{ ansible_distribution }}-scl.yml"
-    when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
+  - include_vars: "{{ item }}"
+    with_first_found:
+      - "../../vars/{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
+      - "../../vars/{{ ansible_distribution }}.yml"
 
   - name: get the package facts
     ansible.builtin.package_facts:
       manager: auto
-  
-  - name: ensure ondemand package is installed
-    fail:
-      msg: ondemand package was not installed.
-    when: "'ondemand' not in ansible_facts.packages"
 
   - name: ensure {{ apache_service_name }} is running
     ansible.builtin.systemd:
@@ -30,14 +23,11 @@
       src: "{{ item.src }}"
       dest: "/tmp/{{ item.dest }}"
     with_items:
-      - { src: "fixtures/config/ood_portal.yml.{{ inventory_hostname }}.{{ apache_service_name }}", dest: "ood_portal.yml" }
-      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}", dest: "nginx_stage.yml" }
+      - { src: "fixtures/config/ood_portal.yml.{{ apache_service_name }}", dest: "ood_portal.yml" }
+      - { src: "fixtures/config/nginx_stage.yml", dest: "nginx_stage.yml" }
 
   - name: verify the config files
     shell: "diff /tmp/{{ item }} /etc/ood/config/{{ item }}"
     with_items:
       - "nginx_stage.yml"
       - "ood_portal.yml"
-
-  - include: verify_custom.yml
-    when: inventory_hostname == "custom"
