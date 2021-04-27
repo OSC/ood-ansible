@@ -8,6 +8,7 @@
     repo: "{{ ood_source_repo }}"
     dest: "{{ ood_source_dir }}"
     version: "{{ ood_source_version }}"
+    force: yes
 
 - name: clean up to ensure proper build
   shell: rake clean
