@@ -44,19 +44,18 @@ verifier:
     name: flake8
 
 scenario:
-  name: src-build
   test_sequence:
-  - dependency
-  - lint
-  - cleanup
-  - destroy
-  - syntax
-  - create
-  - prepare
-  - converge
-  # building from source is not idempotent!
-  # - idempotence
-  - side_effect
-  - verify
-  - cleanup
-  - destroy
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # building from source is not idempotent!
+    # - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
