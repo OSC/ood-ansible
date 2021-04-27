@@ -34,3 +34,20 @@ verifier:
   name: ansible
   lint:
     name: flake8
+
+scenario:
+  test_sequence:
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # building from source is not idempotent!
+    # - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
