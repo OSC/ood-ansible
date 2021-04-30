@@ -15,6 +15,8 @@
   when: ood_portal_generator
   ignore_errors: yes
   become: true
+  environment:
+    APACHE: "{{ apache_conf_dir }}/ood-portal.conf"
   notify:
     - restart apache httpd
     - restart httpd htcacheclean
