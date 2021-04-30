@@ -29,4 +29,4 @@ jobs:
         run: pip3 install ansible-base
 
       - name: Trigger a new import on Galaxy.
-        run: ansible-galaxy role import --api-key ${{ secrets.OSC_ROBOT_GALAXY_TOKEN }} osc ood-ansible
+        run: ansible-galaxy role import --api-key ${{ secrets.OSC_ROBOT_GALAXY_TOKEN }} OSC ood-ansible
