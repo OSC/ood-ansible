@@ -31,3 +31,8 @@
     with_items:
       - "nginx_stage.yml"
       - "ood_portal.yml"
+
+  - name: make sure ood portal exists
+    file:
+      path: "{{ apache_conf_dir }}/ood-portal.conf"
+      state: present
