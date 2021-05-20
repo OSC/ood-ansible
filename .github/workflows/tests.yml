@@ -6,11 +6,13 @@ on:
       - main
       - master
       - develop
+      - release-*
   pull_request:
     branches:
       - main
       - master
       - develop
+      - release-*
 
 jobs:
   rpm-tests:
