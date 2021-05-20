@@ -9,7 +9,8 @@ apache_log_dir: "/var/log/httpd24"
 container_apache_restart_cmd: "{{ apache_base_dir }}/sbin/httpd-scl-wrapper -k restart"
 
 additional_rpm_installs:
-- centos-release-scl
+  - centos-release-scl
+  - lua-posix
 
 apache_oidc_mod_package:  httpd24-mod_auth_openidc
 

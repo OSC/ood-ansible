@@ -9,6 +9,22 @@
     state: present
     disable_gpg_check: "{{ disable_gpg_check_rpm_repo | bool }}"
 
+- name: enable epel
+  package:
+    name: 'epel-release'
+    state: present
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version < '8'
+
+- name: install rhel/centos:8 dependencies
+  dnf:
+    name: "{{ item }}"
+    enablerepo:
+      - powertools
+    state: present
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version >= '8'
+  loop:
+    - "{{ additional_rpm_installs }}"
+
 - name: install additional rpms
   package:
     name: "{{ item }}"
