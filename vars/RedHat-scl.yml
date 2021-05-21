@@ -17,5 +17,3 @@ locations_ini: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passen
 
 additional_rpm_installs:
   - lua-posix
-  - '@ruby:2.7'
-  - '@nodejs:12'
