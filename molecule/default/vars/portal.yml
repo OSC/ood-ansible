@@ -1,6 +1,8 @@
 # custom ood_portal.yml configurations
 host_regex: 'forge-(l|c)\d+'
-user_map_cmd: '/opt/ood/ood_auth_map/bin/ood_auth_map.regex --regex=''''^([A-Za-z0-9\-_\.]+)@osc.edu$'''''
+# nobody's should be using both user_* configs here, but this is a test after all
+user_map_cmd: '/opt/site/regex-mapper --regex=''''^([A-Za-z0-9\-_\.]+)@osc.edu$'''''
+user_map_match: '^([^@]+)@.*$'
 rnode_uri: '/custom-rnode-path'
 node_uri: '/custom-node-path'
 oidc_uri: '/custom-oidc-path'
