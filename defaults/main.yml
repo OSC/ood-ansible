@@ -1,6 +1,6 @@
 ---
 ood_source_repo: "https://github.com/OSC/ondemand.git"
-ood_source_version: "v1.8.20"
+ood_source_version: "v2.0.9"
 ood_build_dir: "/tmp/ood-build"
 ood_source_dir: "{{ ood_build_dir }}/ondemand"
 
@@ -72,9 +72,9 @@ ood_core_libs:
 #       motd_format: markdown
 #
 
-passenger_version: "6.0.4"
-nginx_version: "1.17.3"
-nodejs_version: "10.x"
+passenger_version: "6.0.7"
+nginx_version: "1.18.0"
+nodejs_version: "12.x"
 passenger_tar: "passenger-{{ passenger_version }}.tar.gz"
 nginx_tar: "nginx-{{ nginx_version }}-x86_64-linux.tar.gz"
 agent_tar: "agent-x86_64-linux.tar.gz"
