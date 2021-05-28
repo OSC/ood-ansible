@@ -61,8 +61,8 @@
     state: present
     user_install: no
   loop:
-  - { name: 'bundler', version: '1.13.7' }
-  - { name: 'rake', version: '12.3.3' }
+  - { name: 'bundler', version: '2.1.4' }
+  - { name: 'rake', version: '13.0.3' }
 
 - name: install apache openidc mod
   package:
