@@ -40,7 +40,7 @@
 
   # Authenticated-user to system-user mapping configuration
   #
-  SetEnv OOD_USER_MAP_CMD "/opt/ood/ood_auth_map/bin/ood_auth_map.regex --regex=''^([A-Za-z0-9\-_\.]+)@osc.edu$''"
+  SetEnv OOD_USER_MAP_CMD "/opt/site/regex-mapper --regex=''^([A-Za-z0-9\-_\.]+)@osc.edu$''"
 
   # Per-user Nginx (PUN) configuration
   # NB: Apache will need sudo privs to control the PUNs

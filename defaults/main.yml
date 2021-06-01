@@ -194,7 +194,8 @@ httpd_loggers:
 # httpd_access_log: 'access.log'
 # httpd_logformat:
 
-user_map_cmd: "{{ ood_base_dir }}/ood_auth_map/bin/ood_auth_map.regex"
+# user_map_cmd: null
+user_map_match: '.*'
 # user_env: REMOTE_USER
 # map_fail_uri: /register
 
