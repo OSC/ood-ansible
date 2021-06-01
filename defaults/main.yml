@@ -195,7 +195,7 @@ httpd_loggers:
 # httpd_logformat:
 
 # user_map_cmd: null
-# user_map_match: '.*'
+user_map_match: '.*'
 # user_env: REMOTE_USER
 # map_fail_uri: /register
 
