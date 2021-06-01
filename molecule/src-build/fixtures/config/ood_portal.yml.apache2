@@ -113,7 +113,7 @@ lua_log_level: "info"
 # Example:
 #     user_map_match: '^([^@]+)@.*$'
 # Default: '.*'
-# user_map_match: '.*'
+user_map_match: '.*'
 
 # System command used to map authenticated-user to system-user
 # This option takes precedence over user_map_match
