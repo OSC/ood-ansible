@@ -31,11 +31,6 @@
   become: true
   tags: [ 'configure' ]
 
-- include: clusters.yml
-  when: clusters is defined
-  become: true
-  tags: [ 'configure' ]
-
 - include: install-apps.yml
   when: ood_install_apps is defined
   become: true
