@@ -1,151 +1,11 @@
----
-ood_source_repo: "https://github.com/OSC/ondemand.git"
-ood_source_version: "v2.0.9"
-ood_build_dir: "/tmp/ood-build"
-ood_source_dir: "{{ ood_build_dir }}/ondemand"
+# This file holds all the defaults for the /etc/ood/config/ood_portal.yml
+# 
+# See https://osc.github.io/ood-documentation/latest/reference/files/ood-portal-yml.html
+# for more details on this file and it's configurations.
 
-ood_base_apache_dir: "/var/www/ood"
-ood_base_dir: "/opt/ood"
-ood_base_conf_dir: "/etc/ood/config"
-ood_app_dir: "{{ ood_base_apache_dir }}/apps"
-ood_sys_app_dir: "{{ ood_app_dir }}/sys"
-ood_dev_app_dir: "{{ ood_app_dir }}/dev"
-ood_usr_app_dir: "{{ ood_app_dir }}/usr"
-
-ood_base_apps:
-- activejobs
-- bc_desktop
-- dashboard
-- file-editor
-- files
-- myjobs
-- shell
-
-ood_core_libs:
-- mod_ood_proxy
-- nginx_stage
-- ood-portal-generator
-- ood_auth_map
-
-## Manage cluster example, default undef
-# cluster:
-#   v2:
-#     metadata:
-#       title: my_cluster
-#     login:
-#       host: my_host
-#     job:
-#       adapter: slurm
-#       bin: /usr/local
-#     batch_connect:
-#
-## Apps install example, default undef
-# ood_install_apps:
-#   jupyter:
-#     repo: https://github.com/OSC/bc_example_jupyter.git
-#     dest: {{ ood_sys_app_dir }}  # default creates
-#     version: master        # default
-#     umask: '022' # default,File=rw-r-r,Dir=rwx-rx-rx
-#   customdir: # will create /var/www/ood/apps/my/dir/customdir
-#     repo: https://github.com/OSC/bc_example_jupyter.git
-#     dest: /var/www/ood/apps/my/dir
-#     version: v1.0.1
-#     umask: '002'
-#
-## Apps config example, default undef
-# ood_apps:
-#   bc_desktop:
-#     title: "remote desktop"
-#     cluster: my_cluster
-#     attributes:
-#       desktop: xfce
-#     submit:
-#       script:
-#         native:
-#           - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
-#           - "1"
-#   files:
-#     env:
-#       ood_shell: /bin/bash
-#   dashboard:
-#     env:
-#       motd_format: markdown
-#
-
-passenger_version: "6.0.7"
-nginx_version: "1.18.0"
-nodejs_version: "12.x"
-passenger_tar: "passenger-{{ passenger_version }}.tar.gz"
-nginx_tar: "nginx-{{ nginx_version }}-x86_64-linux.tar.gz"
-agent_tar: "agent-x86_64-linux.tar.gz"
-
-passenger_base_url: "https://github.com/phusion/passenger/releases/download"
-passenger_release_url: "{{ passenger_base_url }}/release-{{ passenger_version }}"
-
-passenger_url: "{{ passenger_release_url }}/{{ passenger_tar }}"
-passenger_nginx_url: "{{ passenger_release_url }}/{{ nginx_tar }}"
-passenger_agent_url: "{{ passenger_release_url }}/{{ agent_tar }}"
-
-# override when you've built/packaged your own
-passenger_remote_dl: true
-passenger_src_dir: "{{ ood_build_dir }}/passenger-src"
-passenger_lib_dir: "{{ ood_base_dir }}/passenger-lib"
-passenger_support_binaries_dir: "{{ passenger_lib_dir }}/support-binaries"
-passenger_base_dir: "{{ ood_base_dir }}/passenger"
-
+# When true this configuration will run the ood_portal_generator to generate the apache
+# config files. When false, this role will generate an equivalent apache configuration.
 ood_portal_generator: true
-
-ruby_lib_dir: "/usr/lib64/ruby/"
-
-######## START install from rpm related configs ############
-# flip this flag to instead install from source
-install_from_src: false
-rpm_repo_url: "https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm"
-rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
-# OSC's repo rpm isn't signed
-disable_gpg_check_rpm_repo: true
-install_ondemand_dex: false
-ondemand_dex_package: ondemand-dex
-######## END install from rpm related configs ############
-
-
-######## START nginx_stage.yml related configs ############
-pun_custom_env_declarations: []
-# pun_custom_env is undefined by default
-
-# user_regex: '[\w@\.\-]+'
-# nginx_min_uid: 500
-nginx_lib_dir: "/var/lib/ondemand-nginx"
-nginx_config_dir: "{{ nginx_lib_dir }}/config"
-nginx_puns_dir: "{{ nginx_config_dir }}/puns"
-nginx_apps_dir: "{{ nginx_config_dir }}/apps"
-nginx_dir: "{{ ood_base_dir }}/nginx"
-nginx_bin: "{{ nginx_dir }}/bin/nginx"
-nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
-nginx_file_upload_max: 10737420000
-locations_ini: "{{ passenger_lib_dir }}/locations.ini"
-######## END nginx_stage.yml related configs ############
-
-
-######## START default OS related configs ############
-# OS defaults are RHEL
-apache_service_enabled: true
-apache_package_name: httpd
-apache_service_name: httpd
-apache_user: apache
-apache_etc_dir: "/etc/{{ apache_service_name }}"
-apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
-apache_log_dir: "/var/log/{{ apache_service_name }}"
-
-g_plus_plus: g++
-sqlite_devel_package: sqlite-devel
-ruby_devel_package: ruby-devel
-ffi_devel_package: libffi-devel
-libz_devel_package: zlib-devel
-######## END default OS related configs ############
-
-
-######## START Apache and ood_portal.yml configs ############
 
 # Use this variable to define anything you need inside ood VirtualHost that
 # isn't already there.
@@ -194,15 +54,15 @@ httpd_loggers:
 # httpd_access_log: 'access.log'
 # httpd_logformat:
 
-# user_map_cmd: null
 user_map_match: '.*'
+# user_map_cmd: null
 # user_env: REMOTE_USER
 # map_fail_uri: /register
 
 pun_stage_cmd: "sudo {{ ood_base_dir }}/nginx_stage/sbin/nginx_stage"
 
-# node_uri: /node
-# rnode_uri: /rnode
+# node_uri: '/node'
+# rnode_uri: '/rnode'
 host_regex: '[^/]+'
 
 pun_uri: "/pun"
@@ -246,6 +106,7 @@ oidc_settings_samefile: false
 #   OIDCCryptoPassphrase: mycryptopass
 
 # # ood-portal-generator oidc configurations
+
 # oidc_provider_metadata_url: null
 # oidc_client_id: null
 # oidc_client_secret: null
@@ -309,5 +170,3 @@ oidc_settings_samefile: false
 #     frontend:
 #       theme: ondemand
 #       dir: /usr/share/ondemand-dex/web
-
-######## END Apache and ood_portal.yml configs ############

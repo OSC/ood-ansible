@@ -56,8 +56,11 @@ This role has these tags when you want to only run certain tasks.
 
 ## Overrides
 
-Look at all the variables in [the defaults](defaults/main.yml) and override any of them that you wish or need to.
-Save all these overrides to a file that you can then call with `--extra-vars=@overrides.yml`
+[The defaults directory](defaults/) has configurations broken out by which file they apply
+to when configuring or configurations during building from source or installation.
+
+Check these files for variables you can override.  Save all these overrides to a file that
+you can then call with `--extra-vars=@overrides.yml`
 
 ### Using this role to manage cluster and apps
 

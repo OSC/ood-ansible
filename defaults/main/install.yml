@@ -1,0 +1,27 @@
+# This file holds install related configurations as well as base directories for
+# configuration files. 
+
+ood_base_conf_dir: "/etc/ood/config"
+ood_app_dir: "{{ ood_base_apache_dir }}/apps"
+ood_sys_app_dir: "{{ ood_app_dir }}/sys"
+ood_dev_app_dir: "{{ ood_app_dir }}/dev"
+ood_usr_app_dir: "{{ ood_app_dir }}/usr"
+
+# OS defaults are RHEL-like systems
+apache_service_enabled: true
+apache_package_name: httpd
+apache_service_name: httpd
+apache_user: apache
+apache_etc_dir: "/etc/{{ apache_service_name }}"
+apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
+apache_log_dir: "/var/log/{{ apache_service_name }}"
+
+rpm_repo_url: "https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm"
+rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
+
+# OSC's repo rpm isn't signed
+disable_gpg_check_rpm_repo: true
+
+# flip this flag if you want to install the ondemand-dex RPM
+install_ondemand_dex: false
+ondemand_dex_package: ondemand-dex

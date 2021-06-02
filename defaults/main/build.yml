@@ -1,0 +1,55 @@
+# This file holds defaults when you're building from the source on Debian platforms.
+
+# flip this flag to instead install from source
+install_from_src: false
+
+ood_source_repo: "https://github.com/OSC/ondemand.git"
+ood_source_version: "v2.0.9"
+ood_build_dir: "/tmp/ood-build"
+ood_source_dir: "{{ ood_build_dir }}/ondemand"
+ood_base_apache_dir: "/var/www/ood"
+ood_base_dir: "/opt/ood"
+
+ood_core_libs:
+- mod_ood_proxy
+- nginx_stage
+- ood-portal-generator
+- ood_auth_map
+
+ood_base_apps:
+- activejobs
+- bc_desktop
+- dashboard
+- file-editor
+- files
+- myjobs
+- shell
+
+ruby_lib_dir: "/usr/lib64/ruby/"
+
+passenger_version: "6.0.7"
+nginx_version: "1.18.0"
+nodejs_version: "12.x"
+passenger_tar: "passenger-{{ passenger_version }}.tar.gz"
+nginx_tar: "nginx-{{ nginx_version }}-x86_64-linux.tar.gz"
+agent_tar: "agent-x86_64-linux.tar.gz"
+
+passenger_base_url: "https://github.com/phusion/passenger/releases/download"
+passenger_release_url: "{{ passenger_base_url }}/release-{{ passenger_version }}"
+
+passenger_url: "{{ passenger_release_url }}/{{ passenger_tar }}"
+passenger_nginx_url: "{{ passenger_release_url }}/{{ nginx_tar }}"
+passenger_agent_url: "{{ passenger_release_url }}/{{ agent_tar }}"
+
+# override when you've built/packaged your own
+passenger_remote_dl: true
+passenger_src_dir: "{{ ood_build_dir }}/passenger-src"
+passenger_lib_dir: "{{ ood_base_dir }}/passenger-lib"
+passenger_support_binaries_dir: "{{ passenger_lib_dir }}/support-binaries"
+passenger_base_dir: "{{ ood_base_dir }}/passenger"
+
+g_plus_plus: g++
+sqlite_devel_package: sqlite-devel
+ruby_devel_package: ruby-devel
+ffi_devel_package: libffi-devel
+libz_devel_package: zlib-devel
