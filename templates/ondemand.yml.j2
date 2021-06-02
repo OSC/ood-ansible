@@ -1,0 +1,18 @@
+
+{% if pinned_apps_menu_length is defined %}
+pinned_apps_menu_length: {{ pinned_apps_menu_length }}
+{% endif %}
+
+{% if pinned_apps_group_by is defined %}
+pinned_apps_group_by: "{{ pinned_apps_group_by }}"
+{% endif %}
+
+{% if pinned_apps is defined %}
+pinned_apps:
+  {{ pinned_apps | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}
+
+{% if dashboard_layout is defined %}
+dashboard_layout:
+  {{ dashboard_layout | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}

@@ -12,3 +12,4 @@
     - vars/apps.yml
     - vars/nginx.yml
     - vars/portal.yml
+    - vars/ondemand.yml

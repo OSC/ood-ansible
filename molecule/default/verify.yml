@@ -46,3 +46,6 @@
 
   - include: verify_custom.yml
     when: inventory_hostname == "custom"
+
+  - include: verify_default.yml
+    when: inventory_hostname == "default"

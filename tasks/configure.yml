@@ -29,11 +29,14 @@
     mode: 'u=rw,g=r,o=r'
   notify: update nginx stage
 
-- name: Create clusters.d directory
+- name: make .d configuration directories
   file:
-    path: "{{ ood_base_conf_dir }}/clusters.d"
+    path: "{{ item }}"
     mode: 'u=rwx,g=rx,o=rx'
     state: directory
+  loop:
+    - "{{ ood_base_conf_dir }}/clusters.d"
+    - "{{ ood_base_conf_dir }}/ondemand.d"
 
 - name: Add cluster configuration files
   copy:
@@ -45,10 +48,9 @@
 
 - name: template ondemand.yml
   template:
-    src: "ood_portal.yml.j2"
-    dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
+    src: "ondemand.yml.j2"
+    dest: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml"
     mode: 'u=rw,g=r,o='
-  notify: update ood portal
 
 - name: enable Debian apache mods
   file:
