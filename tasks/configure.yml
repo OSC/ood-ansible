@@ -29,6 +29,29 @@
     mode: 'u=rw,g=r,o=r'
   notify: update nginx stage
 
+- name: make .d configuration directories
+  file:
+    path: "{{ item }}"
+    mode: 'u=rwx,g=rx,o=rx'
+    state: directory
+  loop:
+    - "{{ ood_base_conf_dir }}/clusters.d"
+    - "{{ ood_base_conf_dir }}/ondemand.d"
+
+- name: Add cluster configuration files
+  copy:
+    content: "{{ item.value | to_nice_yaml }}"
+    dest: "{{ ood_base_conf_dir }}/clusters.d/{{ item.key }}.yml"
+    mode: 'u=rw,g=r,o=r'
+  loop: "{{ clusters | default({}) | dict2items }}"
+  when: clusters is defined
+
+- name: template ondemand.yml
+  template:
+    src: "ondemand.yml.j2"
+    dest: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml"
+    mode: 'u=rw,g=r,o='
+
 - name: enable Debian apache mods
   file:
     src: "{{ apache_etc_dir }}/mods-available/{{ item }}.load"

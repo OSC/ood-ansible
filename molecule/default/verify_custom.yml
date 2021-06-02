@@ -9,6 +9,7 @@
     - { src: "fixtures/apps/files.env", dest: "files.env" }
     - { src: "fixtures/apps/bc_desktop/", dest: "bc_desktop/" }
     - { src: "fixtures/config/auth_openidc.conf", dest: "auth_openidc.conf" }
+    - { src: "fixtures/ondemand.d/ondemand.yml", dest: "ondemand.yml" }
 
 - name: verify config files
   shell: "diff /tmp/{{ item.left }} {{ item.right }}"
@@ -20,6 +21,7 @@
     - { left: "bc_desktop/my_cluster.yml", right: "{{ ood_base_conf_dir }}/apps/bc_desktop/my_cluster.yml" }
     - { left: "bc_desktop/submit/submit.yml.erb", right: "{{ ood_base_conf_dir }}/apps/bc_desktop/submit/submit.yml.erb" }
     - { left: "auth_openidc.conf", right: "{{ apache_conf_dir }}/auth_openidc.conf" }
+    - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
 
 - name: verify sys/jupyter was installed correctly
   ansible.builtin.git:
