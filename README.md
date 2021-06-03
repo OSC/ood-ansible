@@ -56,8 +56,11 @@ This role has these tags when you want to only run certain tasks.
 
 ## Overrides
 
-Look at all the variables in [the defaults](defaults/main.yml) and override any of them that you wish or need to.
-Save all these overrides to a file that you can then call with `--extra-vars=@overrides.yml`
+[The defaults directory](defaults/main) has configurations broken out by which file they apply
+to when configuring or options during building from source or installation.
+
+Check these files for variables you can override.  Save all these overrides to a file that
+you can then call with `--extra-vars=@overrides.yml`
 
 ### Using this role to manage cluster and apps
 
@@ -107,8 +110,8 @@ v2:
     title: Another Cluster
 ```
 
-More details can be found on [Open OnDemand documentation](https://osc.github.io/ood-documentation/master/installation/add-cluster-config.html)
-and [Cluster Config Schema v2](https://osc.github.io/ood-documentation/master/installation/cluster-config-schema.html).
+More details can be found on [Open OnDemand documentation](https://osc.github.io/ood-documentation/latest/installation/add-cluster-config.html)
+and [Cluster Config Schema v2](https://osc.github.io/ood-documentation/latest/installation/cluster-config-schema.html).
 
 #### `ood_install_apps`
 
@@ -217,7 +220,7 @@ attributes:
 
 ### Open Id Connect
 
-There are two ways you can [configure Apache for mod_auth_openidc](https://osc.github.io/ood-documentation/master/authentication/tutorial-oidc-keycloak-rhel7/install_mod_auth_openidc.html#add-keycloak-config-to-ondemand-apache-for-mod-auth-openidc)
+There are two ways you can [configure Apache for mod_auth_openidc](https://osc.github.io/ood-documentation/latest/authentication/tutorial-oidc-keycloak-rhel7/install_mod_auth_openidc.html#add-keycloak-config-to-ondemand-apache-for-mod-auth-openidc)
 
 The first and simplest is by using the `ood_auth_openidc` dictionary to generate a separate config file
 for OIDC related configs.

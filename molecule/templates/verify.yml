@@ -1,9 +1,11 @@
 - name: verify
   hosts: all
-  vars_files:
-    - ../../defaults/main.yml
 
   tasks:
+  - name: include defaults
+    include_vars:
+      dir: ../../defaults/main
+
   - name: include distribution variables
     include_vars: "../../vars/{{ ansible_distribution }}.yml"
 
