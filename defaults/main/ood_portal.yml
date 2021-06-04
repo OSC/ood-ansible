@@ -60,6 +60,8 @@ user_map_match: '.*'
 # map_fail_uri: /register
 
 pun_stage_cmd: "sudo {{ ood_base_dir }}/nginx_stage/sbin/nginx_stage"
+# pun_pre_hook_root_cmd: null
+# pun_pre_hook_exports: null
 
 # node_uri: '/node'
 # rnode_uri: '/rnode'

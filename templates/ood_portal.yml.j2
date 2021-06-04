@@ -308,6 +308,25 @@ pun_socket_root: "{{ pun_socket_root }}"
 # Default: 5 (only try 5 times)
 pun_max_retries: {{ pun_max_retries }}
 
+# The PUN pre hook command to execute as root
+#
+# Example:
+#    pun_pre_hook_root_cmd: '/opt/hpc-site/ood_pun_prehook'
+# Default: null (do not run any PUN pre hook as root)
+{% if rnode_uri is defined %}pun_pre_hook_root_cmd: '{{ pun_pre_hook_root_cmd }}'
+{% else %}# pun_pre_hook_root_cmd: null
+{% endif %}
+
+# Comma separated list of environment variables to pass from the apache context
+# into the PUN pre hook. Defaults to null so nothing is exported.
+#
+# Example:
+#    pun_pre_hook_exports: 'OIDC_ACCESS_TOKEN,OIDC_CLAIM_EMAIL'
+# Default: null (pass nothing)
+{% if pun_pre_hook_exports is defined %}pun_pre_hook_exports: '{{ pun_pre_hook_exports }}'
+{% else %}# pun_pre_hook_exports: null
+{% endif %}
+
 #
 # Support for OpenID Connect
 #
