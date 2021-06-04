@@ -50,7 +50,7 @@
   template:
     src: "ondemand.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml"
-    mode: 'u=rw,g=r,o='
+    mode: 'u=rw,g=r,o=r'
 
 - name: enable Debian apache mods
   file:
