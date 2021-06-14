@@ -313,7 +313,7 @@ pun_max_retries: {{ pun_max_retries }}
 # Example:
 #    pun_pre_hook_root_cmd: '/opt/hpc-site/ood_pun_prehook'
 # Default: null (do not run any PUN pre hook as root)
-{% if rnode_uri is defined %}pun_pre_hook_root_cmd: '{{ pun_pre_hook_root_cmd }}'
+{% if pun_pre_hook_root_cmd is defined %}pun_pre_hook_root_cmd: '{{ pun_pre_hook_root_cmd }}'
 {% else %}# pun_pre_hook_root_cmd: null
 {% endif %}
 
