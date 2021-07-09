@@ -14,8 +14,6 @@ pun_pre_hook_exports: 'OIDC_ACCESS_TOKEN,OIDC_CLAIM_EMAIL'
 pun_pre_hook_root_cmd: '/opt/site/site_pre_hook'
 
 
-
-
 oidc_uri: '/custom-oidc-path'
 oidc_discover_uri: '/discover'
 oidc_discover_root: '/var/www/ood/discover'
