@@ -13,3 +13,10 @@
     - vars/nginx.yml
     - vars/portal.yml
     - vars/ondemand.yml
+
+- name: OIDC
+  hosts: oidc
+  roles:
+    - role: ood-ansible
+  vars_files:
+    - vars/oidc_portal.yml
