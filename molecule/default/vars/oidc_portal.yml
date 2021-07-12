@@ -1,0 +1,31 @@
+# custom ood_portal.yml configurations
+host_regex: 'forge-(l|c)\d+'
+# nobody's should be using both user_* configs here, but this is a test after all
+user_map_cmd: '/opt/site/regex-mapper --regex=''''^([A-Za-z0-9\-_\.]+)@osc.edu$'''''
+user_map_match: '^([^@]+)@.*$'
+rnode_uri: '/custom-rnode-path'
+node_uri: '/custom-node-path'
+httpd_error_log: 'custom_defined_error.log'
+httpd_access_log: 'custom_defined_access.log'
+httpd_logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"'
+security_csp_frame_ancestors: http://my.proxy.server.edu
+security_strict_transport: true
+pun_pre_hook_exports: 'OIDC_ACCESS_TOKEN,OIDC_CLAIM_EMAIL'
+pun_pre_hook_root_cmd: '/opt/site/site_pre_hook'
+
+
+oidc_uri: '/custom-oidc-path'
+oidc_discover_uri: '/discover'
+oidc_discover_root: '/var/www/ood/discover'
+oidc_provider_metadata_url: https://oidc-idp.ohio.edu/.well-known/openid-configuration
+oidc_client_id: ondemand.ohio.edu
+oidc_client_secret: test-client-secret
+oidc_remote_user_claim: email
+oidc_scope: "openid profile email groups"
+oidc_session_inactivity_timeout: 9001
+oidc_session_max_duration: 9001
+oidc_state_max_number_of_cookies: "3 true"
+oidc_cookie_same_site: 'Off'
+oidc_settings:
+  OIDCCryptoPassphrase: mycryptopass
+  OIDCPassRefreshToken: 'On'
