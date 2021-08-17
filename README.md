@@ -62,6 +62,17 @@ to when configuring or options during building from source or installation.
 Check these files for variables you can override.  Save all these overrides to a file that
 you can then call with `--extra-vars=@overrides.yml`
 
+All the default files are grouped by what they apply to. Some files are for documentation purposes
+and only have comments. They're hidden for ansible 2.9.X compatability and
+[this error loading empty files](https://github.com/OSC/ood-ansible/issues/121).
+
+* `.apps.yml` - configurations for installing apps (hidden because it's emtpy).
+* `build.yml` - configurations for building OnDemand from the source.
+* `install.yml` - configurations for installing OnDemand.
+* `nginx_stage.yml` - configurations that apply to `/etc/ood/config/nginx_stage.yml`
+* `.ondemand.yml` - configurations that apply to `/etc/ood/config/ondemand.d/ondemand.yml` (hidden because it's empty).
+* `ood_portal.yml` - configurations that apply to `/etc/ood/config/ood_portal.yml`
+
 ### Using this role to manage cluster and apps
 
 There are a few variables in this role that enable Open OnDemand customizations

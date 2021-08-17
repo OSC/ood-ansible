@@ -9,6 +9,12 @@ View the [README](README#version-compatibility) for more on version compatibilit
 
 ## [Unreleased]
 
+## [2.0.3] - 2021-08-17
+
+### Fixed
+
+- Ansible 2.9.x can correctly read empty default files in [121](https://github.com/OSC/ood-ansible/pull/121).
+
 ## [2.0.2] - 2021-08-02
 
 ### Fixed
