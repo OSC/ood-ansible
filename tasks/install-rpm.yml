@@ -45,11 +45,20 @@
   shell: "subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
   when: ansible_distribution == "Red Hat Enterprise Linux"
 
-- name: install ondemand
+- name: install latest ondemand
   yum:
     name: ondemand
-    state: latest
+    state: "{{ ondemand_package }}"
     update_cache: true
+  when: ondemand_package == "latest"
+
+- name: install specific version of ondemand
+  yum:
+    name: "{{ ondemand_package }}"
+    state: present
+    update_cache: true
+    exclude: "{{ ondemand_package_excludes | default([]) }}"
+  when: ondemand_package != "latest"
 
 - name: install ondemand-dex
   yum:
