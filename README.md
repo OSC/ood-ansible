@@ -67,11 +67,12 @@ state of project.  As an example, when developing 2.1, 2.0 RPMs on latest or nig
 need to exclude packages.
 
 Use `ondemand_package_excludes` to specify a list of packages to exclude during the yum install.
-An example may look this when installing `2.0.20`.
+Here's an example to exclude all `2.1` packages when installing `2.0.20`.
 
 ```yaml
+ondemand_package: 'ondemand-2.0.20'
 ondemand_package_excludes:
-  - 'ondemand-runtime-2.1'
+  - '*-2.1'
 ```
 
 ## Tags
