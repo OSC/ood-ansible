@@ -18,6 +18,8 @@ apache_log_dir: "/var/log/{{ apache_service_name }}"
 
 rpm_repo_url: "https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm"
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
+ondemand_package: "latest"
+ondemand_package_excludes: []
 
 # OSC's repo rpm isn't signed
 disable_gpg_check_rpm_repo: true

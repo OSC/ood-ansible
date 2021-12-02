@@ -3,10 +3,12 @@
   with_first_found:
     - "{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
     - "{{ ansible_distribution }}.yml"
+  tags: [ 'always' ]
 
 - name: include scl related overrides
   include_vars: "{{ ansible_distribution }}-scl.yml"
   when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
+  tags: [ 'always' ]
 
 - include: deps.yml
   become: true

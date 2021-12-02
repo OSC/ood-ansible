@@ -45,6 +45,36 @@ code from. `master` maybe be unstable, while a `release_` branch is much more so
 The default behavior is to install the rpm and configure the resulting installation and skip a lot of these tasks
 that build the source code.
 
+## Installing a specific version
+
+`ondemand_package` defaults to `latest` meaning this will install the latest version on the versioned
+yum/deb repository. For example, it'll install the latest version, 2.0.20 from the versioned 2.0 yum
+repo.
+
+We use `ondemand_package` for the `name` paramter of the [ansible yum](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yum_module.html)
+so you can speicify a specific version with `ondemand-2.0.20` or use the comparison operators
+ansible supports.
+
+### Installing from latest or nightly
+
+If you'd like to install a package from our `latest` or `nightly` repositories simply change the
+`rpm_repo_url` configuration to download the appropriate RPM. For example
+`'https://yum.osc.edu/ondemand/latest/ondemand-release-web-latest-1-6.noarch.rpm'`. **Check yum
+for the correct version of this RPM.**
+
+When installing packages from latest or nightly you may have to exclude packages depending on the
+state of project.  As an example, when developing 2.1, 2.0 RPMs on latest or nightly
+need to exclude packages.
+
+Use `ondemand_package_excludes` to specify a list of packages to exclude during the yum install.
+Here's an example to exclude all `2.1` packages when installing `2.0.20`.
+
+```yaml
+ondemand_package: 'ondemand-2.0.20'
+ondemand_package_excludes:
+  - '*-2.1'
+```
+
 ## Tags
 
 This role has these tags when you want to only run certain tasks.
