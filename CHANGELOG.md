@@ -9,6 +9,13 @@ View the [README](README#version-compatibility) for more on version compatibilit
 
 ## [Unreleased]
 
+## [2.0.4] - 2021-12-01
+
+### Added
+
+- This role can now specify the ondemand version to install in [131](https://github.com/OSC/ood-ansible/pull/131).  
+  Meaning sites can now pull RPMs safely from the latest or nightly repo.
+
 ## [2.0.3] - 2021-08-17
 
 ### Fixed
