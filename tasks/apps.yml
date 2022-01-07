@@ -42,3 +42,21 @@
     mode: 'u=rw,g=r,o=r'
   when: item.value.env is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"
+
+- name: Create apps initializers directory when defined
+  file:
+    path: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/initializers"
+    state: directory
+    mode: '0755'
+  when: item.value.initializers is defined
+  loop: "{{ ood_apps |  default({}) | dict2items }}"
+
+- name: Copy apps initializers when those are defined
+  copy:
+    src: "{{ item.value.initializers }}"
+    dest: "{{ ood_base_conf_dir }}/apps/{{ item.key }}/initializers"
+    mode: '0644'
+    directory_mode: yes
+  when: item.value.initializers is defined
+  loop: "{{ ood_apps | default({}) | dict2items }}"
+  notify: update ood portal

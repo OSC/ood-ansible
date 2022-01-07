@@ -45,4 +45,5 @@
 #   dashboard:
 #     env:
 #       motd_format: markdown
+#     initializers: 'files/ood/dashboard/'
 #
