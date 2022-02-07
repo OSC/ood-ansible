@@ -14,6 +14,13 @@ ENV {{ var }} {{ value }}
 {% endfor %}
 {% endif %}
 
+# Centos:8 is end of life, so hack the mirror to be the vault.
+RUN . /etc/os-release && \
+    if [ "$NAME" == "CentOS Linux" ] && [ "$VERSION_ID" == "8" ]; then \
+      sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-* && \
+      sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*; \
+    fi
+
 RUN if [ $(command -v apt-get) ]; then apt-get update && apt-get install -y python sudo bash ca-certificates iproute2 init gpg && apt-get clean; \
     elif [ $(command -v dnf) ]; then dnf makecache && dnf --assumeyes install python3 sudo python3-devel python*-dnf bash iproute diffutils && dnf clean all; \
     elif [ $(command -v yum) ]; then yum makecache fast && yum install -y python sudo yum-plugin-ovl bash iproute && sed -i 's/plugins=0/plugins=1/g' /etc/yum.conf && yum clean all; \
