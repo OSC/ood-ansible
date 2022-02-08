@@ -19,3 +19,5 @@
   shell: "rake build -mj$(nproc) > build.out 2>&1"
   args:
     chdir: "{{ ood_source_dir }}"
+  poll: 30
+  async: 1200
