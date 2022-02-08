@@ -23,6 +23,7 @@ jobs:
         image:
           - 'centos:7'
           - 'centos:8'
+          - 'rockylinux:8'
         scenario:
           - 'default'
           - 'templates'
