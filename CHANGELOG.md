@@ -9,6 +9,17 @@ View the [README](README#version-compatibility) for more on version compatibilit
 
 ## [Unreleased]
 
+## [2.0.5] - 2022-02-08
+
+### Added
+
+- Support for Rocky Linux 8 in [133](https://github.com/OSC/ood-ansible/pull/133).
+- Support for app initializers in [135](https://github.com/OSC/ood-ansible/pull/135).
+
+### Fixed
+
+- Debian build task now polls for better wait times in [137](https://github.com/OSC/ood-ansible/pull/137).
+
 ## [2.0.4] - 2021-12-01
 
 ### Added
@@ -69,7 +80,8 @@ View the [README](README#version-compatibility) for more on version compatibilit
 
 - Initial release that works well
 
-[Unreleased]: https://github.com/OSC/ood-ansible/compare/v2.0.4...HEAD
+[Unreleased]: https://github.com/OSC/ood-ansible/compare/v2.0.5...HEAD
+[2.0.5]: https://github.com/OSC/ondemand/compare/v2.0.4...v2.0.5
 [2.0.4]: https://github.com/OSC/ondemand/compare/v2.0.3...v2.0.4
 [2.0.3]: https://github.com/OSC/ondemand/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/OSC/ondemand/compare/v2.0.1...v2.0.2
