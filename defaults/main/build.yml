@@ -4,7 +4,7 @@
 install_from_src: false
 
 ood_source_repo: "https://github.com/OSC/ondemand.git"
-ood_source_version: "v2.0.9"
+ood_source_version: "v2.0.23"
 ood_build_dir: "/tmp/ood-build"
 ood_source_dir: "{{ ood_build_dir }}/ondemand"
 ood_base_apache_dir: "/var/www/ood"
