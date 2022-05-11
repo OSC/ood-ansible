@@ -63,6 +63,7 @@
   loop:
   - { name: 'bundler', version: '2.1.4' }
   - { name: 'rake', version: '13.0.3' }
+  - { name: 'bcrypt', version: '3.1.17' }
 
 - name: install apache openidc mod
   package:
