@@ -3,17 +3,18 @@
 # This file is meant to provide an example for your own variable files.
 
 ## Manage cluster example, default undef
-# cluster: |
-#   ---
-#   v2:
-#     metadata:
-#       title: my_cluster
-#     login:
-#       host: my_host
-#     job:
-#       adapter: slurm
-#       bin: /usr/local
-#     batch_connect:
+# cluster:
+#   my_cluster: |
+#     ---
+#     v2:
+#       metadata:
+#         title: my_cluster
+#       login:
+#         host: my_host
+#       job:
+#         adapter: slurm
+#         bin: /usr/local
+#       batch_connect:
 #
 ## Apps install example, default undef
 # ood_install_apps:
