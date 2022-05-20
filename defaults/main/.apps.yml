@@ -3,7 +3,8 @@
 # This file is meant to provide an example for your own variable files.
 
 ## Manage cluster example, default undef
-# cluster:
+# cluster: |
+#   ---
 #   v2:
 #     metadata:
 #       title: my_cluster
@@ -34,7 +35,8 @@
 #     cluster: my_cluster
 #     attributes:
 #       desktop: xfce
-#     submit:
+#     submit: |
+#       ---
 #       script:
 #         native:
 #           - "<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>"
