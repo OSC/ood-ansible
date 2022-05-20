@@ -2,8 +2,8 @@
 # default configuration for apps, because they're site specific.
 # This file is meant to provide an example for your own variable files.
 
-## Manage cluster example, default undef
-# cluster:
+## Manage cluster files through clusters. Default undef creates no cluster files.
+# clusters:
 #   my_cluster: |
 #     ---
 #     v2:
