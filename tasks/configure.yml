@@ -40,7 +40,7 @@
 
 - name: Add cluster configuration files
   copy:
-    content: "{{ item.value | to_nice_yaml }}"
+    content: "{{ item.value }}"
     dest: "{{ ood_base_conf_dir }}/clusters.d/{{ item.key }}.yml"
     mode: 'u=rw,g=r,o=r'
   loop: "{{ clusters | default({}) | dict2items }}"

@@ -1,18 +1,18 @@
 clusters:
-  another_cluster:
+  another_cluster: |
     v2:
-      metadata:
-        title: Another Cluster
-  my_cluster:
+        metadata:
+            title: Another Cluster
+  my_cluster: |
     v2:
-      metadata:
-        title: my_cluster
-      login:
-        host: my_host
-      job:
-        adapter: slurm
-        bin: /usr/local
-      batch_connect:
+        batch_connect: null
+        job:
+            adapter: slurm
+            bin: /usr/local
+        login:
+            host: my_host
+        metadata:
+            title: my_cluster
 
 ood_install_apps:
   jupyter:
