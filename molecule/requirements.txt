@@ -2,3 +2,4 @@ ansible
 docker
 molecule-docker
 molecule
+yamllint
