@@ -30,6 +30,16 @@ As an example 1.8.0 of this role will be compatible with versions of Open OnDema
 Version 1.8.1 of this role will still install version 1.8.20 of Open OnDemand but provide some bug fixes or
 new features to _this role_.
 
+## Supported Operating Systems
+* CentOS
+* Debian
+* Fedora
+* RedHat
+* Rocky Linux
+* Suse
+* Ubuntu 18
+* Ubuntu 20
+
 ## Install from source or RPM
 
 This role was developed for users of non RPM systems like Ubuntu, Debian or Arch because Open OnDemand does not
