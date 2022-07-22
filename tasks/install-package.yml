@@ -28,10 +28,8 @@
     update_cache: "{{ apt_update_cache | bool }}"
   when: ansible_os_family == "Debian"
 
-- name: remove node 14 repo if it exists
-  file:
-    path: /etc/apt/sources.list.d/nodesource.list
-    state: absent
+- name: DELME HACK FOR DEBIAN TESTING
+  shell: sed -i 's#ondemand/2.0/web#ondemand/build/2.0/web#g' /etc/apt/sources.list.d/ondemand-web.list
   when: ansible_os_family == "Debian"
 
 - name: install node's apt repo
@@ -43,10 +41,6 @@
   loop:
     - "deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main"
     - "deb-src https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main"
-  when: ansible_os_family == "Debian"
-
-- name: DELME HACK FOR DEBIAN TESTING
-  shell: sed -i 's#ondemand/2.0/web#ondemand/build/2.0/web#g' /etc/apt/sources.list.d/ondemand-web.list
   when: ansible_os_family == "Debian"
 
 - name: enable epel
