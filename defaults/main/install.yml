@@ -20,7 +20,7 @@ rpm_repo_url: "https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarc
 apt_repo_url: "https://yum.osc.edu/ondemand/latest/ondemand-release-web-latest_2_all.deb"
 
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
-deb_repo_key: "https://yum.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
+deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
 deb_repo_key_id: "4B72FE2B92D31755"
 
 # ondemand_package: "ondemand=2.0.28.0.rc0"
