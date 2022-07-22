@@ -3,5 +3,8 @@
   
   tasks:
     - package:
-        name: ca-certificates
+        name: {{ item }}
         state: latest
+        loop:
+        - ca-certificates
+        - systemd
