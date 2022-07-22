@@ -46,7 +46,7 @@
   when: ansible_os_family == "Debian"
 
 - name: DELME HACK FOR DEBIAN TESTING
-  shell: sed -i 's#latest#build/2.0#g' /etc/apt/sources.list.d/ondemand-web.list
+  shell: sed -i 's#ondemand/2.0/web#ondemand/build/2.0/web#g' /etc/apt/sources.list.d/ondemand-web.list
   when: ansible_os_family == "Debian"
 
 - name: enable epel
