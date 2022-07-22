@@ -53,7 +53,7 @@
   package:
     name: 'epel-release'
     state: present
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version < '8'
+  when: ansible_os_family == "RedHat"
 
 - name: install rhel/centos:8 dependencies
   dnf:
