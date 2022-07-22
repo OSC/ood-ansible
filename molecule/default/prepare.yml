@@ -5,6 +5,6 @@
     - package:
         name: "{{ item }}"
         state: latest
-        loop:
-        - ca-certificates
-        - systemd
+      loop:
+      - ca-certificates
+      - systemd
