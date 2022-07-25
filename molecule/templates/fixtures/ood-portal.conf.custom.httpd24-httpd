@@ -8,7 +8,7 @@
   ServerName localhost
 
   ErrorLog  "/var/log/httpd24/custom_defined_error.log"
-  LogFormat "%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"
+  LogFormat "%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T %>s"
   TransferLog "/var/log/httpd24/custom_defined_access.log"
 
   RewriteEngine On
