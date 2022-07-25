@@ -40,7 +40,7 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
-          apt update && apt install -y podman
+          sudo apt update && sudo apt install -y podman
       - name: run linter
         run: molecule lint
       - name: run tests
