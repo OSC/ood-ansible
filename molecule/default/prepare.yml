@@ -12,3 +12,4 @@
       loop:
       - ca-certificates
       - systemd
+      - git

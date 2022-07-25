@@ -58,7 +58,7 @@ logroot: "/var/log/httpd24"
 
 # Apache access log format (Don't specify log nickname see: http://httpd.apache.org/docs/current/mod/mod_log_config.html#transferlog)
 # Example:
-#     logformat: '"%v %h \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T"'
+#     logformat: '"%v %h \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T"'
 # Default: Apache combined format
 
 # Should RewriteEngine be used
