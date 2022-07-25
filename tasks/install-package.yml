@@ -31,7 +31,7 @@
 - name: DELME HACK FOR DEBIAN TESTING
   template:
     src: "hack.ondemand-web.list.j2"
-    dest: "/etc/apt/sources.d/ondemand-web.list"
+    dest: "/etc/apt/sources.list.d/ondemand-web.list"
     mode: 'u=rw,g=r,o='
   when: ansible_os_family == "Debian"
 
