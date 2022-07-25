@@ -7,7 +7,10 @@
       dir: ../../defaults/main
 
   - name: include distribution variables
-    include_vars: "../../vars/{{ ansible_distribution }}.yml"
+    include_vars: "{{ item }}"
+    with_first_found:
+      - "../../vars/{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
+      - "../../vars/{{ ansible_distribution }}.yml"
 
   - name: include scl related overrides
     include_vars: "../../vars/{{ ansible_distribution }}-scl.yml"
