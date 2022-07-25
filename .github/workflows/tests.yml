@@ -40,6 +40,7 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
+          apt update && apt install -y podman
       - name: run linter
         run: molecule lint
       - name: run tests
@@ -48,6 +49,7 @@ jobs:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          CONTAINER_RT: 'podman'
 
   src-tests:
     runs-on: ubuntu-latest
