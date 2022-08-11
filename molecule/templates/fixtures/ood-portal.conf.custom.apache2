@@ -7,9 +7,9 @@
 <VirtualHost *:80>
   ServerName localhost
 
-  ErrorLog  "/var/log/httpd/custom_defined_error.log"
+  ErrorLog  "/var/log/apache2/custom_defined_error.log"
   LogFormat "%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T %>s"
-  TransferLog "/var/log/httpd/custom_defined_access.log"
+  TransferLog "/var/log/apache2/custom_defined_access.log"
 
   RewriteEngine On
   RewriteCond %{HTTP_HOST} !^(localhost(:80)?)?$ [NC]
@@ -74,7 +74,7 @@
   <LocationMatch "^/custom-node-path/(?<host>forge-(l|c)\d+)/(?<port>\d+)">
     AuthType Basic
     AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
+    AuthUserFile "/etc/apache2/.htpasswd"
     RequestHeader unset Authorization
     Require valid-user
   
@@ -99,7 +99,7 @@
   <LocationMatch "^/custom-rnode-path/(?<host>forge-(l|c)\d+)/(?<port>\d+)(?<uri>/.*|)">
     AuthType Basic
     AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
+    AuthUserFile "/etc/apache2/.htpasswd"
     RequestHeader unset Authorization
     Require valid-user
   
@@ -126,7 +126,7 @@
   <Location "/pun">
     AuthType Basic
     AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
+    AuthUserFile "/etc/apache2/.htpasswd"
     RequestHeader unset Authorization
     Require valid-user
 
@@ -154,7 +154,7 @@
   <Location "/nginx">
     AuthType Basic
     AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
+    AuthUserFile "/etc/apache2/.htpasswd"
     RequestHeader unset Authorization
     Require valid-user
   
@@ -183,7 +183,7 @@
   <Location "/custom-oidc-path">
     AuthType Basic
     AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
+    AuthUserFile "/etc/apache2/.htpasswd"
     RequestHeader unset Authorization
     Require valid-user
   </Location>

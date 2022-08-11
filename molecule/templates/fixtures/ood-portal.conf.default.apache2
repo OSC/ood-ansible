@@ -7,9 +7,8 @@
 <VirtualHost *:80>
   ServerName localhost
 
-  ErrorLog  "/var/log/httpd/custom_defined_error.log"
-  LogFormat "%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T %>s"
-  TransferLog "/var/log/httpd/custom_defined_access.log"
+  ErrorLog  "/var/log/apache2/localhost_error.log"
+  CustomLog "/var/log/apache2/localhost_access.log" combined
 
   RewriteEngine On
   RewriteCond %{HTTP_HOST} !^(localhost(:80)?)?$ [NC]
@@ -24,8 +23,7 @@
   ErrorDocument 503 /public/maintenance/index.html
   Header Set Cache-Control "max-age=0, no-store"
 
-  Header always set Content-Security-Policy "frame-ancestors http://my.proxy.server.edu;"
-  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  Header always set Content-Security-Policy "frame-ancestors http://localhost;"
 
 
 
@@ -40,17 +38,13 @@
 
   # Authenticated-user to system-user mapping configuration
   #
-  SetEnv OOD_USER_MAP_CMD "/opt/site/regex-mapper --regex=''^([A-Za-z0-9\-_\.]+)@osc.edu$''"
+  SetEnv OOD_USER_MAP_MATCH ".*"
 
   # Per-user Nginx (PUN) configuration
   # NB: Apache will need sudo privs to control the PUNs
   #
   SetEnv OOD_PUN_STAGE_CMD "sudo /opt/ood/nginx_stage/sbin/nginx_stage"
 
-  # Run a root level pre hook before starting nginx
-  SetEnv OOD_PUN_PRE_HOOK_ROOT_CMD "/opt/site/site_pre_hook"
-  # Environment variables to export to the PUN pre hook.
-  SetEnv OOD_PUN_PRE_HOOK_EXPORTS "OIDC_ACCESS_TOKEN,OIDC_CLAIM_EMAIL"
 
   #
   # Below is used for sub-uri's this Open OnDemand portal supports
@@ -66,56 +60,7 @@
     Require all granted
   </Directory>
 
-  # Reverse proxy traffic to backend webserver through IP sockets:
-  #
-  #     http://localhost:80/custom-node-path/HOST/PORT/index.html
-  #     #=> http://HOST:PORT/custom-node-path/HOST/PORT/index.html
-  #
-  <LocationMatch "^/custom-node-path/(?<host>forge-(l|c)\d+)/(?<port>\d+)">
-    AuthType Basic
-    AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
-    RequestHeader unset Authorization
-    Require valid-user
-  
-    # ProxyPassReverse implementation
-    Header edit Location "^[^/]+//[^/]+" ""
 
-    # ProxyPassReverseCookieDomain implemenation
-    Header edit* Set-Cookie ";\s*(?i)Domain[^;]*" ""
-
-    # ProxyPassReverseCookiePath implementation
-    Header edit* Set-Cookie ";\s*(?i)Path[^;]*" ""
-    Header edit  Set-Cookie "^([^;]+)" "$1; Path=/custom-node-path/%{MATCH_HOST}e/%{MATCH_PORT}e"
-
-    LuaHookFixups node_proxy.lua node_proxy_handler
-  </LocationMatch>
-
-  # Reverse "relative" proxy traffic to backend webserver through IP sockets:
-  #
-  #     http://localhost:80/custom-rnode-path/HOST/PORT/index.html
-  #     #=> http://HOST:PORT/index.html
-  #
-  <LocationMatch "^/custom-rnode-path/(?<host>forge-(l|c)\d+)/(?<port>\d+)(?<uri>/.*|)">
-    AuthType Basic
-    AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
-    RequestHeader unset Authorization
-    Require valid-user
-  
-    # ProxyPassReverse implementation
-    Header edit Location "^([^/]+//[^/]+)|(?=/)" "/custom-rnode-path/%{MATCH_HOST}e/%{MATCH_PORT}e"
-
-    # ProxyPassReverseCookieDomain implemenation
-    Header edit* Set-Cookie ";\s*(?i)Domain[^;]*" ""
-
-    # ProxyPassReverseCookiePath implementation
-    Header edit* Set-Cookie ";\s*(?i)Path[^;]*" ""
-    Header edit  Set-Cookie "^([^;]+)" "$1; Path=/custom-rnode-path/%{MATCH_HOST}e/%{MATCH_PORT}e"
-
-    LuaHookFixups node_proxy.lua node_proxy_handler
-
-  </LocationMatch>
 
   # Reverse proxy traffic to backend PUNs through Unix domain sockets:
   #
@@ -126,7 +71,7 @@
   <Location "/pun">
     AuthType Basic
     AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
+    AuthUserFile "/etc/apache2/.htpasswd"
     RequestHeader unset Authorization
     Require valid-user
 
@@ -154,7 +99,7 @@
   <Location "/nginx">
     AuthType Basic
     AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
+    AuthUserFile "/etc/apache2/.htpasswd"
     RequestHeader unset Authorization
     Require valid-user
   
@@ -175,18 +120,6 @@
   #
   Redirect "/logout" "/pun/sys/dashboard/logout"
 
-  # OpenID Connect redirect URI:
-  #
-  #     http://localhost:80/custom-oidc-path
-  #     #=> handled by mod_auth_openidc
-  #
-  <Location "/custom-oidc-path">
-    AuthType Basic
-    AuthName "private"
-    AuthUserFile "/etc/httpd/.htpasswd"
-    RequestHeader unset Authorization
-    Require valid-user
-  </Location>
 
 
 </VirtualHost>

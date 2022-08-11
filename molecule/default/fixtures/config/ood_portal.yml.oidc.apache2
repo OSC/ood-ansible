@@ -40,7 +40,7 @@ port: 80
 # Example:
 #     logroot: '/path/to/my/logs'
 # Default: 'logs' (this is relative to ServerRoot)
-logroot: "/var/log/httpd24"
+logroot: "/var/log/apache2"
 
 # Error log filename
 # Example:
@@ -152,7 +152,7 @@ pun_stage_cmd: "sudo /opt/ood/nginx_stage/sbin/nginx_stage"
 auth:
 - 'AuthType Basic'
 - 'AuthName "private"'
-- 'AuthUserFile "/opt/rh/httpd24/root/etc/httpd/.htpasswd"'
+- 'AuthUserFile "/etc/apache2/.htpasswd"'
 - 'RequestHeader unset Authorization'
 - 'Require valid-user'
 

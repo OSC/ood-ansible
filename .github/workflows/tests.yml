@@ -24,6 +24,8 @@ jobs:
           - 'centos:7'
           - 'centos:8'
           - 'rockylinux:8'
+          - 'ubuntu:20.04'
+          - 'ubuntu:18.04'
         scenario:
           - 'default'
           - 'templates'
@@ -39,6 +41,7 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
+          sudo apt update && sudo apt install -y podman
       - name: run linter
         run: molecule lint
       - name: run tests
@@ -47,6 +50,7 @@ jobs:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          CONTAINER_RT: 'podman'
 
   src-tests:
     runs-on: ubuntu-latest
@@ -54,8 +58,6 @@ jobs:
       max-parallel: 4
       matrix:
         image:
-          - 'ubuntu:20.04'
-          - 'ubuntu:18.04'
           - 'debian:10'
         scenario:
           - 'src-build'

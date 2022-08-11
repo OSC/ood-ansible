@@ -2,6 +2,14 @@
   hosts: all
   
   tasks:
+    - apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
     - package:
-        name: ca-certificates
+        name: "{{ item }}"
         state: latest
+      loop:
+      - ca-certificates
+      - systemd
+      - git

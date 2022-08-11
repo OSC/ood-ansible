@@ -60,7 +60,7 @@ accesslog: 'custom_defined_access.log'
 # Example:
 #     logformat: '"%v %h \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T"'
 # Default: Apache combined format
-logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"'
+logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T %>s"'
 
 # Should RewriteEngine be used
 # Example:

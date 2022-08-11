@@ -7,7 +7,10 @@
       dir: ../../defaults/main
 
   - name: include distribution variables
-    include_vars: "../../vars/{{ ansible_distribution }}.yml"
+    include_vars: "{{ item }}"
+    with_first_found:
+      - "../../vars/{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
+      - "../../vars/{{ ansible_distribution }}.yml"
 
   - name: include scl related overrides
     include_vars: "../../vars/{{ ansible_distribution }}-scl.yml"
@@ -33,7 +36,7 @@
       dest: "/tmp/{{ item.dest }}"
     with_items:
       - { src: "fixtures/config/ood_portal.yml.{{ inventory_hostname }}.{{ apache_service_name }}", dest: "ood_portal.yml" }
-      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}", dest: "nginx_stage.yml" }
+      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}.{{ ansible_os_family }}", dest: "nginx_stage.yml" }
 
   - name: verify the config files
     shell: "diff /tmp/{{ item }} /etc/ood/config/{{ item }}"

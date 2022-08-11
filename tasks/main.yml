@@ -29,7 +29,7 @@
   tags: [ 'install' ]
   when: install_from_src
 
-- include: install-rpm.yml
+- include: install-package.yml
   become: true
   tags: [ 'install' ]
   when: not install_from_src
