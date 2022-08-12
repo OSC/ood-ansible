@@ -9,6 +9,18 @@ View the [README](README#version-compatibility) for more on version compatibilit
 
 ## [Unreleased]
 
+## [2.0.6] - 2022-08-12
+
+### Changed
+
+- Better error messaging for unsupported OSes in [152](https://github.com/OSC/ood-ansible/pull/152).
+
+### Added
+
+- Added support for 2.0 to install .deb files for Ubuntu 18.04 and 20.04 in [157](https://github.com/OSC/ood-ansible/pull/157).
+- nginx_stage options `passenger_pool_idle_time` and `passenger_options` in [164](https://github.com/OSC/ood-ansible/pull/164).
+- ood_portal option `dex_uri` in [166](https://github.com/OSC/ood-ansible/pull/166).
+
 ## [2.0.5] - 2022-02-08
 
 ### Added
@@ -80,7 +92,8 @@ View the [README](README#version-compatibility) for more on version compatibilit
 
 - Initial release that works well
 
-[Unreleased]: https://github.com/OSC/ood-ansible/compare/v2.0.5...HEAD
+[Unreleased]: https://github.com/OSC/ood-ansible/compare/v2.0.6...HEAD
+[2.0.6]: https://github.com/OSC/ondemand/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/OSC/ondemand/compare/v2.0.4...v2.0.5
 [2.0.4]: https://github.com/OSC/ondemand/compare/v2.0.3...v2.0.4
 [2.0.3]: https://github.com/OSC/ondemand/compare/v2.0.2...v2.0.3
