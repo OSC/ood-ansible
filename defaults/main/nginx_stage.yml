@@ -6,6 +6,8 @@
 
 pun_custom_env_declarations: []
 # pun_custom_env is undefined by default
+passenger_pool_idle_time: 300
+passenger_options: {}
 
 # user_regex: '[\w@\.\-]+'
 # nginx_min_uid: 500

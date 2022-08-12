@@ -36,6 +36,9 @@
 #   OOD_DASHBOARD_TITLE: "Open OnDemand"
 #   OOD_BRAND_BG_COLOR: "#53565a"
 #   OOD_BRAND_LINK_ACTIVE_BG_COLOR: "#fff"
+#
+pun_custom_env:
+  MY_ENV_VAR: "is so cool"
 
 # List of environment variables to pass onto PUN environment
 # from /etc/ood/profile. Example below shows some default
@@ -90,6 +93,17 @@ passenger_root: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passe
 # Set to `false` if you don't want this specified in nginx config
 #
 #passenger_python: '/opt/ood/nginx_stage/bin/python'
+
+# The maximum number of seconds that an application process may be idle.
+# Set to `false` if you don't want this specified in the nginx config
+#
+passenger_pool_idle_time: 400
+
+# Hash of Passenger configuration options
+# Keys without passenger_ prefix will be ignored
+#
+passenger_options:
+  passenger_stat_throttle_rate: "60"
 
 # Max file upload size in bytes (e.g., 10737420000)
 #
