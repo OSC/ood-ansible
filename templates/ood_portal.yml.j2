@@ -468,6 +468,16 @@ oidc_settings:
 {% endfor %}
 {% endif %}
 
+# The Dex URI behind Apache reverse proxy
+# Setting this value to some path will result in Dex listening on localhost
+# as well as only using HTTP for proxied communication
+# Example:
+#   dex_uri: /dex
+# Default: null
+{% if dex_uri is defined %}dex_uri: '{{ dex_uri }}'
+{% else %}#dex_uri: null
+{% endif %}
+
 # Dex configurations, values inside the "dex" structure are directly used to configure Dex
 # If the value for "dex" key is false or null, Dex support is disabled
 # Dex support will auto-enable if ondemand-dex package is installed
