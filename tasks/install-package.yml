@@ -28,13 +28,6 @@
     update_cache: "{{ apt_update_cache | bool }}"
   when: ansible_os_family == "Debian"
 
-- name: DELME HACK FOR DEBIAN TESTING
-  template:
-    src: "hack.ondemand-web.list.j2"
-    dest: "/etc/apt/sources.list.d/ondemand-web.list"
-    mode: 'u=rw,g=r,o='
-  when: ansible_os_family == "Debian"
-
 - name: install node's apt repo
   apt_repository:
     repo: "{{ item }}"
