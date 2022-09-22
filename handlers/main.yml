@@ -2,7 +2,7 @@
 - name: restart apache httpd
   systemd:
     name: "{{ apache_service_name }}"
-    state: restarted
+    state: "{{ 'restarted' if 'started' in apache_service_state else omit }}" # effectively makes handler conditional on state=[re]started
     enabled: "{{ apache_service_enabled }}"
   become: true
 
