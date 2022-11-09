@@ -8,6 +8,7 @@ driver:
 lint: |
   set -e
   yamllint .
+  ansible-lint
 
 platforms:
   - name: default
@@ -37,16 +38,6 @@ platforms:
 
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
-    options:
-      x:
-        - ANSIBLE0012
-        - '303' # systemctl used in place of systemd module
-        - '305' # Use shell only when shell functionality is required
-        - '301' # Commands should not change things if nothing needs doing
 
 verifier:
   name: ansible
-  lint:
-    name: flake8

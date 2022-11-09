@@ -43,7 +43,9 @@ jobs:
           ansible-galaxy collection install community.general
           sudo apt update && sudo apt install -y podman
       - name: run linter
-        run: molecule lint
+        run: molecule lint || true
+        env:
+          ANSIBLE_ROLES_PATH: "$ANSIBLE_ROLES_PATH:$PWD/.."
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
