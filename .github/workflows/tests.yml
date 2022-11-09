@@ -48,7 +48,6 @@ jobs:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          CONTAINER_RT: 'podman'
           ANSIBLE_ROLES_PATH: "$ANSIBLE_ROLES_PATH:$PWD/.."
 
   src-tests:
@@ -78,4 +77,3 @@ jobs:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          CONTAINER_RT: 'podman'
