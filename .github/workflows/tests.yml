@@ -15,7 +15,7 @@ on:
       - release-*
 
 jobs:
-  rpm-tests:
+  package-tests:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
