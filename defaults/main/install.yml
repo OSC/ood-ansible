@@ -33,3 +33,6 @@ apt_update_cache: true
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false
 ondemand_dex_package: ondemand-dex
+
+# needed for testing. no reason to change this in production.
+disable_htcacheclean: false

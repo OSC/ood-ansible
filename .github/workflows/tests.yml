@@ -15,7 +15,7 @@ on:
       - release-*
 
 jobs:
-  rpm-tests:
+  package-tests:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -42,8 +42,6 @@ jobs:
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
           sudo apt update && sudo apt install -y podman
-      - name: run linter
-        run: molecule lint
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
@@ -51,6 +49,7 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           CONTAINER_RT: 'podman'
+          ANSIBLE_ROLES_PATH: "$ANSIBLE_ROLES_PATH:$PWD/.."
 
   src-tests:
     runs-on: ubuntu-latest
@@ -73,11 +72,10 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
-      - name: run linter
-        run: molecule lint
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          CONTAINER_RT: 'podman'

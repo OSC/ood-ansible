@@ -49,8 +49,8 @@
       path: "{{ apache_conf_dir }}/ood-portal.conf"
       state: file
 
-  - include: verify_custom.yml
+  - include: tasks/verify_custom.yml
     when: inventory_hostname == "custom"
 
-  - include: verify_default.yml
+  - include: tasks/verify_default.yml
     when: inventory_hostname == "default"
