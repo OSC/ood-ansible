@@ -103,5 +103,5 @@
 - name: start apache service
   systemd:
     name: "{{ apache_service_name }}"
-    state: started
+    state: "{{ apache_service_state }}"
     enabled: "{{ apache_service_enabled }}"

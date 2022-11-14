@@ -9,6 +9,7 @@ ood_usr_app_dir: "{{ ood_app_dir }}/usr"
 
 # OS defaults are RHEL-like systems
 apache_service_enabled: true
+apache_service_state: started
 apache_package_name: httpd
 apache_service_name: httpd
 apache_user: apache
