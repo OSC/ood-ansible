@@ -1,6 +1,6 @@
 ---
 - name: Converge
-  hosts: upgrade
+  hosts: default
   roles:
     - role: ood-ansible
   vars_files:

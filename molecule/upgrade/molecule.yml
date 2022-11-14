@@ -11,7 +11,7 @@ lint: |
   ansible-lint || true
 
 platforms:
-  - name: upgrade
+  - name: default
     image: ${IMAGE:-"centos:7"}
     command: /sbin/init
     tmpfs:
