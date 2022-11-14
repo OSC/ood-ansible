@@ -28,6 +28,7 @@ jobs:
           - 'ubuntu:18.04'
         scenario:
           - 'default'
+          - 'upgrade'
 
     steps:
       - name: checkout

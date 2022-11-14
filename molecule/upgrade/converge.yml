@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: upgrade
+  roles:
+    - role: ood-ansible
+  vars_files:
+    - vars/install.yml
+
+
+

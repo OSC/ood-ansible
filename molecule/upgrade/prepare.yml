@@ -1,0 +1,22 @@
+- name: Prepare
+  hosts: all
+  
+  tasks:
+    - apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - package:
+        name: "{{ item }}"
+        state: latest
+      loop:
+      - ca-certificates
+      - systemd
+      - git
+
+- name: Install previous version
+  hosts: all
+  roles:
+    - role: ood-ansible
+  vars_files:
+    - vars/install.yml
