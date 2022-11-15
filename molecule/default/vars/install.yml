@@ -1,5 +1,1 @@
 disable_htcacheclean: true
-
-
-# FIXME: remove after 2.0.29 is on the 2.0 repo
-nodejs_version: 12
