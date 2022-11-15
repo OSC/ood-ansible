@@ -80,7 +80,6 @@
     name: ondemand
     state: "{{ ondemand_package }}"
     update_cache: true
-    exclude: "{{ ondemand_package_excludes | default([]) }}"
   when: ondemand_package == "latest"
 
 - name: install specific version of ondemand (RHEL)
