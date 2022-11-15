@@ -19,4 +19,4 @@
   roles:
     - role: ood-ansible
   vars_files:
-    - vars/install.yml
+    - vars/prepare.yml
