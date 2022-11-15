@@ -56,4 +56,4 @@
     when: inventory_hostname == "default"
   
   - name: Verify node version
-    shell: node --version | grep v14
+    shell: source /opt/ood/ondemand/enable && node --version | grep v14
