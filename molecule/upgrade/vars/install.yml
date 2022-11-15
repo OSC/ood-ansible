@@ -1,0 +1,2 @@
+ondemand_package: "ondemand{% if ansible_os_family == 'RedHat' %}-{% else %}={% endif %}2.0.28"
+disable_htcacheclean: true
