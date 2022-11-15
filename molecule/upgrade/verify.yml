@@ -54,3 +54,6 @@
 
   - include: tasks/verify_default.yml
     when: inventory_hostname == "default"
+  
+  - name: Verify node version
+    shell: node --version | grep v14
