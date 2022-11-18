@@ -26,6 +26,7 @@
     deb: "{{ apt_repo_url }}"
     state: present
     update_cache: "{{ apt_update_cache | bool }}"
+    dpkg_options: 'force-confnew'
   when: ansible_os_family == "Debian"
 
 - name: enable epel
@@ -82,7 +83,6 @@
     name: "{{ ondemand_package }}"
     state: "{% if ondemand_package == 'ondemand' %}latest{% else %}present{% endif %}"
     update_cache: true
-    dpkg_options: 'force-confold,force-confdef,force-confnew'
   when: ansible_os_family == "Debian"
 
 - name: install ondemand-dex
