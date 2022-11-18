@@ -70,17 +70,17 @@
   when: ansible_os_family == "Debian"
 
 - name: Install Open Ondemand (RHEL)
-  package:
+  ansible.builtin.yum:
     name:  "{{ ondemand_package }}"
-    state: present
+    state: "{% if ondemand_package == "ondemand" %}latest{% else %}present"
     update_cache: true
     exclude: "{{ ondemand_package_excludes | default([]) }}"
   when: ansible_os_family == "RedHat"
 
 - name: Install Open Ondemand (Debian)
-  package:
+  ansible.builtin.apt:
     name: "{{ ondemand_package }}"
-    state: present
+    state: "{% if ondemand_package == "ondemand" %}latest{% else %}present"
     update_cache: true
     dpkg_options: 'force-confold,force-confdef,force-confnew'
   when: ansible_os_family == "Debian"
