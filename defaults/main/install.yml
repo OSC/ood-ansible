@@ -24,7 +24,7 @@ rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
 deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
 deb_repo_key_id: "4B72FE2B92D31755"
 
-ondemand_package: "latest"
+ondemand_package: "ondemand"
 ondemand_package_excludes: []
 
 # OSC's repo rpm isn't signed

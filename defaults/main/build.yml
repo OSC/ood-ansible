@@ -29,7 +29,6 @@ ruby_lib_dir: "/usr/lib64/ruby/"
 
 passenger_version: "6.0.7"
 nginx_version: "1.18.0"
-nodejs_version: "12.x"
 passenger_tar: "passenger-{{ passenger_version }}.tar.gz"
 nginx_tar: "nginx-{{ nginx_version }}-x86_64-linux.tar.gz"
 agent_tar: "agent-x86_64-linux.tar.gz"
