@@ -21,6 +21,15 @@
     disable_gpg_check: "{{ disable_gpg_check_rpm_repo | bool }}"
   when: ansible_os_family == "RedHat"
 
+- name: Remove minor releasever from repofiles
+  ansible.builtin.replace:
+    path: /etc/yum.repos.d/ondemand-web.repo
+    regexp: '\$releasever'
+    replace: "{{ releasever | split('.') | first }}"
+  when:
+    - ansible_os_family == "RedHat"
+    - (releasever is defined) and ('.' in releasever)
+
 - name: install the apt repo
   apt:
     deb: "{{ apt_repo_url }}"
