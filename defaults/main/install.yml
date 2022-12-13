@@ -18,13 +18,13 @@ apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
 apache_log_dir: "/var/log/{{ apache_service_name }}"
 
 rpm_repo_url: "https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm"
-apt_repo_url: "https://apt.osc.edu/ondemand/2.0/ondemand-release-web_2.0.0_all.deb"
+apt_repo_url: "https://apt.osc.edu/ondemand/2.0/ondemand-release-web_2.0.1_all.deb"
 
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
 deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
 deb_repo_key_id: "4B72FE2B92D31755"
 
-ondemand_package: "latest"
+ondemand_package: "ondemand"
 ondemand_package_excludes: []
 
 # OSC's repo rpm isn't signed

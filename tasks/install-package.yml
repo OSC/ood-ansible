@@ -26,17 +26,7 @@
     deb: "{{ apt_repo_url }}"
     state: present
     update_cache: "{{ apt_update_cache | bool }}"
-  when: ansible_os_family == "Debian"
-
-- name: install node's apt repo
-  apt_repository:
-    repo: "{{ item }}"
-    state: present
-    filename: nodesource
-    update_cache: true
-  loop:
-    - "deb https://deb.nodesource.com/node_{{ nodejs_version }}.x {{ ansible_distribution_release }} main"
-    - "deb-src https://deb.nodesource.com/node_{{ nodejs_version }}.x {{ ansible_distribution_release }} main"
+    dpkg_options: 'force-confnew'
   when: ansible_os_family == "Debian"
 
 - name: enable epel
@@ -75,27 +65,25 @@
   shell: "subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
   when: ansible_distribution == "Red Hat Enterprise Linux" and ansible_distribution_major_version == '7'
 
-- name: install latest ondemand
-  package:
-    name: ondemand
-    state: "{{ ondemand_package }}"
+- name: Update cache (Debian)
+  ansible.builtin.apt:
     update_cache: true
-  when: ondemand_package == "latest"
+  when: ansible_os_family == "Debian"
 
-- name: install specific version of ondemand (RHEL)
-  package:
+- name: Install Open Ondemand (RHEL)
+  ansible.builtin.yum:
     name:  "{{ ondemand_package }}"
-    state: present
+    state: "{% if ondemand_package == 'ondemand' %}latest{% else %}present{% endif %}"
     update_cache: true
     exclude: "{{ ondemand_package_excludes | default([]) }}"
-  when: ondemand_package != "latest" and ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat"
 
-- name: install specific version of ondemand (Debian)
-  package:
+- name: Install Open Ondemand (Debian)
+  ansible.builtin.apt:
     name: "{{ ondemand_package }}"
-    state: present
+    state: "{% if ondemand_package == 'ondemand' %}latest{% else %}present{% endif %}"
     update_cache: true
-  when: ondemand_package != "latest" and ansible_os_family == "Debian"
+  when: ansible_os_family == "Debian"
 
 - name: install ondemand-dex
   package:
