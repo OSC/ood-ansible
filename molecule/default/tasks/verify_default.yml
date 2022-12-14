@@ -3,4 +3,6 @@
     if [[ -n $(grep '[^[:space:]]' /etc/ood/config/ondemand.d/ondemand.yml) ]]; then 
       false
     fi
+  args:
+    executable: /bin/bash
   changed_when: false

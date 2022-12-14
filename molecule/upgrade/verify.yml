@@ -66,4 +66,6 @@
         source /opt/ood/ondemand/enable
       fi
       node --version | grep v14
+    args:
+      executable: /bin/bash
     changed_when: false
