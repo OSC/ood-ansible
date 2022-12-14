@@ -1,4 +1,6 @@
 - name: Verify ondemand.d/ondemand.yml file is empty
-  ansible.builtin.command: |
-    if [[ -n $(grep '[^[:space:]]' /etc/ood/config/ondemand.d/ondemand.yml) ]]; then false; fi
+  ansible.builtin.shell: |
+    if [[ -n $(grep '[^[:space:]]' /etc/ood/config/ondemand.d/ondemand.yml) ]]; then 
+      false
+    fi
   changed_when: false
