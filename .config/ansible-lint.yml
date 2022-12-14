@@ -1,0 +1,3 @@
+# Ansible-lint completely ignores rules or tags listed below
+skip_list:
+  - package-latest

@@ -1,5 +1,5 @@
 - name: Install OOD apps
-  git:
+  ansible.builtin.git:
     repo: "{{ item.value.repo }}"
     dest: "{{ item.value.dest | default(ood_sys_app_dir) }}/{{ item.key }}"
     version: "{{ item.value.version | default('master') }}"

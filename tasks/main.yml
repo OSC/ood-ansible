@@ -1,49 +1,57 @@
-- name: include distribution variables
+- name: Include distribution variables
   block:
-    - name: include distribution variables
-      include_vars: "{{ item }}"
+    - name: Include distribution variables
+      ansible.builtin.include_vars: "{{ item }}"
       with_first_found:
-        - "{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
+        - "{{ ansible_distribution }}/{{ ansible_distribution_major_version }}.yml"
         - "{{ ansible_distribution }}.yml"
       tags: [ 'always' ]
   rescue:
     - name: Change error message
-      fail: msg="unable to find anything in vars/ for this operating system! {{ ansible_distribution }}"
+      ansible.builtin.fail:
+        msg: "unable to find anything in vars/ for this operating system! {{ ansible_distribution }}"
 
-- name: include scl related overrides
-  include_vars: "{{ ansible_distribution }}-scl.yml"
+- name: Include scl related overrides
+  ansible.builtin.include_vars: "{{ ansible_distribution }}-scl.yml"
   when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
   tags: [ 'always' ]
 
-- include: deps.yml
+- name: Include dependencies when building from source
+  ansible.builtin.import_tasks: deps.yml
   become: true
   tags: [ 'deps' ]
   when: install_from_src
 
-- include: build.yml
+- name: Include built tasks when building from source
+  ansible.builtin.import_tasks: build.yml
   tags: [ 'build' ]
   when: install_from_src
 
-- include: install-src.yml
+- name: Include install tasks when building from source
+  ansible.builtin.import_tasks: install-src.yml
   become: true
   tags: [ 'install' ]
   when: install_from_src
 
-- include: install-package.yml
+- name: Include install tasks when installing package
+  ansible.builtin.import_tasks: install-package.yml
   become: true
   tags: [ 'install' ]
   when: not install_from_src
 
-- include: configure.yml
+- name: Include configure tasks when configuring
+  ansible.builtin.import_tasks: configure.yml
   become: true
   tags: [ 'configure' ]
 
-- include: install-apps.yml
+- name: Include install app tasks when installing apps
+  ansible.builtin.import_tasks: install-apps.yml
   when: ood_install_apps is defined
   become: true
   tags: [ 'install' ]
 
-- include: apps.yml
+- name: Include configure app tasks when configuring
+  ansible.builtin.import_tasks: apps.yml
   when: ood_apps is defined
   become: true
   tags: [ 'configure' ]

@@ -5,18 +5,15 @@ galaxy_info:
   company: Ohio Supercomputer Center
   description: Installs and configures Open OnDemand on various Linux distributions.
   license: MIT
-  min_ansible_version: 2.0
+  min_ansible_version: '2.0'
   platforms:
     - name: Debian
       versions:
         - buster
     - name: EL
       versions:
-        - 7
-        - 8
-    - name: Fedora
-      versions:
-        - 30
+        - '7'
+        - '8'
     - name: Ubuntu
       versions:
         - bionic
@@ -26,6 +23,3 @@ galaxy_info:
     - supercomputing
     - gateway
     - portal
-
-  dependencies:
-    - community.general.gem

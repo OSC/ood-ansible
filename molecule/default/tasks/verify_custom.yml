@@ -1,7 +1,8 @@
-- name: copy custom cluster files to container
-  copy:
+- name: Copy custom cluster files to container
+  ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "/tmp/{{ item.dest }}"
+    mode: 'u=rw,g=r,o=r'
   with_items:
     - { src: "fixtures/clusters.d/my_cluster.yml", dest: "my_cluster.yml" }
     - { src: "fixtures/clusters.d/another_cluster.yml", dest: "another_cluster.yml" }
@@ -11,8 +12,8 @@
     - { src: "fixtures/config/auth_openidc.conf", dest: "auth_openidc.conf" }
     - { src: "fixtures/ondemand.d/ondemand.yml", dest: "ondemand.yml" }
 
-- name: verify config files
-  shell: "diff /tmp/{{ item.left }} {{ item.right }}"
+- name: Verify config files
+  ansible.builtin.command: "diff /tmp/{{ item.left }} {{ item.right }}"
   with_items:
     - { left: "dashboard.env", right: "{{ ood_base_conf_dir }}/apps/dashboard/env" }
     - { left: "files.env", right: "{{ ood_base_conf_dir }}/apps/files/env" }
@@ -22,8 +23,9 @@
     - { left: "bc_desktop/submit/submit.yml.erb", right: "{{ ood_base_conf_dir }}/apps/bc_desktop/submit/submit.yml.erb" }
     - { left: "auth_openidc.conf", right: "{{ apache_conf_dir }}/auth_openidc.conf" }
     - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
+  changed_when: false
 
-- name: verify sys/jupyter was installed correctly
+- name: Verify sys/jupyter was installed correctly
   ansible.builtin.git:
     repo: 'https://github.com/OSC/bc_example_jupyter.git'
     dest: '/var/www/ood/apps/sys/jupyter'
@@ -31,7 +33,7 @@
     update: no
     version: master
 
-- name: verify dev/customdir app was installed correctly
+- name: Verify dev/customdir app was installed correctly
   ansible.builtin.git:
     repo: 'https://github.com/OSC/bc_example_jupyter.git'
     dest: '/var/www/ood/apps/dev/customdir'

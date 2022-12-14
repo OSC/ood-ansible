@@ -1,5 +1,5 @@
-- name: install the os dependencies
-  package:
+- name: Install the os dependencies
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:
@@ -7,14 +7,14 @@
   when: os_dependencies is defined
 
 - name: Add Nodesource apt key.
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
     id: "68576280"
     state: present
   when:  ansible_os_family == 'Debian'
 
 - name: Add NodeSource repositories for Node.js.
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ item }}"
     state: present
   with_items:
@@ -23,13 +23,13 @@
   register: node_repo
   when:  ansible_os_family == 'Debian'
 
-- name: fresh debians need to update
-  apt:
+- name: Fresh debians need to update
+  ansible.builtin.apt:
     update_cache: yes
   when:  ansible_os_family == 'Debian'
 
-- name: install the dependencies
-  package:
+- name: Install the dependencies
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:
@@ -46,15 +46,15 @@
   - "{{ sqlite_devel_package }}"
   - "{{ ruby_devel_package }}"
 
-- name: install the npm on non-Debian
-  package:
+- name: Install the npm on non-Debian
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:
   - npm
   when: ansible_os_family != 'Debian'
 
-- name: install all the gems we need
+- name: Install all the gems we need
   community.general.gem:
     name: "{{ item.name }}"
     version: "{{ item.version }}"
@@ -65,13 +65,14 @@
   - { name: 'rake', version: '13.0.3' }
   - { name: 'bcrypt', version: '3.1.17' }
 
-- name: install apache openidc mod
-  package:
+- name: Install apache openidc mod
+  ansible.builtin.package:
     name: "{{ apache_oidc_mod_package }}"
     state: present
   when: oidc_uri is defined or
         oidc_discover_uri is defined or
         oidc_discover_root is defined
 
-- include: passenger.yml
-  become: false
+- name: Include passenger
+  ansible.builtin.import_tasks: passenger.yml
+  become: true
