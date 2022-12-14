@@ -20,14 +20,14 @@
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
     mode: 'u=rw,g=r,o='
-  notify: update ood portal
+  notify: Update ood portal
 
 - name: Template nginx_stage.yml
   ansible.builtin.template:
     src: "nginx_stage.yml.j2"
     dest: "{{ ood_base_conf_dir }}/nginx_stage.yml"
     mode: 'u=rw,g=r,o=r'
-  notify: update nginx stage
+  notify: Update nginx stage
 
 - name: Make .d configuration directories
   ansible.builtin.file:

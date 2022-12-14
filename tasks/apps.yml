@@ -59,4 +59,4 @@
     directory_mode: yes
   when: item.value.initializers is defined
   loop: "{{ ood_apps | default({}) | dict2items }}"
-  notify: update ood portal
+  notify: Update ood portal
