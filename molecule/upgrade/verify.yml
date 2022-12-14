@@ -62,5 +62,8 @@
   - name: Verify node version
     ansible.builtin.shell: |
       set -o pipefail
-      if [ -f /opt/ood/ondemand/enable ]; then source /opt/ood/ondemand/enable; fi; node --version | grep v14
+      if [ -f /opt/ood/ondemand/enable ]; then 
+        source /opt/ood/ondemand/enable
+      fi
+      node --version | grep v14
     changed_when: false
