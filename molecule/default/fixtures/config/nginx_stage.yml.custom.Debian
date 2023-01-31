@@ -36,6 +36,9 @@
 #   OOD_DASHBOARD_TITLE: "Open OnDemand"
 #   OOD_BRAND_BG_COLOR: "#53565a"
 #   OOD_BRAND_LINK_ACTIVE_BG_COLOR: "#fff"
+#
+pun_custom_env:
+  MY_ENV_VAR: "is so cool"
 
 # List of environment variables to pass onto PUN environment
 # from /etc/ood/profile. Example below shows some default
@@ -55,7 +58,7 @@ pun_custom_env_declarations: []
 
 # The reverse proxy daemon user used to access the Unix domain sockets
 #
-proxy_user: "apache"
+proxy_user: "www-data"
 
 # Path to NGINX executable used by OnDemand
 #
@@ -91,6 +94,17 @@ passenger_root: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passe
 #
 #passenger_python: '/opt/ood/nginx_stage/bin/python'
 
+# The maximum number of seconds that an application process may be idle.
+# Set to `false` if you don't want this specified in the nginx config
+#
+passenger_pool_idle_time: 400
+
+# Hash of Passenger configuration options
+# Keys without passenger_ prefix will be ignored
+#
+passenger_options:
+  passenger_stat_throttle_rate: "60"
+
 # Max file upload size in bytes (e.g., 10737420000)
 #
 nginx_file_upload_max: 10737420000
@@ -113,7 +127,7 @@ nginx_file_upload_max: 10737420000
 
 # Custom format configuration for access log
 #
-#pun_log_format: '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for"'
+pun_log_format: '$status|"$http_referer"|"$http_user_agent"|"$http_x_forwarded_for|$body_bytes_sent|$remote_addr|$remote_user|$time_local|"$request"'
 
 # Path to the per-user NGINX pid file
 #
@@ -203,12 +217,13 @@ app_root:
 # Regular expression used to validate a given user name. The user name supplied
 # must match the regular expression to be considered valid.
 #
-#user_regex: '[\w@\.\-]+'
+user_regex: '^[A-Za-z0-9\-_\.]+@osu.edu$'
 
 # Minimum user id required to generate per-user NGINX server as the requested
 # user
 #
 #min_uid: 1000
+min_uid: 500
 
 # Restrict starting up per-user NGINX process as user with this shell.
 # NB: This only affects the `pun` command, you are still able to start or stop

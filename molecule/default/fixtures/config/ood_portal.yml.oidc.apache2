@@ -40,7 +40,7 @@ port: 80
 # Example:
 #     logroot: '/path/to/my/logs'
 # Default: 'logs' (this is relative to ServerRoot)
-logroot: "/var/log/httpd"
+logroot: "/var/log/apache2"
 
 # Error log filename
 # Example:
@@ -152,7 +152,7 @@ pun_stage_cmd: "sudo /opt/ood/nginx_stage/sbin/nginx_stage"
 auth:
 - 'AuthType Basic'
 - 'AuthName "private"'
-- 'AuthUserFile "/etc/httpd/.htpasswd"'
+- 'AuthUserFile "/etc/apache2/.htpasswd"'
 - 'RequestHeader unset Authorization'
 - 'Require valid-user'
 
@@ -293,14 +293,14 @@ oidc_uri: /custom-oidc-path
 # Example:
 #     oidc_discover_uri: '/discover'
 # Default: null (disable support for discovering OpenID Connect IdP)
-#oidc_discover_uri: null
+oidc_discover_uri: /discover
 
 # Root directory on the filesystem that serves the HTML code used to display
 # the discovery page
 # Example:
 #     oidc_discover_root: '/var/www/ood/discover'
 # Default: null (disable support for discovering OpenID Connect IdP)
-#oidc_discover_root: null
+oidc_discover_root: /var/www/ood/discover
 
 #
 # Support for registering unmapped users
@@ -326,49 +326,49 @@ oidc_uri: /custom-oidc-path
 # Example:
 #     oidc_provider_metadata_url: https://example.com:5554/.well-known/openid-configuration
 # Default: null (value auto-generated if using Dex)
-#oidc_provider_metadata_url: null
+oidc_provider_metadata_url: https://oidc-idp.ohio.edu/.well-known/openid-configuration
 
 # OIDC client ID
 # Example:
 #     oidc_client_id: ondemand.example.com
 # Default: null (value auto-generated if using Dex)
-#oidc_client_id: null
+oidc_client_id: ondemand.ohio.edu
 
 # OIDC client secret
 # Example:
 #     oidc_client_secret: 334389048b872a533002b34d73f8c29fd09efc50
 # Default: null (value auto-generated if using Dex)
-#oidc_client_secret: null
+oidc_client_secret: test-client-secret
 
 # OIDC remote user claim. This is the claim that populates REMOTE_USER
 # Example:
 #     oidc_remote_user_claim: preferred_username
 # Default: preferred_username
-#oidc_remote_user_claim: preferred_username
+oidc_remote_user_claim: email
 
 # OIDC scopes
 # Example:
 #     oidc_scope: "openid profile email groups"
 # Default: "openid profile email"
-#oidc_scope: "openid profile email"
+oidc_scope: "openid profile email groups"
 
 # OIDC session inactivity timeout
 # Example:
 #     oidc_session_inactivity_timeout: 28800
 # Default: 28800
-#oidc_session_inactivity_timeout: 28800
+oidc_session_inactivity_timeout: 9001
 
 # OIDC session max duration
 # Example:
 #     oidc_session_max_duration: 28800
 # Default: 28800
-#oidc_session_max_duration: 28800
+oidc_session_max_duration: 9001
 
 # OIDC max number of state cookies and if to automatically clean old cookies
 # Example:
 #     oidc_state_max_number_of_cookies: "10 true"
 # Default: "10 true"
-#oidc_state_max_number_of_cookies: "10 true"
+oidc_state_max_number_of_cookies: 3 true
 
 # OIDC Enable SameSite cookie
 # When ssl is defined this defaults to 'Off'
@@ -376,7 +376,7 @@ oidc_uri: /custom-oidc-path
 # Example:
 #     oidc_cookie_same_site: 'Off'
 # Default: 'On'
-#oidc_cookie_same_site: "On"
+oidc_cookie_same_site: "Off"
 
 # Additional OIDC settings as key-value pairs
 # Example:
@@ -384,6 +384,9 @@ oidc_uri: /custom-oidc-path
 #       OIDCPassIDTokenAs: serialized
 #       OIDCPassRefreshToken: On
 # Default: {} (empty hash)
+oidc_settings:
+  OIDCCryptoPassphrase: 'mycryptopass'
+  OIDCPassRefreshToken: 'On'
 
 # The Dex URI behind Apache reverse proxy
 # Setting this value to some path will result in Dex listening on localhost

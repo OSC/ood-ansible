@@ -2,7 +2,7 @@
 - name: restart apache httpd
   systemd:
     name: "{{ apache_service_name }}"
-    state: restarted
+    state: "{{ 'restarted' if 'started' in apache_service_state else omit }}" # effectively makes handler conditional on state=[re]started
     enabled: "{{ apache_service_enabled }}"
   become: true
 
@@ -28,4 +28,4 @@
   become: true
   # FIXME: debian could benefit from this, but would need additional installs
   # even in centos:8 this is just a binary, not a systemd file
-  when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
+  when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8') and (not disable_htcacheclean)

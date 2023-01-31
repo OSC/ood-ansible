@@ -72,6 +72,15 @@
     state: link
   when: ansible_os_family == "Debian" and ssl is defined
 
+- name: enable Debian oidc mod
+  file:
+    src: "{{ apache_etc_dir }}/mods-available/auth_openidc.load"
+    dest: "{{ apache_etc_dir }}/mods-enabled/auth_openidc.load"
+    state: link
+  when: ansible_os_family == "Debian" and (oidc_uri is defined or
+        oidc_discover_uri is defined or
+        oidc_discover_root is defined)
+
 - name: enable Suse apache mods
   blockinfile:
     path: "{{ apache_etc_dir }}/loadmodule.conf"
@@ -94,5 +103,5 @@
 - name: start apache service
   systemd:
     name: "{{ apache_service_name }}"
-    state: started
+    state: "{{ apache_service_state }}"
     enabled: "{{ apache_service_enabled }}"

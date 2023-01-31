@@ -60,7 +60,7 @@ accesslog: 'custom_defined_access.log'
 # Example:
 #     logformat: '"%v %h \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T"'
 # Default: Apache combined format
-logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"'
+logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T %>s"'
 
 # Should RewriteEngine be used
 # Example:
@@ -387,6 +387,14 @@ oidc_cookie_same_site: "Off"
 oidc_settings:
   OIDCCryptoPassphrase: 'mycryptopass'
   OIDCPassRefreshToken: 'On'
+
+# The Dex URI behind Apache reverse proxy
+# Setting this value to some path will result in Dex listening on localhost
+# as well as only using HTTP for proxied communication
+# Example:
+#   dex_uri: /dex
+# Default: null
+#dex_uri: null
 
 # Dex configurations, values inside the "dex" structure are directly used to configure Dex
 # If the value for "dex" key is false or null, Dex support is disabled

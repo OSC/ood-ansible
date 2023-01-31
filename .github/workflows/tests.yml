@@ -15,7 +15,7 @@ on:
       - release-*
 
 jobs:
-  rpm-tests:
+  package-tests:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -24,41 +24,11 @@ jobs:
           - 'centos:7'
           - 'centos:8'
           - 'rockylinux:8'
-        scenario:
-          - 'default'
-          - 'templates'
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - name: install dependencies
-        run: |
-          python3 -m pip install -r molecule/requirements.txt
-          ansible-galaxy collection install community.general
-      - name: run linter
-        run: molecule lint
-      - name: run tests
-        run: molecule test --scenario-name=${{ matrix.scenario }}
-        env:
-          IMAGE: '${{ matrix.image }}'
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-
-  src-tests:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        image:
           - 'ubuntu:20.04'
           - 'ubuntu:18.04'
-          - 'debian:10'
         scenario:
-          - 'src-build'
+          - 'default'
+          - 'upgrade'
 
     steps:
       - name: checkout
@@ -71,11 +41,12 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
-      - name: run linter
-        run: molecule lint
+          sudo apt update && sudo apt install -y podman
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          CONTAINER_RT: 'podman'
+          ANSIBLE_ROLES_PATH: "$ANSIBLE_ROLES_PATH:$PWD/.."

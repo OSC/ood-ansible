@@ -9,6 +9,7 @@ ood_usr_app_dir: "{{ ood_app_dir }}/usr"
 
 # OS defaults are RHEL-like systems
 apache_service_enabled: true
+apache_service_state: started
 apache_package_name: httpd
 apache_service_name: httpd
 apache_user: apache
@@ -17,13 +18,23 @@ apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
 apache_log_dir: "/var/log/{{ apache_service_name }}"
 
 rpm_repo_url: "https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm"
+apt_repo_url: "https://apt.osc.edu/ondemand/2.0/ondemand-release-web_2.0.1_all.deb"
+
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
-ondemand_package: "latest"
+deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
+deb_repo_key_id: "4B72FE2B92D31755"
+
+ondemand_package: "ondemand"
 ondemand_package_excludes: []
 
 # OSC's repo rpm isn't signed
 disable_gpg_check_rpm_repo: true
+apt_update_cache: true
 
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false
 ondemand_dex_package: ondemand-dex
+
+# needed for testing. no reason to change these in production.
+disable_htcacheclean: false
+nodejs_version: 14

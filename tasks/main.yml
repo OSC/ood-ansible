@@ -1,9 +1,14 @@
 - name: include distribution variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
-    - "{{ ansible_distribution }}.yml"
-  tags: [ 'always' ]
+  block:
+    - name: include distribution variables
+      include_vars: "{{ item }}"
+      with_first_found:
+        - "{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
+        - "{{ ansible_distribution }}.yml"
+      tags: [ 'always' ]
+  rescue:
+    - name: Change error message
+      fail: msg="unable to find anything in vars/ for this operating system! {{ ansible_distribution }}"
 
 - name: include scl related overrides
   include_vars: "{{ ansible_distribution }}-scl.yml"
@@ -24,7 +29,7 @@
   tags: [ 'install' ]
   when: install_from_src
 
-- include: install-rpm.yml
+- include: install-package.yml
   become: true
   tags: [ 'install' ]
   when: not install_from_src

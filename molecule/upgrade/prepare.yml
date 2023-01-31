@@ -13,3 +13,10 @@
       - ca-certificates
       - systemd
       - git
+
+- name: Install previous version
+  hosts: all
+  roles:
+    - role: ood-ansible
+  vars_files:
+    - vars/prepare.yml

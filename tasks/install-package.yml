@@ -1,0 +1,92 @@
+- name: install the rpm repo's key
+  rpm_key:
+    state: present
+    key: "{{ rpm_repo_key }}"
+  when: ansible_os_family == "RedHat"
+
+- name: install apt repo keys
+  apt_key:
+    state: present
+    url: "{{ item.url }}"
+    id: "{{ item.id }}"
+  when: ansible_os_family == "Debian"
+  loop:
+  - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}" }
+  - { url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key", id: "1655A0AB68576280" }
+
+- name: install the rpm repo
+  package:
+    name: "{{ rpm_repo_url }}"
+    state: present
+    disable_gpg_check: "{{ disable_gpg_check_rpm_repo | bool }}"
+  when: ansible_os_family == "RedHat"
+
+- name: install the apt repo
+  apt:
+    deb: "{{ apt_repo_url }}"
+    state: present
+    update_cache: "{{ apt_update_cache | bool }}"
+    dpkg_options: 'force-confnew'
+  when: ansible_os_family == "Debian"
+
+- name: enable epel
+  package:
+    name: 'epel-release'
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: install rhel/centos:8 dependencies
+  dnf:
+    name: "{{ item }}"
+    enablerepo:
+      - powertools
+    state: present
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '8'
+  loop:
+    - "{{ additional_rpm_installs }}"
+
+- name: install additional packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+  - "{{ additional_rpm_installs }}"
+  when: additional_rpm_installs is defined
+
+- name: install apache openidc mod
+  package:
+    name: "{{ apache_oidc_mod_package }}"
+    state: present
+  when: oidc_uri is defined or
+        oidc_discover_uri is defined or
+        oidc_discover_root is defined
+
+- name: enable scl repos in rhel
+  shell: "subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
+  when: ansible_distribution == "Red Hat Enterprise Linux" and ansible_distribution_major_version == '7'
+
+- name: Update cache (Debian)
+  ansible.builtin.apt:
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: Install Open Ondemand (RHEL)
+  ansible.builtin.yum:
+    name:  "{{ ondemand_package }}"
+    state: "{% if ondemand_package == 'ondemand' %}latest{% else %}present{% endif %}"
+    update_cache: true
+    exclude: "{{ ondemand_package_excludes | default([]) }}"
+  when: ansible_os_family == "RedHat"
+
+- name: Install Open Ondemand (Debian)
+  ansible.builtin.apt:
+    name: "{{ ondemand_package }}"
+    state: "{% if ondemand_package == 'ondemand' %}latest{% else %}present{% endif %}"
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: install ondemand-dex
+  package:
+    name: "{{ ondemand_dex_package }}"
+    state: latest
+  when: install_ondemand_dex

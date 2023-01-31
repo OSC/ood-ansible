@@ -54,3 +54,6 @@
 
   - include: tasks/verify_default.yml
     when: inventory_hostname == "default"
+  
+  - name: Verify node version
+    shell: if [ -f /opt/ood/ondemand/enable ]; then source /opt/ood/ondemand/enable; fi; node --version | grep v14
