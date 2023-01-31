@@ -2,11 +2,13 @@
   hosts: all
   
   tasks:
-    - apt:
+    - name: Apt update
+      ansible.builtin.apt:
         update_cache: yes
       when: ansible_os_family == "Debian"
 
-    - package:
+    - name: Install extra packages
+      ansible.builtin.package:
         name: "{{ item }}"
         state: latest
       loop:
