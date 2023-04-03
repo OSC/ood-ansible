@@ -9,12 +9,14 @@
 - name: Update nginx stage
   ansible.builtin.command: "{{ ood_base_dir }}/nginx_stage/sbin/update_nginx_stage"
   become: true
+  changed_when: true
 
 - name: Update ood portal
   ansible.builtin.command: "{{ ood_base_dir }}/ood-portal-generator/sbin/update_ood_portal --force"
   when: ood_portal_generator
-  ignore_errors: yes
+  ignore_errors: true
   become: true
+  changed_when: true
   environment:
     APACHE: "{{ apache_conf_dir }}/ood-portal.conf"
   notify:
