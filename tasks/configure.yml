@@ -20,7 +20,7 @@
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
     mode: 'u=rw,g=r,o='
-  notify: Update ood portal
+  notify: Restart apache httpd
 
 - name: Template nginx_stage.yml
   ansible.builtin.template:
