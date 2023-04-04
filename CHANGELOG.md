@@ -2,12 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+The format is keeps the same versions as upstream OnDemand.  See
+[the README's version compatability](README.md#version-compatibility) for details.
 
-View the [README](README#version-compatibility) for more on version compatibility.
 
-## [Unreleased]
+## [3.0.0] - 2023-08-12
+
+- `install_from_src` has been deprecated. This feature will not receive updates and the option 
+  will be removed in future versions.
+- `ood_portal_generator` set to `false` has been deprecated. This feature will not receive updates and
+  the option will be removed in future versions.
+- The default package is now OnDemand 3.0.0 with `ruby_version` updated to 3.0 to meet it's dependencies
+  in [182](https://github.com/OSC/ood-ansible/pull/182).
+- `cluster` definitions have changed from an object to a multiline string in
+  [143](https://github.com/OSC/ood-ansible/pull/143). The [cluster examples](README.md#clusters)
+  have been updated as well.
+
 
 ## [2.0.6] - 2022-08-12
 
@@ -92,7 +102,8 @@ View the [README](README#version-compatibility) for more on version compatibilit
 
 - Initial release that works well
 
-[Unreleased]: https://github.com/OSC/ood-ansible/compare/v2.0.6...HEAD
+[Unreleased]: https://github.com/OSC/ood-ansible/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/OSC/ondemand/compare/v2.0.6...v3.0.0
 [2.0.6]: https://github.com/OSC/ondemand/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/OSC/ondemand/compare/v2.0.4...v2.0.5
 [2.0.4]: https://github.com/OSC/ondemand/compare/v2.0.3...v2.0.4
