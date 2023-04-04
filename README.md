@@ -7,7 +7,6 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
 ## Table of Contents
 
 - [Version compatibility](#version-compatibility)
-- [Installing from source](#install-from-source-or-rpm)
 - [Tags](#tags)
 - [Overrides](#overrides)
   - [Using this role to manage cluster and apps](#using-this-role-to-manage-cluster-and-apps)
@@ -16,7 +15,6 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
     - [ood_apps](#ood_apps)
   - [Open ID Connect](#open-id-connect)
     - [Install Dex](#install-dex)
-- [Using your own Passenger/nginx stack](#using-your-own-passenger/nginx-stack)
 - [Contributing](#contributing)
 
 ## Version compatibility
@@ -39,21 +37,6 @@ new features to _this role_.
 * Suse
 * Ubuntu 18
 * Ubuntu 20
-
-## Install from source or RPM
-
-This role was developed for users of non RPM systems like Ubuntu, Debian or Arch because Open OnDemand does not
-currently supply packages for those platforms.
-
-There is a toggle provided `install_from_src` which is by default false. When true, this role will git pull the
-Open OnDemand source code, build it (after installing dependencies) and push the resulting build to the appropriate
-destination directories.
-
-It's also important to note the `ood_source_version` configuration. This sets what branch or tag to pull the source
-code from. `master` maybe be unstable, while a `release_` branch is much more so. Tags like `v1.8.20` should work best.
-
-The default behavior is to install the rpm and configure the resulting installation and skip a lot of these tasks
-that build the source code.
 
 ## Installing a specific version
 
@@ -120,13 +103,15 @@ and configuration.
 
 #### `clusters`
 
-This configuration writes its content to `/etc/ood/config/clusters.d/<cluster_key>.yml` for each cluster item on this dict.
+This configuration writes its content to `/etc/ood/config/clusters.d/<cluster_key>.yml`
+for each cluster item on this dictionary.  Each dictionary item is a multiline string.
 
 For example
 
 ```yaml
 clusters:
-  my_cluster:
+  my_cluster: |
+    ---
     v2:
       metadata:
         title: my_cluster
@@ -136,7 +121,10 @@ clusters:
         adapter: slurm
         bin: /usr/local
       batch_connect:
-  another_cluster:
+        basic:
+          script_wrapper: "module restore\n%s"
+  another_cluster: |
+    ---
     v2:
       metadata:
         title: Another Cluster
@@ -308,15 +296,7 @@ See [auth\_openidc](https://github.com/zmartzone/mod_auth_openidc) for more info
 
 #### Install Dex
 
-To install dex for OIDC use set the flag `install_ondemand_dex` to true and it will install the RPM.
-
-## Using your own Passenger/nginx stack
-
-If you've built your own Passenger/nginx stack then set `passenger_remote_dl` to `false` and the playbook
-won't download Passenger's tars from GitHub.  This only applies when `install_from_src` is true.
-
-It will still expect them locally in `passenger_src_dir` though, so you'll have to tar them up appropriately
-with versions and so on. See [this task](tasks/passenger.yml) for more details.
+To install dex for OIDC use set the flag `install_ondemand_dex` to true and it will install the package.
 
 ## Contributing
 
