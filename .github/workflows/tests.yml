@@ -35,6 +35,12 @@ jobs:
         scenario:
           - 'default'
           - 'upgrade'
+        exclude:
+          # 2.0 did not support rocky:9 and ubuntu:22
+          - scenario: upgrade
+            image: 'rockylinux:9'
+          - scenario: upgrade
+            image: 'ubuntu:20.04'
 
     steps:
       - name: checkout
@@ -49,12 +55,7 @@ jobs:
           ansible-galaxy collection install community.general
           sudo apt update && sudo apt install -y podman
       - name: run tests
-        run: |
-          if [[ "${{ matrix.scenario }}" == "upgrade" && "${{ matrix.image }}" == "ubuntu:22.04" ]]; then
-            echo "Nothing to do. 2.0 did not support ${{ matrix.image }}. So we cannot upgrade on this platform"
-          else
-            molecule test --scenario-name=${{ matrix.scenario }}
-          fi
+        run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
