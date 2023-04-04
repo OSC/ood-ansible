@@ -15,6 +15,10 @@ on:
       - develop
       - release-*
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   package-tests:
     runs-on: ubuntu-latest
@@ -44,7 +48,12 @@ jobs:
           ansible-galaxy collection install community.general
           sudo apt update && sudo apt install -y podman
       - name: run tests
-        run: molecule test --scenario-name=${{ matrix.scenario }}
+        run: |
+          if [[ "{{ matrix.scenario }}" == "upgrade" && "${{ matrix.image }}" == "ubuntu:22.04" ]]; then
+            echo "Nothing to do. 2.0 did not support ${{ matrix.image }}. So we cannot upgrade on this platform"
+          else
+            molecule test --scenario-name=${{ matrix.scenario }}
+          fi
         env:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
