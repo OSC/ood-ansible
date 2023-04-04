@@ -40,7 +40,7 @@ jobs:
           - scenario: upgrade
             image: 'rockylinux:9'
           - scenario: upgrade
-            image: 'ubuntu:20.04'
+            image: 'ubuntu:22.04'
 
     steps:
       - name: checkout
