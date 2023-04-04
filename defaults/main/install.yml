@@ -38,3 +38,4 @@ ondemand_dex_package: ondemand-dex
 # needed for testing. no reason to change these in production.
 disable_htcacheclean: false
 nodejs_version: 14
+ruby_version: 3.0
