@@ -20,7 +20,7 @@
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
     mode: 'u=rw,g=r,o='
-  notify: Update ood portal
+  notify: Restart apache httpd
 
 - name: Template nginx_stage.yml
   ansible.builtin.template:
@@ -40,7 +40,7 @@
 
 - name: Add cluster configuration files
   ansible.builtin.copy:
-    content: "{{ item.value | to_nice_yaml }}"
+    content: "{{ item.value }}"
     dest: "{{ ood_base_conf_dir }}/clusters.d/{{ item.key }}.yml"
     mode: 'u=rw,g=r,o=r'
   loop: "{{ clusters | default({}) | dict2items }}"
