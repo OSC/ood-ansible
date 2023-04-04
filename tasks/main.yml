@@ -11,11 +11,6 @@
       ansible.builtin.fail:
         msg: "unable to find anything in vars/ for this operating system! {{ ansible_distribution }}"
 
-- name: Include scl related overrides
-  ansible.builtin.include_vars: "{{ ansible_distribution }}-scl.yml"
-  when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
-  tags: [ 'always' ]
-
 - name: Include dependencies when building from source
   ansible.builtin.import_tasks: deps.yml
   become: true

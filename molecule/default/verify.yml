@@ -12,10 +12,6 @@
       - "../../vars/{{ ansible_distribution }}/{{ ansible_distribution_major_version }}.yml"
       - "../../vars/{{ ansible_distribution }}.yml"
 
-  - name: Include scl related overrides
-    ansible.builtin.include_vars: "../../vars/{{ ansible_distribution }}-scl.yml"
-    when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
-
   - name: Get the package facts
     ansible.builtin.package_facts:
       manager: auto
