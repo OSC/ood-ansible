@@ -19,7 +19,7 @@ ood_portal_generator: true
 # - 443
 
 httpd_use_rewrites: true
-maintenance_ip_whitelist: []
+maintenance_ip_allowlist: []
 use_maintenance: true
 # security_csp_frame_ancestors:
 # security_strict_transport:
