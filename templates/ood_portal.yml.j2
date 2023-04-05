@@ -92,19 +92,23 @@ use_rewrites: {{ httpd_use_rewrites | bool | lower }}
 # Default: true
 use_maintenance: {{ use_maintenance | bool | lower }}
 
-# List of IPs to whitelist when maintenance is enabled
+# List of IPs to allow when maintenance is enabled
 # Example:
-#   maintenance_ip_whitelist:
+#   maintenance_ip_allowlist:
 #     - 192.168.0..*
 #     - 192.168.1..*
-# Default: [] (no IPs whitelisted)
-{% if maintenance_ip_whitelist is defined and maintenance_ip_whitelist|length > 0 %}
-maintenance_ip_whitelist:
+# Default: [] (no IPs allowed)
+{% if maintenance_ip_allowlist is defined and maintenance_ip_allowlist|length > 0 %}
+maintenance_ip_allowlist:
+{% for item in maintenance_ip_allowlist  %}
+  - '{{ item }}'
+{% endfor %}
+{% elif maintenance_ip_whitelist is defined and maintenance_ip_whitelist|length > 0 %}
 {% for item in maintenance_ip_whitelist  %}
   - '{{ item }}'
 {% endfor %}
 {% else %}
-maintenance_ip_whitelist: []
+maintenance_ip_allowlist: []
 {% endif %}
 
 # Set Header Content-Security-Policy frame-ancestors.
