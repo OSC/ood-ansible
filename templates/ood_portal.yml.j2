@@ -20,6 +20,19 @@
 {% else %}#servername: null
 {% endif %}
 
+# The server aliases used for the name-based Virtual Host
+# Example:
+#     server_aliases:
+#       - foo.example.com
+{% if server_aliases is defined and server_aliases|length > 0 %}
+server_aliases:
+{% for item in maintenance_ip_allowlist  %}
+  - '{{ item }}'
+{% endfor %}
+{% else %}
+#server_aliases: []
+{% endif %}
+
 # The server name used for rewrites
 # Example:
 #     proxy_server: 'proxy.example.com'
