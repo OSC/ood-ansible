@@ -27,6 +27,7 @@ use_maintenance: true
 servername: localhost
 # proxy_server:
 httpd_port: 80
+server_aliases: []
 
 # ssl_cert: "/etc/pki/tls/certs/www.example.com.crt"
 # ssl_cert_key: "/etc/pki/tls/certs/www.example.com.key"
