@@ -5,8 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is keeps the same versions as upstream OnDemand.  See
 [the README's version compatability](README.md#version-compatibility) for details.
 
+## [3.0.1] - 2023-04-06
 
-## [3.0.0] - 2023-08-12
+### Added
+
+- Support for EL9 in [184](https://github.com/OSC/ood-ansible/pull/184).
+- Support for `server_aliases` in [186](https://github.com/OSC/ood-ansible/pull/186).
+
+### Changed
+
+- `maintenance_ip_whitelist` is now `maintenance_ip_allowlist` in
+  [185](https://github.com/OSC/ood-ansible/pull/185).
+
+## [3.0.0] - 2023-04-04
 
 - `install_from_src` has been deprecated. This feature will not receive updates and the option 
   will be removed in future versions.
@@ -102,7 +113,8 @@ The format is keeps the same versions as upstream OnDemand.  See
 
 - Initial release that works well
 
-[Unreleased]: https://github.com/OSC/ood-ansible/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/OSC/ood-ansible/compare/v3.0.1...HEAD
+[3.0.1]: https://github.com/OSC/ondemand/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/OSC/ondemand/compare/v2.0.6...v3.0.0
 [2.0.6]: https://github.com/OSC/ondemand/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/OSC/ondemand/compare/v2.0.4...v2.0.5
