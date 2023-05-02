@@ -1,7 +1,7 @@
 ansible
 ansible-lint
+ansible_compat==3.0.2
 docker
-molecule-docker
-molecule-podman
 molecule
+molecule-plugins
 yamllint
