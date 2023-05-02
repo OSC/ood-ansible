@@ -24,6 +24,6 @@ ruby_lib_dir: "/usr/lib/x86_64-linux-gnu/ruby/2.7.0"
 additional_rpm_installs: []
 
 nginx_root: "/opt/ood/ondemand/root"
-nginx_bin: "{{ nginx_root }}/sbin/nginx"
+nginx_bin: "{{ nginx_root }}/usr/sbin/nginx"
 nginx_mime_types: "{{ nginx_root }}/etc/nginx/mime.types"
 locations_ini: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini"
