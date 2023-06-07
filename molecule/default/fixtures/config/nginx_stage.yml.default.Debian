@@ -59,7 +59,7 @@ proxy_user: "www-data"
 
 # Path to NGINX executable used by OnDemand
 #
-nginx_bin: "/opt/rh/ondemand/root/sbin/nginx"
+nginx_bin: "/opt/ood/ondemand/root/usr/sbin/nginx"
 
 # White-list of signals that can be sent to the NGINX process
 #
@@ -71,7 +71,7 @@ nginx_bin: "/opt/rh/ondemand/root/sbin/nginx"
 
 # Path to NGINX 'mime.types' file used by OnDemand
 #
-mime_types_path: "/opt/rh/ondemand/root/etc/nginx/mime.types"
+mime_types_path: "/opt/ood/ondemand/root/etc/nginx/mime.types"
 
 # Path to Passenger 'locations.ini' file used by OnDemand.
 #
