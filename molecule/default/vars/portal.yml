@@ -14,6 +14,9 @@ security_strict_transport: true
 pun_pre_hook_exports: 'OIDC_ACCESS_TOKEN,OIDC_CLAIM_EMAIL'
 pun_pre_hook_root_cmd: '/opt/site/site_pre_hook'
 
+server_aliases:
+  - other-site.notrealdoman.edu
+
 ood_auth_openidc:
   OIDCSessionMaxDuration: 28888
   OIDCClientID: myid

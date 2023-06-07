@@ -20,7 +20,8 @@ servername: localhost
 # Example:
 #     server_aliases:
 #       - foo.example.com
-#server_aliases: []
+server_aliases:
+  - 'other-site.notrealdoman.edu'
 
 # The server name used for rewrites
 # Example:
