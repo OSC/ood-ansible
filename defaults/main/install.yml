@@ -33,6 +33,9 @@ apt_update_cache: true
 
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false
+# This will default to latest ondemand-dex package if install_ondemand_dex
+# is set to true, to control the version installed add the version of the 
+# package to install (ondemand-dex-2.32.0)
 ondemand_dex_package: ondemand-dex
 
 # needed for testing. no reason to change these in production.

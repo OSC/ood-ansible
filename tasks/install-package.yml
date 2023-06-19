@@ -89,5 +89,5 @@
 - name: Install ondemand-dex
   ansible.builtin.package:
     name: "{{ ondemand_dex_package }}"
-    state: latest
+    state: "{% if ondemand_dex_package == 'ondemand-dex' %}latest{% else %}present{% endif %}"
   when: install_ondemand_dex
