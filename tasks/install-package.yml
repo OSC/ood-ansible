@@ -40,6 +40,7 @@
     name: "{{ item }}"
     enablerepo:
       - powertools
+      - codeready-builder-for-rhel-8-x86_64-rpms
     state: present
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '8'
   loop:
