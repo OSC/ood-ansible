@@ -41,13 +41,13 @@
 #     from: "config@example.com"
 #     to: "support@example.com"
 #     delivery_method: "smtp"
-    # delivery_settings:
-    #   address: 'smtp.gmail.com'
-    #   port: 587
-    #   domain: 'example.com'
-    #   user_name: '<username>'
-    #   password: '<password>'
-    #   authentication: 'plain'
-    #   enable_starttls_auto: true
-    #   open_timeout: 15
-    #   read_timeout: 15
+#     delivery_settings:
+#       address: 'smtp.gmail.com'
+#       port: 587
+#       domain: 'example.com'
+#       user_name: '<username>'
+#       password: '<password>'
+#       authentication: 'plain'
+#       enable_starttls_auto: true
+#       open_timeout: 15
+#       read_timeout: 15
