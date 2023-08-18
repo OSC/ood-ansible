@@ -4,4 +4,5 @@ ansible_compat==3.0.2
 docker
 molecule
 molecule-plugins
+molecule-podman
 yamllint
