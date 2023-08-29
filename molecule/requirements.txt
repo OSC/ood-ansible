@@ -1,6 +1,6 @@
 ansible
 ansible-lint
-ansible_compat==3.0.2
+ansible_compat
 docker
 molecule
 molecule-plugins
