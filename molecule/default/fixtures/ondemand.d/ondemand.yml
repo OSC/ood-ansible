@@ -26,3 +26,13 @@ dashboard_layout:
       - xdmod_widget_jobs
       width: 4
 
+
+support_ticket:
+  attachments:
+    max_items: 4
+    max_size: 6291456
+  description: 'My optional description Text for the support ticket feture '
+  email:
+    from: config@example.com
+    to: support@example.com
+

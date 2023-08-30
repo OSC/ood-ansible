@@ -16,3 +16,8 @@ pinned_apps:
 dashboard_layout:
   {{ dashboard_layout | to_nice_yaml(indent=2) | indent(2) }}
 {% endif %}
+
+{% if support_ticket is defined %}
+support_ticket:
+  {{ support_ticket | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}
