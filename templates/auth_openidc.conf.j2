@@ -1,4 +1,8 @@
 {% set _auth_openidc = default_auth_openidc | combine(ood_auth_openidc) %}
 {% for key, value in _auth_openidc.items() %}
+{% if value is iterable and (value is not string and value is not mapping) %}
+{{ value | map('quote') | join(' ') }}
+{% else %}
 {{ key }} {{ value | quote }}
+{% endif %}
 {% endfor %}
