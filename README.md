@@ -40,13 +40,13 @@ new features to _this role_.
 
 ## Installing a specific version
 
-`ondemand_package` defaults to `latest` meaning this will install the latest version on the versioned
-yum/deb repository. For example, it'll install the latest version, 2.0.20 from the versioned 2.0 yum
-repo.
+The `ondemand_package` can be used to control the version of the rpm/deb package 
+installed. The default, the value of `ondemand`, will install the latest version
+available from the relevant repository. You can specify a specific version using 
+the full package name. I.e., `ondemand-3.0.3` or use the comparison operators 
+supported by the name parameter of the ansible [yum](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yum_module.html)
+or [apt](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html) module.
 
-We use `ondemand_package` for the `name` paramter of the [ansible yum](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yum_module.html)
-so you can speicify a specific version with `ondemand-2.0.20` or use the comparison operators
-ansible supports.
 
 ### Installing from latest or nightly
 
