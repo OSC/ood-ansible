@@ -19,7 +19,7 @@
     name: "{{ rpm_repo_url }}"
     state: present
     disable_gpg_check: "{{ disable_gpg_check_rpm_repo | bool }}"
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" and not ood_use_exiting_repo_file
 
 - name: Install the apt repo
   ansible.builtin.apt:
@@ -27,13 +27,13 @@
     state: present
     update_cache: "{{ apt_update_cache | bool }}"
     dpkg_options: 'force-confnew'
-  when: ansible_os_family == "Debian"
+  when: ansible_os_family == "Debian" and not ood_use_exiting_repo_file
 
 - name: Enable epel
   ansible.builtin.package:
     name: 'epel-release'
     state: present
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" and not ood_use_exiting_repo_file
 
 - name: Install rhel/centos:8 dependencies
   ansible.builtin.dnf:
