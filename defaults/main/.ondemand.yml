@@ -51,3 +51,20 @@
 #       enable_starttls_auto: true
 #       open_timeout: 15
 #       read_timeout: 15
+
+# help_menu:
+#   - group: "Documentation"
+#   - title: "Jupyter Docs"
+#     icon: "fas://book"
+#     url: "https://mydomain.com/path/jupyter"
+#   - title: "Support Docs"
+#     icon: "fas://book"
+#     url: "https://mydomain.com/path/support/docs"
+#   - group: "Custom Pages"
+#   - page: "rstudio_guide"
+#     title: "RStudio Guide"
+#     icon: "fas://window-restore"
+#   - group: "Profiles"
+#   - profile: "team1"
+#     title: "Team 1"
+#     icon: "fas://user"
