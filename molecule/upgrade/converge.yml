@@ -3,3 +3,5 @@
   hosts: default
   roles:
     - role: ood-ansible
+  vars_files:
+    - vars/converge.yml
