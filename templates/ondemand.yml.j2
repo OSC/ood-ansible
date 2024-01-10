@@ -21,3 +21,8 @@ dashboard_layout:
 support_ticket:
   {{ support_ticket | to_nice_yaml(indent=2) | indent(2) }}
 {% endif %}
+
+{% if help_menu is defined %}
+help_menu:
+  {{ help_menu | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}
