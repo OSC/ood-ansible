@@ -224,6 +224,7 @@ auth:
 #       - 'SetEnv SPECIAL_ENV_VAR custom'
 # Default: [] (no custom directives)
 {% if custom_vhost_directives is defined %}
+custom_vhost_directives:
 {% for directive in custom_vhost_directives  %}
 - '{{ directive }}'
 {% endfor %}
@@ -238,6 +239,7 @@ auth:
 #       - 'SetEnv SPECIAL_ENV_VAR custom'
 # Default: [] (no custom directives)
 {% if custom_location_directives is defined %}
+custom_location_directives:
 {% for directive in custom_location_directives  %}
 - '{{ directive }}'
 {% endfor %}
