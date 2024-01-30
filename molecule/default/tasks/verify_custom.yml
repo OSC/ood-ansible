@@ -10,7 +10,7 @@
     - { src: "fixtures/apps/files.env", dest: "files.env" }
     - { src: "fixtures/apps/bc_desktop/", dest: "bc_desktop/" }
     - { src: "fixtures/config/auth_openidc.conf", dest: "auth_openidc.conf" }
-    - { src: "fixtures/ondemand.d/ondemand.yml", dest: "ondemand.yml" }
+    - { src: "fixtures/ondemand.d/ondemand_custom.yml", dest: "ondemand.yml" }
 
 - name: Verify config files
   ansible.builtin.command: "diff /tmp/{{ item.left }} {{ item.right }}"
