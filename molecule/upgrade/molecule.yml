@@ -15,8 +15,8 @@ platforms:
     image: ${IMAGE:-"centos:7"}
     command: /sbin/init
     tmpfs:
-      - /run
-      - /tmp
+      "/run": "rw"
+      "/tmp": "rw"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
