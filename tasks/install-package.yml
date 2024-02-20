@@ -74,21 +74,21 @@
 
 - name: Install Open Ondemand (RHEL)
   ansible.builtin.yum:
-    name:  "{{ ondemand_package }}"
-    state: "{% if ondemand_package == 'ondemand' %}latest{% else %}present{% endif %}"
+    name:  "{{ 'ondemand' if ondemand_package == 'latest' else ondemand_package }}"
+    state: "{{ 'latest' if ondemand_package == 'latest' else 'present' }}"
     update_cache: true
     exclude: "{{ ondemand_package_excludes | default([]) }}"
   when: ansible_os_family == "RedHat"
 
 - name: Install Open Ondemand (Debian)
   ansible.builtin.apt:
-    name: "{{ ondemand_package }}"
-    state: "{% if ondemand_package == 'ondemand' %}latest{% else %}present{% endif %}"
+    name:  "{{ 'ondemand' if ondemand_package == 'latest' else ondemand_package }}"
+    state: "{{ 'latest' if ondemand_package == 'latest' else 'present' }}"
     update_cache: true
   when: ansible_os_family == "Debian"
 
 - name: Install ondemand-dex
   ansible.builtin.package:
-    name: "{{ ondemand_dex_package }}"
-    state: "{% if ondemand_dex_package == 'ondemand-dex' %}latest{% else %}present{% endif %}"
+    name: "{{ 'ondemand-dex' if ondemand_dex_package == 'latest' else ondemand-dex }}"
+    state: "{{ 'latest' if ondemand_dex_package == 'latest' else 'present' }}"
   when: install_ondemand_dex
