@@ -1,3 +1,8 @@
+- name: Set el_distro when OS is RHEL
+  set_fact:
+    el_distro: el{{ ansible_distribution_major_version }}
+  when: ansible_os_family == "RedHat"
+
 - name: Install the rpm repo's key
   ansible.builtin.rpm_key:
     state: present

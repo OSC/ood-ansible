@@ -17,8 +17,8 @@ apache_etc_dir: "/etc/{{ apache_service_name }}"
 apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
 apache_log_dir: "/var/log/{{ apache_service_name }}"
 
-rpm_repo_url: "https://yum.osc.edu/ondemand/3.0/ondemand-release-web-3.0-1.noarch.rpm"
-apt_repo_url: "https://apt.osc.edu/ondemand/3.0/ondemand-release-web_3.0.0_all.deb"
+rpm_repo_url: "https://yum.osc.edu/ondemand/3.1/ondemand-release-web-3.1-1.{{ el_distro }}.noarch.rpm"
+apt_repo_url: "https://apt.osc.edu/ondemand/3.1/ondemand-release-web_3.1.0_all.deb"
 
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
 deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
@@ -40,5 +40,5 @@ ondemand_dex_package: ondemand-dex # behaviour as for ondemand_package
 
 # needed for testing. no reason to change these in production.
 disable_htcacheclean: false
-nodejs_version: 14
-ruby_version: 3.0
+nodejs_version: 18
+ruby_version: 3.1
