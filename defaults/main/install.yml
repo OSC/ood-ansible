@@ -18,7 +18,7 @@ apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
 apache_log_dir: "/var/log/{{ apache_service_name }}"
 
 rpm_repo_url: "https://yum.osc.edu/ondemand/3.1/ondemand-release-web-3.1-1.{{ el_distro }}.noarch.rpm"
-apt_repo_url: "https://apt.osc.edu/ondemand/3.1/ondemand-release-web_3.1.0_all.deb"
+apt_repo_url: "https://apt.osc.edu/ondemand/3.1/ondemand-release-web_3.1.1-{{ deb_distro }}_all.deb"
 
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
 deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
