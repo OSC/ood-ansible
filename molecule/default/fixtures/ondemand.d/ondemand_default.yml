@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+files_enable_shell_button: true
+bc_dynamic_js: false
+bc_clean_old_dirs: false
+bc_clean_old_dirs_days: 30
+host_based_profiles: false
+disable_bc_shell: false
+cancel_session_enabled: false
+
+
+
+
+
+bc_simple_auto_accounts: false
+remote_files_enabled: false
+remote_files_validation: false
+upload_enabled: true
+download_enabled: true
+hide_app_version: false
+
+
+
+motd_render_html: false

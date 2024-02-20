@@ -62,6 +62,15 @@ ssl:
 # Default: null (no SSL support)
 {% endif %}
 
+# Disable logging entirely. With this you can have custom log directives
+# in a seperate configuration file.
+# Example:
+#     disable_logs: true
+# Default: false (logs are enabled)
+{% if disable_logs is defined %}disable_logs: {{ disable_logs | bool | lower }}
+{% else %}#disable_logs: false
+{% endif %}
+
 # Root directory of log files (can be relative ServerRoot)
 # Example:
 #     logroot: '/path/to/my/logs'
@@ -207,6 +216,36 @@ auth:
 {% for auth in httpd_auth  %}
 - '{{ auth }}'
 {% endfor %}
+
+# List of custom apache directives to apply to the entire vhost.
+# Note this is an array of strings.
+# Example:
+#     custom_vhost_directives:
+#       - 'SetEnv SPECIAL_ENV_VAR custom'
+# Default: [] (no custom directives)
+{% if custom_vhost_directives is defined %}
+custom_vhost_directives:
+{% for directive in custom_vhost_directives  %}
+- '{{ directive }}'
+{% endfor %}
+{% else %}
+#custom_vhost_directives: []
+{% endif %}
+
+# List of custom apache directives to apply to the Locations.
+# Note this is an array of strings.
+# Example:
+#     custom_location_directives:
+#       - 'SetEnv SPECIAL_ENV_VAR custom'
+# Default: [] (no custom directives)
+{% if custom_location_directives is defined %}
+custom_location_directives:
+{% for directive in custom_location_directives  %}
+- '{{ directive }}'
+{% endfor %}
+{% else %}
+#custom_location_directives: []
+{% endif %}
 
 # Redirect user to the following URI when accessing root URI
 # Example:

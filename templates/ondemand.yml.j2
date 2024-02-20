@@ -26,3 +26,46 @@ support_ticket:
 help_menu:
   {{ help_menu | to_nice_yaml(indent=2) | indent(2) }}
 {% endif %}
+
+
+files_enable_shell_button: {{ files_enable_shell_button | bool | lower }}
+bc_dynamic_js: {{ bc_dynamic_js | bool | lower }}
+bc_clean_old_dirs: {{ bc_clean_old_dirs | bool | lower }}
+bc_clean_old_dirs_days: {{ bc_clean_old_dirs_days | int }}
+host_based_profiles: {{ host_based_profiles | bool | lower }}
+disable_bc_shell: {{ disable_bc_shell | bool | lower }}
+cancel_session_enabled: {{ cancel_session_enabled | bool | lower }}
+
+{% if module_file_dir is defined %}
+module_file_dir: {{ module_file_dir  }}
+{% endif %}
+
+{% if user_settings_file is defined %}
+user_settings_file: {{ user_settings_file  }}
+{% endif %}
+
+{% if facl_domain is defined %}
+facl_domain: {{ facl_domain  }}
+{% endif %}
+
+{% if auto_groups_filter is defined %}
+auto_groups_filter: {{ auto_groups_filter  }}
+{% endif %}
+
+bc_simple_auto_accounts: {{ bc_simple_auto_accounts | bool | lower }}
+remote_files_enabled: {{ remote_files_enabled | bool | lower }}
+remote_files_validation: {{ remote_files_validation | bool | lower }}
+upload_enabled: {{ upload_enabled | bool | lower }}
+download_enabled: {{ download_enabled | bool | lower }}
+hide_app_version: {{ hide_app_version | bool | lower }}
+
+{% if globus_endpoints is defined %}
+globus_endpoints:
+  {{ globus_endpoints | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}
+
+{% if google_analytics_tag_id is defined %}
+google_analytics_tag_id: {{ google_analytics_tag_id }}
+{% endif %}
+
+motd_render_html: {{ motd_render_html | bool | lower }}
