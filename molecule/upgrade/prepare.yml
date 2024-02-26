@@ -32,6 +32,12 @@
         nodejs_version: 18
       when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '9'
 
+    - name: Set dependency versions on Rocky 9
+      set_fact:
+        additional_rpm_installs:
+          - lua-posix
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '9' and ansible_distribution == 'Rocky'
+
   roles:
     - role: ood-ansible
   vars_files:
