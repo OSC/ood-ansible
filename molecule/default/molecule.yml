@@ -12,7 +12,7 @@ lint: |
 
 platforms:
   - name: default
-    image: ${IMAGE:-"centos:7"}
+    image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
       "/run": "rw"
@@ -20,7 +20,7 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
   - name: custom
-    image: ${IMAGE:-"centos:7"}
+    image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
       "/run": "rw"
@@ -28,7 +28,7 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
   - name: oidc
-    image: ${IMAGE:-"centos:7"}
+    image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
       "/run": "rw"

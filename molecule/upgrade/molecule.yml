@@ -12,7 +12,7 @@ lint: |
 
 platforms:
   - name: default
-    image: ${IMAGE:-"centos:7"}
+    image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
       "/run": "rw"
