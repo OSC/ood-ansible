@@ -18,6 +18,20 @@
 
 - name: Install previous version
   hosts: all
+
+  pre_tasks:
+    - name: Set dependency versions on el8
+      set_fact:
+        ruby_version: 3.0
+        nodejs_version: 14
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '8'
+
+    - name: Use default versions on el8
+      set_fact:
+        additional_rpm_installs:
+          - lua-posix
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '9'
+
   roles:
     - role: ood-ansible
   vars_files:

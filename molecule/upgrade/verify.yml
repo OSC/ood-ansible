@@ -54,14 +54,11 @@
   - name: Include verity default tasks
     ansible.builtin.include_tasks: tasks/verify_default.yml
     when: inventory_hostname == "default"
-  
-  - name: Verify node version
+
+  - name: Verify OOD version
     ansible.builtin.shell: |
       set -o pipefail
-      if [ -f /opt/ood/ondemand/enable ]; then 
-        source /opt/ood/ondemand/enable
-      fi
-      node --version | grep v14
+      grep -P '3.1.(\d)*' /opt/ood/VERSION
     args:
       executable: /bin/bash
     changed_when: false
