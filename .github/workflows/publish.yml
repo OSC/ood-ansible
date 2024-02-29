@@ -23,10 +23,10 @@ jobs:
       - name: Set up Python 3.
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.x'
 
       - name: Install Ansible.
-        run: pip3 install ansible ansible-base six
+        run: pip3 install ansible-core
 
       - name: Trigger a new import on Galaxy.
         run: ansible-galaxy role import --api-key ${{ secrets.OSC_ROBOT_GALAXY_TOKEN }} OSC ood-ansible
