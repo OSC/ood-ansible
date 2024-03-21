@@ -1,5 +1,5 @@
 # This file holds install related configurations as well as base directories for
-# configuration files. 
+# configuration files.
 
 ood_base_conf_dir: "/etc/ood/config"
 ood_app_dir: "{{ ood_base_apache_dir }}/apps"
@@ -23,6 +23,8 @@ apt_repo_url: "https://apt.osc.edu/ondemand/3.1/ondemand-release-web_3.1.1-{{ de
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
 deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
 deb_repo_key_id: "4B72FE2B92D31755"
+node_repo_key: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+node_repo_key_id: "1655A0AB68576280"
 
 ondemand_package: "ondemand" # Idempotent. Use `latest` to upgrade, or full package name or comparison operators.
 ondemand_package_excludes: []
