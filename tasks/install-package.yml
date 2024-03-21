@@ -22,7 +22,7 @@
   when: ansible_os_family == "Debian"
   loop:
   - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}" }
-  - { url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key", id: "1655A0AB68576280" }
+  - { url: "{{ node_repo_key }}", id: "{{ node_repo_key_id }}" }
 
 - name: Install the rpm repo
   ansible.builtin.package:
