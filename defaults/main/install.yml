@@ -34,7 +34,7 @@ disable_gpg_check_rpm_repo: true
 apt_update_cache: true
 
 # Set to "true" to skip installation of custom repo config files
-ood_use_exiting_repo_file: false
+ood_use_existing_repo_file: false
 
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false
