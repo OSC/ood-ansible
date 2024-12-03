@@ -3,6 +3,8 @@
   hosts: default
   roles:
     - role: ood-ansible
+  vars_files:
+    - vars/install.yml
 
 - name: Custom
   hosts: custom
@@ -13,3 +15,12 @@
     - vars/nginx.yml
     - vars/portal.yml
     - vars/ondemand.yml
+    - vars/install.yml
+
+- name: OIDC
+  hosts: oidc
+  roles:
+    - role: ood-ansible
+  vars_files:
+    - vars/oidc_portal.yml
+    - vars/install.yml

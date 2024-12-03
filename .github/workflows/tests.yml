@@ -7,6 +7,7 @@ on:
       - master
       - develop
       - release-*
+
   pull_request:
     branches:
       - main
@@ -14,67 +15,64 @@ on:
       - develop
       - release-*
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  rpm-tests:
+  package-tests:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
         image:
-          - 'centos:7'
-          - 'centos:8'
+          - 'centos/centos:stream8'
+          - 'rockylinux:8'
+          - 'rockylinux:9'
+          - 'almalinux:8'
+          - 'almalinux:9'
+          - 'ubuntu:20.04'
+          - 'ubuntu:22.04'
         scenario:
           - 'default'
-          - 'templates'
+          - 'upgrade'
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: '3.x'
       - name: install dependencies
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
-      - name: run linter
-        run: molecule lint
+          sudo apt update && sudo apt install -y podman
+
+      # we have to patch crun here because Ubuntu fails with the errors similar to the 
+      # github issue below.
+      # https://github.com/containers/crun/issues/1308
+      - name: patch crun
+        run: |
+          export CRUN_VER='1.14.3'
+          mkdir -p "${HOME}/.local/bin"
+          curl -L "https://github.com/containers/crun/releases/download/${CRUN_VER}/crun-${CRUN_VER}-linux-amd64" -o "${HOME}/.local/bin/crun"
+          chmod +x "${HOME}/.local/bin/crun"
+
+          mkdir -p "${HOME}/.config/containers"
+          cat << EOF > "${HOME}/.config/containers/containers.conf"
+          [engine.runtimes]
+          crun = [
+            "${HOME}/.local/bin/crun",
+            "/usr/bin/crun"
+          ]
+          EOF
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
           IMAGE: '${{ matrix.image }}'
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-
-  src-tests:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        image:
-          - 'ubuntu:20.04'
-          - 'ubuntu:18.04'
-          - 'debian:10'
-        scenario:
-          - 'src-build'
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - name: install dependencies
-        run: |
-          python3 -m pip install -r molecule/requirements.txt
-          ansible-galaxy collection install community.general
-      - name: run linter
-        run: molecule lint
-      - name: run tests
-        run: molecule test --scenario-name=${{ matrix.scenario }}
-        env:
-          IMAGE: '${{ matrix.image }}'
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
+          CONTAINER_RT: 'podman'
+          ANSIBLE_ROLES_PATH: "$ANSIBLE_ROLES_PATH:$PWD/.."

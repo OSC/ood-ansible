@@ -16,6 +16,13 @@
 # Default: null (don't use name-based Virtual Host)
 servername: localhost
 
+# The server aliases used for the name-based Virtual Host
+# Example:
+#     server_aliases:
+#       - foo.example.com
+server_aliases:
+  - 'other-site.notrealdoman.edu'
+
 # The server name used for rewrites
 # Example:
 #     proxy_server: 'proxy.example.com'
@@ -35,6 +42,13 @@ port: 80
 #       - 'SSLCertificateKeyFile "/etc/pki/tls/private/www.example.com.key"'
 # Default: null (no SSL support)
 # Default: null (no SSL support)
+
+# Disable logging entirely. With this you can have custom log directives
+# in a seperate configuration file.
+# Example:
+#     disable_logs: true
+# Default: false (logs are enabled)
+#disable_logs: false
 
 # Root directory of log files (can be relative ServerRoot)
 # Example:
@@ -60,7 +74,7 @@ accesslog: 'custom_defined_access.log'
 # Example:
 #     logformat: '"%v %h \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T"'
 # Default: Apache combined format
-logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T %>s"'
+logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T %>s"'
 
 # Should RewriteEngine be used
 # Example:
@@ -74,13 +88,13 @@ use_rewrites: true
 # Default: true
 use_maintenance: true
 
-# List of IPs to whitelist when maintenance is enabled
+# List of IPs to allow when maintenance is enabled
 # Example:
-#   maintenance_ip_whitelist:
+#   maintenance_ip_allowlist:
 #     - 192.168.0..*
 #     - 192.168.1..*
-# Default: [] (no IPs whitelisted)
-maintenance_ip_whitelist: []
+# Default: [] (no IPs allowed)
+maintenance_ip_allowlist: []
 
 # Set Header Content-Security-Policy frame-ancestors.
 # Example:
@@ -155,6 +169,26 @@ auth:
 - 'AuthUserFile "/etc/httpd/.htpasswd"'
 - 'RequestHeader unset Authorization'
 - 'Require valid-user'
+
+# List of custom apache directives to apply to the entire vhost.
+# Note this is an array of strings.
+# Example:
+#     custom_vhost_directives:
+#       - 'SetEnv SPECIAL_ENV_VAR custom'
+# Default: [] (no custom directives)
+custom_vhost_directives:
+- '<Location "/test">'
+- '  SetEnv SPECIAL_PATH /foo/bin'
+- '</Location>'
+
+# List of custom apache directives to apply to the Locations.
+# Note this is an array of strings.
+# Example:
+#     custom_location_directives:
+#       - 'SetEnv SPECIAL_ENV_VAR custom'
+# Default: [] (no custom directives)
+custom_location_directives:
+- 'SetEnv SPECIAL_PATH /foo/bin'
 
 # Redirect user to the following URI when accessing root URI
 # Example:
@@ -384,6 +418,14 @@ oidc_uri: /custom-oidc-path
 #       OIDCPassIDTokenAs: serialized
 #       OIDCPassRefreshToken: On
 # Default: {} (empty hash)
+
+# The Dex URI behind Apache reverse proxy
+# Setting this value to some path will result in Dex listening on localhost
+# as well as only using HTTP for proxied communication
+# Example:
+#   dex_uri: /dex
+# Default: null
+#dex_uri: null
 
 # Dex configurations, values inside the "dex" structure are directly used to configure Dex
 # If the value for "dex" key is false or null, Dex support is disabled

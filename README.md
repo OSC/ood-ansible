@@ -7,7 +7,6 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
 ## Table of Contents
 
 - [Version compatibility](#version-compatibility)
-- [Installing from source](#install-from-source-or-rpm)
 - [Tags](#tags)
 - [Overrides](#overrides)
   - [Using this role to manage cluster and apps](#using-this-role-to-manage-cluster-and-apps)
@@ -16,7 +15,6 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
     - [ood_apps](#ood_apps)
   - [Open ID Connect](#open-id-connect)
     - [Install Dex](#install-dex)
-- [Using your own Passenger/nginx stack](#using-your-own-passenger/nginx-stack)
 - [Contributing](#contributing)
 
 ## Version compatibility
@@ -30,20 +28,41 @@ As an example 1.8.0 of this role will be compatible with versions of Open OnDema
 Version 1.8.1 of this role will still install version 1.8.20 of Open OnDemand but provide some bug fixes or
 new features to _this role_.
 
-## Install from source or RPM
+## Supported Operating Systems
+* CentOS
+* Debian
+* Fedora
+* RedHat
+* Rocky Linux
+* Suse
+* Ubuntu 18
+* Ubuntu 20
 
-This role was developed for users of non RPM systems like Ubuntu, Debian or Arch because Open OnDemand does not
-currently supply packages for those platforms.
+## Installing a specific version
 
-There is a toggle provided `install_from_src` which is by default false. When true, this role will git pull the
-Open OnDemand source code, build it (after installing dependencies) and push the resulting build to the appropriate
-destination directories.
+The `ondemand_package` variable controls the version of the rpm/dep package installed. The default value of `ondemand` will install the latest version from the relevant repository, but will not upgrade an
+existing installation. You can install a specific version using the full package name (e.g. `ondemand-3.0.3`) or use the comparison operators supported by the `name` parameter of the ansible [yum](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yum_module.html)
+or [apt](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html) modules. Use `latest` to upgrade an existing installation.
 
-It's also important to note the `ood_source_version` configuration. This sets what branch or tag to pull the source
-code from. `master` maybe be unstable, while a `release_` branch is much more so. Tags like `v1.8.20` should work best.
+### Installing from latest or nightly
 
-The default behavior is to install the rpm and configure the resulting installation and skip a lot of these tasks
-that build the source code.
+If you'd like to install a package from our `latest` or `nightly` repositories simply change the
+`rpm_repo_url` configuration to download the appropriate RPM. For example
+`'https://yum.osc.edu/ondemand/latest/ondemand-release-web-latest-1-6.noarch.rpm'`. **Check yum
+for the correct version of this RPM.**
+
+When installing packages from latest or nightly you may have to exclude packages depending on the
+state of project.  As an example, when developing 2.1, 2.0 RPMs on latest or nightly
+need to exclude packages.
+
+Use `ondemand_package_excludes` to specify a list of packages to exclude during the yum install.
+Here's an example to exclude all `2.1` packages when installing `2.0.20`.
+
+```yaml
+ondemand_package: 'ondemand-2.0.20'
+ondemand_package_excludes:
+  - '*-2.1'
+```
 
 ## Tags
 
@@ -62,6 +81,17 @@ to when configuring or options during building from source or installation.
 Check these files for variables you can override.  Save all these overrides to a file that
 you can then call with `--extra-vars=@overrides.yml`
 
+All the default files are grouped by what they apply to. Some files are for documentation purposes
+and only have comments. They're hidden for ansible 2.9.X compatability and
+[this error loading empty files](https://github.com/OSC/ood-ansible/issues/121).
+
+* `.apps.yml` - configurations for installing apps (hidden because it's emtpy).
+* `build.yml` - configurations for building OnDemand from the source.
+* `install.yml` - configurations for installing OnDemand.
+* `nginx_stage.yml` - configurations that apply to `/etc/ood/config/nginx_stage.yml`
+* `.ondemand.yml` - configurations that apply to `/etc/ood/config/ondemand.d/ondemand.yml` (hidden because it's empty).
+* `ood_portal.yml` - configurations that apply to `/etc/ood/config/ood_portal.yml`
+
 ### Using this role to manage cluster and apps
 
 There are a few variables in this role that enable Open OnDemand customizations
@@ -69,13 +99,15 @@ and configuration.
 
 #### `clusters`
 
-This configuration writes its content to `/etc/ood/config/clusters.d/<cluster_key>.yml` for each cluster item on this dict.
+This configuration writes its content to `/etc/ood/config/clusters.d/<cluster_key>.yml`
+for each cluster item on this dictionary.  Each dictionary item is a multiline string.
 
 For example
 
 ```yaml
 clusters:
-  my_cluster:
+  my_cluster: |
+    ---
     v2:
       metadata:
         title: my_cluster
@@ -85,7 +117,10 @@ clusters:
         adapter: slurm
         bin: /usr/local
       batch_connect:
-  another_cluster:
+        basic:
+          script_wrapper: "module restore\n%s"
+  another_cluster: |
+    ---
     v2:
       metadata:
         title: Another Cluster
@@ -257,15 +292,7 @@ See [auth\_openidc](https://github.com/zmartzone/mod_auth_openidc) for more info
 
 #### Install Dex
 
-To install dex for OIDC use set the flag `install_ondemand_dex` to true and it will install the RPM.
-
-## Using your own Passenger/nginx stack
-
-If you've built your own Passenger/nginx stack then set `passenger_remote_dl` to `false` and the playbook
-won't download Passenger's tars from GitHub.  This only applies when `install_from_src` is true.
-
-It will still expect them locally in `passenger_src_dir` though, so you'll have to tar them up appropriately
-with versions and so on. See [this task](tasks/passenger.yml) for more details.
+To install dex for OIDC use set the flag `install_ondemand_dex` to true and it will install the package.
 
 ## Contributing
 

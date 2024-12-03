@@ -1,36 +1,36 @@
-- name: template passenger locations ini file
-  template:
+- name: Template passenger locations ini file
+  ansible.builtin.template:
     src: "locations.ini.j2"
     dest: "{{ passenger_lib_dir }}/locations.ini"
     mode: 'u=rw,g=r,o=r'
   when: install_from_src
 
-- name: template apache file
-  template:
+- name: Template apache file
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 'u=rw,g=r,o='
   loop:
   - { src: "ood-portal.conf.j2", dest: "{{ apache_conf_dir }}/ood-portal.conf" }
   when: not ood_portal_generator
-  notify: restart apache httpd
+  notify: Restart apache httpd
 
-- name: template ood_portal.yml
-  template:
+- name: Template ood_portal.yml
+  ansible.builtin.template:
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
     mode: 'u=rw,g=r,o='
-  notify: update ood portal
+  notify: Restart apache httpd
 
-- name: template nginx_stage.yml
-  template:
+- name: Template nginx_stage.yml
+  ansible.builtin.template:
     src: "nginx_stage.yml.j2"
     dest: "{{ ood_base_conf_dir }}/nginx_stage.yml"
     mode: 'u=rw,g=r,o=r'
-  notify: update nginx stage
+  notify: Update nginx stage
 
-- name: make .d configuration directories
-  file:
+- name: Make .d configuration directories
+  ansible.builtin.file:
     path: "{{ item }}"
     mode: 'u=rwx,g=rx,o=rx'
     state: directory
@@ -39,21 +39,21 @@
     - "{{ ood_base_conf_dir }}/ondemand.d"
 
 - name: Add cluster configuration files
-  copy:
-    content: "{{ item.value | to_nice_yaml }}"
+  ansible.builtin.copy:
+    content: "{{ item.value }}"
     dest: "{{ ood_base_conf_dir }}/clusters.d/{{ item.key }}.yml"
     mode: 'u=rw,g=r,o=r'
   loop: "{{ clusters | default({}) | dict2items }}"
   when: clusters is defined
 
-- name: template ondemand.yml
-  template:
+- name: Template ondemand.yml
+  ansible.builtin.template:
     src: "ondemand.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml"
     mode: 'u=rw,g=r,o=r'
 
-- name: enable Debian apache mods
-  file:
+- name: Enable Debian apache mods
+  ansible.builtin.file:
     src: "{{ apache_etc_dir }}/mods-available/{{ item }}.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/{{ item }}.load"
     state: link
@@ -65,15 +65,24 @@
   - proxy
   - proxy_http
 
-- name: enable Debian ssl mod
-  file:
+- name: Enable Debian ssl mod
+  ansible.builtin.file:
     src: "{{ apache_etc_dir }}/mods-available/ssl.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/ssl.load"
     state: link
   when: ansible_os_family == "Debian" and ssl is defined
 
-- name: enable Suse apache mods
-  blockinfile:
+- name: Enable Debian oidc mod
+  ansible.builtin.file:
+    src: "{{ apache_etc_dir }}/mods-available/auth_openidc.load"
+    dest: "{{ apache_etc_dir }}/mods-enabled/auth_openidc.load"
+    state: link
+  when: ansible_os_family == "Debian" and (oidc_uri is defined or
+        oidc_discover_uri is defined or
+        oidc_discover_root is defined)
+
+- name: Enable Suse apache mods
+  ansible.builtin.blockinfile:
     path: "{{ apache_etc_dir }}/loadmodule.conf"
     block: |
       LoadModule lua_module                     /usr/lib64/apache2-prefork/mod_lua.so
@@ -82,17 +91,17 @@
       LoadModule proxy_http_module              /usr/lib64/apache2-prefork/mod_proxy_http.so
   when: ansible_os_family == "Suse"
 
-- name: add OpenIDC config to Apache
-  template:
+- name: Add OpenIDC config to Apache
+  ansible.builtin.template:
     src: auth_openidc.conf.j2
     dest: "{{ apache_conf_dir }}/auth_openidc.conf"
     mode: 'u=rw,g=r,o='
     group: "{{ apache_user }}"
   when: ood_auth_openidc is defined
-  notify: restart apache httpd
+  notify: Restart apache httpd
 
-- name: start apache service
-  systemd:
+- name: Start apache service
+  ansible.builtin.systemd:
     name: "{{ apache_service_name }}"
-    state: started
+    state: "{{ apache_service_state }}"
     enabled: "{{ apache_service_enabled }}"

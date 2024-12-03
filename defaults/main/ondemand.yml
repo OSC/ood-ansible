@@ -30,3 +30,66 @@
 #         widgets:
 #           - xdmod_widget_job_efficiency
 #           - xdmod_widget_jobs
+
+# support_ticket:
+#   attachments:
+#     max_items: 4
+#     max_size: 2097152
+#   description: |
+#     My optional description Text for the support ticket feture
+#   email:
+#     from: "config@example.com"
+#     to: "support@example.com"
+#     delivery_method: "smtp"
+#     delivery_settings:
+#       address: 'smtp.gmail.com'
+#       port: 587
+#       domain: 'example.com'
+#       user_name: '<username>'
+#       password: '<password>'
+#       authentication: 'plain'
+#       enable_starttls_auto: true
+#       open_timeout: 15
+#       read_timeout: 15
+
+# help_menu:
+#   - group: "Documentation"
+#   - title: "Jupyter Docs"
+#     icon: "fas://book"
+#     url: "https://mydomain.com/path/jupyter"
+#   - title: "Support Docs"
+#     icon: "fas://book"
+#     url: "https://mydomain.com/path/support/docs"
+#   - group: "Custom Pages"
+#   - page: "rstudio_guide"
+#     title: "RStudio Guide"
+#     icon: "fas://window-restore"
+#   - group: "Profiles"
+#   - profile: "team1"
+#     title: "Team 1"
+#     icon: "fas://user"
+
+files_enable_shell_button: true
+bc_dynamic_js: false
+bc_clean_old_dirs: false
+bc_clean_old_dirs_days: 30
+host_based_profiles: false
+disable_bc_shell: false
+cancel_session_enabled: false
+
+# module_file_dir: null
+# user_settings_file: ~/.config/ondemand/settings.yml
+# facl_domain: null
+# auto_groups_filter: null
+
+bc_simple_auto_accounts: false
+remote_files_enabled: false
+remote_files_validation: false
+upload_enabled: true
+download_enabled: true
+hide_app_version: false
+
+# globus_endpoints: null
+# google_analytics_tag_id: null
+
+motd_render_html: false

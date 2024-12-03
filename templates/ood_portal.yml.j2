@@ -20,6 +20,19 @@
 {% else %}#servername: null
 {% endif %}
 
+# The server aliases used for the name-based Virtual Host
+# Example:
+#     server_aliases:
+#       - foo.example.com
+{% if server_aliases is defined and server_aliases|length > 0 %}
+server_aliases:
+{% for item in server_aliases  %}
+  - '{{ item }}'
+{% endfor %}
+{% else %}
+#server_aliases: []
+{% endif %}
+
 # The server name used for rewrites
 # Example:
 #     proxy_server: 'proxy.example.com'
@@ -47,6 +60,15 @@ ssl:
 {% endfor %}
 {% else %}
 # Default: null (no SSL support)
+{% endif %}
+
+# Disable logging entirely. With this you can have custom log directives
+# in a seperate configuration file.
+# Example:
+#     disable_logs: true
+# Default: false (logs are enabled)
+{% if disable_logs is defined %}disable_logs: {{ disable_logs | bool | lower }}
+{% else %}#disable_logs: false
 {% endif %}
 
 # Root directory of log files (can be relative ServerRoot)
@@ -92,19 +114,23 @@ use_rewrites: {{ httpd_use_rewrites | bool | lower }}
 # Default: true
 use_maintenance: {{ use_maintenance | bool | lower }}
 
-# List of IPs to whitelist when maintenance is enabled
+# List of IPs to allow when maintenance is enabled
 # Example:
-#   maintenance_ip_whitelist:
+#   maintenance_ip_allowlist:
 #     - 192.168.0..*
 #     - 192.168.1..*
-# Default: [] (no IPs whitelisted)
-{% if maintenance_ip_whitelist is defined and maintenance_ip_whitelist|length > 0 %}
-maintenance_ip_whitelist:
+# Default: [] (no IPs allowed)
+{% if maintenance_ip_allowlist is defined and maintenance_ip_allowlist|length > 0 %}
+maintenance_ip_allowlist:
+{% for item in maintenance_ip_allowlist  %}
+  - '{{ item }}'
+{% endfor %}
+{% elif maintenance_ip_whitelist is defined and maintenance_ip_whitelist|length > 0 %}
 {% for item in maintenance_ip_whitelist  %}
   - '{{ item }}'
 {% endfor %}
 {% else %}
-maintenance_ip_whitelist: []
+maintenance_ip_allowlist: []
 {% endif %}
 
 # Set Header Content-Security-Policy frame-ancestors.
@@ -190,6 +216,36 @@ auth:
 {% for auth in httpd_auth  %}
 - '{{ auth }}'
 {% endfor %}
+
+# List of custom apache directives to apply to the entire vhost.
+# Note this is an array of strings.
+# Example:
+#     custom_vhost_directives:
+#       - 'SetEnv SPECIAL_ENV_VAR custom'
+# Default: [] (no custom directives)
+{% if custom_vhost_directives is defined %}
+custom_vhost_directives:
+{% for directive in custom_vhost_directives  %}
+- '{{ directive }}'
+{% endfor %}
+{% else %}
+#custom_vhost_directives: []
+{% endif %}
+
+# List of custom apache directives to apply to the Locations.
+# Note this is an array of strings.
+# Example:
+#     custom_location_directives:
+#       - 'SetEnv SPECIAL_ENV_VAR custom'
+# Default: [] (no custom directives)
+{% if custom_location_directives is defined %}
+custom_location_directives:
+{% for directive in custom_location_directives  %}
+- '{{ directive }}'
+{% endfor %}
+{% else %}
+#custom_location_directives: []
+{% endif %}
 
 # Redirect user to the following URI when accessing root URI
 # Example:
@@ -313,7 +369,7 @@ pun_max_retries: {{ pun_max_retries }}
 # Example:
 #    pun_pre_hook_root_cmd: '/opt/hpc-site/ood_pun_prehook'
 # Default: null (do not run any PUN pre hook as root)
-{% if rnode_uri is defined %}pun_pre_hook_root_cmd: '{{ pun_pre_hook_root_cmd }}'
+{% if pun_pre_hook_root_cmd is defined %}pun_pre_hook_root_cmd: '{{ pun_pre_hook_root_cmd }}'
 {% else %}# pun_pre_hook_root_cmd: null
 {% endif %}
 
@@ -464,8 +520,18 @@ pun_max_retries: {{ pun_max_retries }}
 {% if oidc_settings is defined %}
 oidc_settings:
 {% for key, value in oidc_settings.items() %}
-{{ key }} {{ value | quote }}
+  {{ key }}: '{{ value }}'
 {% endfor %}
+{% endif %}
+
+# The Dex URI behind Apache reverse proxy
+# Setting this value to some path will result in Dex listening on localhost
+# as well as only using HTTP for proxied communication
+# Example:
+#   dex_uri: /dex
+# Default: null
+{% if dex_uri is defined %}dex_uri: '{{ dex_uri }}'
+{% else %}#dex_uri: null
 {% endif %}
 
 # Dex configurations, values inside the "dex" structure are directly used to configure Dex

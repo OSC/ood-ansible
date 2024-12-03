@@ -3,7 +3,7 @@ apache_package_name: apache2
 apache_service_name: apache2
 apache_user: www-data
 apache_etc_dir: "/etc/{{ apache_service_name }}"
-apache_conf_dir: "{{ apache_etc_dir }}/conf-enabled"
+apache_conf_dir: "{{ apache_etc_dir }}/sites-enabled"
 apache_log_dir: "/var/log/{{ apache_service_name }}"
 container_apache_restart_cmd: ". {{ apache_etc_dir }}/envvars && /usr/sbin/apache2 -k start"
 apache_oidc_mod_package:  libapache2-mod-auth-openidc
@@ -20,3 +20,8 @@ os_directories:
 - "/var/run/{{ apache_service_name }}"
 
 ruby_lib_dir: "/usr/lib/x86_64-linux-gnu/ruby/2.5.0"
+
+nginx_root: "/opt/rh/ondemand/root"
+nginx_bin: "{{ nginx_root }}/sbin/nginx"
+nginx_mime_types: "{{ nginx_root }}/etc/nginx/mime.types"
+locations_ini: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini"

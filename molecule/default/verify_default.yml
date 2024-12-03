@@ -1,3 +1,0 @@
-- name: verify ondemand.d/ondemand.yml file is empty
-  shell: |
-    if [[ -n $(grep '[^[:space:]]' /etc/ood/config/ondemand.d/ondemand.yml) ]]; then false; fi

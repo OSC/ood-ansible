@@ -1,4 +1,8 @@
 ansible
+ansible-lint
+ansible_compat
 docker
-molecule-docker
 molecule
+molecule-plugins
+molecule-podman
+yamllint

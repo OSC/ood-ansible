@@ -39,8 +39,8 @@
 {% if pun_custom_env is defined and pun_custom_env|length > 0 %}
 #
 pun_custom_env:
-{% for entry in lookup('dict', pun_custom_env) %}
-  {{ entry.key }}: "{{ entry.value }}"
+{% for (key,value) in pun_custom_env.items() %}
+  {{ key }}: "{{ value }}"
 {% endfor %}
 {% endif %}
 
@@ -104,6 +104,23 @@ passenger_root: "{{ locations_ini }}"
 # Set to `false` if you don't want this specified in nginx config
 #
 #passenger_python: '/opt/ood/nginx_stage/bin/python'
+
+# The maximum number of seconds that an application process may be idle.
+# Set to `false` if you don't want this specified in the nginx config
+#
+passenger_pool_idle_time: {{ passenger_pool_idle_time }}
+
+# Hash of Passenger configuration options
+# Keys without passenger_ prefix will be ignored
+#
+{% if passenger_options is defined and passenger_options.keys() | length > 0 %}
+passenger_options:
+{% for (key,value) in passenger_options.items() %}
+  {{ key }}: "{{ value }}"
+{% endfor %}
+{% else %}
+#passenger_options: {}
+{% endif %}
 
 # Max file upload size in bytes (e.g., 10737420000)
 #

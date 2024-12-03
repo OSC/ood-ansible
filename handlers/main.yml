@@ -1,31 +1,21 @@
 ---
-- name: restart apache httpd
-  systemd:
+- name: Restart apache httpd
+  ansible.builtin.systemd:
     name: "{{ apache_service_name }}"
-    state: restarted
+    state: "{{ 'restarted' if 'started' in apache_service_state else omit }}" # effectively makes handler conditional on state=[re]started
     enabled: "{{ apache_service_enabled }}"
   become: true
 
-- name: update nginx stage
-  shell: "{{ ood_base_dir }}/nginx_stage/sbin/update_nginx_stage"
+- name: Update nginx stage
+  ansible.builtin.command: "{{ ood_base_dir }}/nginx_stage/sbin/update_nginx_stage"
   become: true
+  changed_when: true
 
-- name: update ood portal
-  shell: "{{ ood_base_dir }}/ood-portal-generator/sbin/update_ood_portal --force"
-  when: ood_portal_generator
-  ignore_errors: yes
-  become: true
-  environment:
-    APACHE: "{{ apache_conf_dir }}/ood-portal.conf"
-  notify:
-    - restart apache httpd
-    - restart httpd htcacheclean
-
-- name: restart httpd htcacheclean
-  systemd:
+- name: Restart httpd htcacheclean
+  ansible.builtin.systemd:
     name: httpd24-htcacheclean
     state: restarted
   become: true
   # FIXME: debian could benefit from this, but would need additional installs
   # even in centos:8 this is just a binary, not a systemd file
-  when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
+  when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8') and (not disable_htcacheclean)

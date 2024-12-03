@@ -1,0 +1,13 @@
+- name: Copy custom cluster files to container
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "/tmp/{{ item.dest }}"
+    mode: 'u=rw,g=r,o=r'
+  with_items:
+    - { src: "fixtures/ondemand.d/ondemand_default.yml", dest: "ondemand.yml" }
+
+- name: Verify config files
+  ansible.builtin.command: "diff /tmp/{{ item.left }} {{ item.right }}"
+  with_items:
+    - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
+  changed_when: false

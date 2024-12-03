@@ -22,3 +22,47 @@ dashboard_layout:
         widgets:
           - xdmod_widget_job_efficiency
           - xdmod_widget_jobs
+
+
+support_ticket:
+  attachments:
+    max_items: 4
+    max_size: 6291456
+  description: 'My optional description Text for the support ticket feture '
+  email:
+    from: config@example.com
+    to: support@example.com
+
+files_enable_shell_button: false
+bc_dynamic_js: true
+bc_clean_old_dirs: true
+bc_clean_old_dirs_days: 10
+host_based_profiles: true
+disable_bc_shell: true
+cancel_session_enabled: true
+
+module_file_dir: "/etc/modules.d"
+user_settings_file: "<%= CurrentUser.home %>/.local/config/ondemand/settings.yml"
+facl_domain: "osu.edu"
+auto_groups_filter: "P.+"
+
+
+bc_simple_auto_accounts: true
+remote_files_enabled: true
+remote_files_validation: true
+upload_enabled: false
+download_enabled: false
+hide_app_version: true
+
+globus_endpoints:
+  - path: "<%= CurrentUser.home %>"
+    endpoint: "716de4ac-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    endpoint_path: "/"
+
+  - path: "/project"
+    endpoint: "9f1fe759-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    endpoint_path: "/"
+
+google_analytics_tag_id: 'abc123'
+
+motd_render_html: true

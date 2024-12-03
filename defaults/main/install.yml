@@ -1,5 +1,5 @@
 # This file holds install related configurations as well as base directories for
-# configuration files. 
+# configuration files.
 
 ood_base_conf_dir: "/etc/ood/config"
 ood_app_dir: "{{ ood_base_apache_dir }}/apps"
@@ -9,6 +9,7 @@ ood_usr_app_dir: "{{ ood_app_dir }}/usr"
 
 # OS defaults are RHEL-like systems
 apache_service_enabled: true
+apache_service_state: started
 apache_package_name: httpd
 apache_service_name: httpd
 apache_user: apache
@@ -16,12 +17,30 @@ apache_etc_dir: "/etc/{{ apache_service_name }}"
 apache_conf_dir: "{{ apache_etc_dir }}/conf.d"
 apache_log_dir: "/var/log/{{ apache_service_name }}"
 
-rpm_repo_url: "https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm"
+rpm_repo_url: "https://yum.osc.edu/ondemand/3.1/ondemand-release-web-3.1-1.{{ el_distro }}.noarch.rpm"
+apt_repo_url: "https://apt.osc.edu/ondemand/3.1/ondemand-release-web_3.1.1-{{ deb_distro }}_all.deb"
+
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
+deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand"
+deb_repo_key_id: "4B72FE2B92D31755"
+node_repo_key: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+node_repo_key_id: "1655A0AB68576280"
+
+ondemand_package: "ondemand" # Idempotent. Use `latest` to upgrade, or full package name or comparison operators.
+ondemand_package_excludes: []
 
 # OSC's repo rpm isn't signed
 disable_gpg_check_rpm_repo: true
+apt_update_cache: true
+
+# Set to "true" to skip installation of custom repo config files
+ood_use_exiting_repo_file: false
 
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false
-ondemand_dex_package: ondemand-dex
+ondemand_dex_package: ondemand-dex # behaviour as for ondemand_package
+
+# needed for testing. no reason to change these in production.
+disable_htcacheclean: false
+nodejs_version: 18
+ruby_version: 3.1

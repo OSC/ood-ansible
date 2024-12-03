@@ -19,7 +19,7 @@ ood_portal_generator: true
 # - 443
 
 httpd_use_rewrites: true
-maintenance_ip_whitelist: []
+maintenance_ip_allowlist: []
 use_maintenance: true
 # security_csp_frame_ancestors:
 # security_strict_transport:
@@ -27,6 +27,7 @@ use_maintenance: true
 servername: localhost
 # proxy_server:
 httpd_port: 80
+server_aliases: []
 
 # ssl_cert: "/etc/pki/tls/certs/www.example.com.crt"
 # ssl_cert_key: "/etc/pki/tls/certs/www.example.com.key"
@@ -119,6 +120,7 @@ oidc_settings_samefile: false
 # oidc_state_max_number_of_cookies: "10 true"
 # oidc_cookie_same_site: "On"
 # oidc_settings: {}
+# dex_uri: null
 # dex_settings: |
 #   dex:
 #     # Default based on if ssl key for ood-portal-generator is defined

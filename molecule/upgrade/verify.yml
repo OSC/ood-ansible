@@ -1,0 +1,64 @@
+- name: Verify
+  hosts: all
+
+  tasks:
+  - name: Include defaults
+    ansible.builtin.include_vars:
+      dir: ../../defaults/main
+
+  - name: Include distribution variables
+    ansible.builtin.include_vars: "{{ item }}"
+    with_first_found:
+      - "../../vars/{{ ansible_distribution }}/{{ ansible_distribution_major_version }}.yml"
+      - "../../vars/{{ ansible_distribution }}.yml"
+
+  - name: Get the package facts
+    ansible.builtin.package_facts:
+      manager: auto
+  
+  - name: Ensure ondemand package is installed
+    ansible.builtin.fail:
+      msg: ondemand package was not installed.
+    when: "'ondemand' not in ansible_facts.packages"
+
+  - name: Ensure httpd is running
+    ansible.builtin.systemd:
+      state: started
+      name: "{{ apache_service_name }}"
+
+  - name: Copy fixture files to container
+    ansible.builtin.copy:
+      src: "{{ item.src }}"
+      dest: "/tmp/{{ item.dest }}"
+      mode: 'u=rw,g=r,o=r'
+    with_items:
+      - { src: "fixtures/config/ood_portal.yml.{{ inventory_hostname }}.{{ apache_service_name }}", dest: "ood_portal.yml" }
+      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}.{{ ansible_os_family }}", dest: "nginx_stage.yml" }
+
+  - name: Verify the config files
+    ansible.builtin.command: "diff /tmp/{{ item }} /etc/ood/config/{{ item }}"
+    with_items:
+      - "nginx_stage.yml"
+      - "ood_portal.yml"
+    changed_when: false
+
+  - name: Make sure ood portal exists
+    ansible.builtin.file:
+      path: "{{ apache_conf_dir }}/ood-portal.conf"
+      state: file
+
+  - name: Include verify custom tasks
+    ansible.builtin.include_tasks: tasks/verify_custom.yml
+    when: inventory_hostname == "custom"
+
+  - name: Include verity default tasks
+    ansible.builtin.include_tasks: tasks/verify_default.yml
+    when: inventory_hostname == "default"
+
+  - name: Verify OOD version
+    ansible.builtin.shell: |
+      set -o pipefail
+      grep -P '3.1.(\d)*' /opt/ood/VERSION
+    args:
+      executable: /bin/bash
+    changed_when: false

@@ -1,53 +1,56 @@
-- name: verify
+- name: Verify
   hosts: all
 
   tasks:
-  - name: include defaults
-    include_vars:
+  - name: Include defaults
+    ansible.builtin.include_vars:
       dir: ../../defaults/main
 
-  - name: include distribution variables
-    include_vars: "../../vars/{{ ansible_distribution }}.yml"
+  - name: Include distribution variables
+    ansible.builtin.include_vars: "{{ item }}"
+    with_first_found:
+      - "../../vars/{{ ansible_distribution }}/{{ ansible_distribution_major_version }}.yml"
+      - "../../vars/{{ ansible_distribution }}.yml"
 
-  - name: include scl related overrides
-    include_vars: "../../vars/{{ ansible_distribution }}-scl.yml"
-    when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
-
-  - name: get the package facts
+  - name: Get the package facts
     ansible.builtin.package_facts:
       manager: auto
   
-  - name: ensure ondemand package is installed
-    fail:
+  - name: Ensure ondemand package is installed
+    ansible.builtin.fail:
       msg: ondemand package was not installed.
     when: "'ondemand' not in ansible_facts.packages"
 
-  - name: ensure {{ apache_service_name }} is running
+  - name: Ensure httpd is running
     ansible.builtin.systemd:
       state: started
       name: "{{ apache_service_name }}"
 
-  - name: copy fixture files to container
-    copy:
+  - name: Copy fixture files to container
+    ansible.builtin.copy:
       src: "{{ item.src }}"
       dest: "/tmp/{{ item.dest }}"
+      mode: 'u=rw,g=r,o=r'
     with_items:
       - { src: "fixtures/config/ood_portal.yml.{{ inventory_hostname }}.{{ apache_service_name }}", dest: "ood_portal.yml" }
-      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}", dest: "nginx_stage.yml" }
+      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}.{{ ansible_os_family }}", dest: "nginx_stage.yml" }
 
-  - name: verify the config files
-    shell: "diff /tmp/{{ item }} /etc/ood/config/{{ item }}"
+  - name: Verify the config files
+    ansible.builtin.command: "diff /tmp/{{ item }} /etc/ood/config/{{ item }}"
     with_items:
       - "nginx_stage.yml"
       - "ood_portal.yml"
+    changed_when: false
 
-  - name: make sure ood portal exists
-    file:
+  - name: Make sure ood portal exists
+    ansible.builtin.file:
       path: "{{ apache_conf_dir }}/ood-portal.conf"
       state: file
 
-  - include: verify_custom.yml
+  - name: Verify Custom
+    ansible.builtin.include_tasks: tasks/verify_custom.yml
     when: inventory_hostname == "custom"
 
-  - include: verify_default.yml
+  - name: Verify Default
+    ansible.builtin.include_tasks: tasks/verify_default.yml
     when: inventory_hostname == "default"
