@@ -11,28 +11,10 @@
       ansible.builtin.fail:
         msg: "unable to find anything in vars/ for this operating system! {{ ansible_distribution }}"
 
-- name: Include dependencies when building from source
-  ansible.builtin.import_tasks: deps.yml
-  become: true
-  tags: [ 'deps' ]
-  when: install_from_src
-
-- name: Include built tasks when building from source
-  ansible.builtin.import_tasks: build.yml
-  tags: [ 'build' ]
-  when: install_from_src
-
-- name: Include install tasks when building from source
-  ansible.builtin.import_tasks: install-src.yml
-  become: true
-  tags: [ 'install' ]
-  when: install_from_src
-
 - name: Include install tasks when installing package
   ansible.builtin.import_tasks: install-package.yml
   become: true
   tags: [ 'install' ]
-  when: not install_from_src
 
 - name: Include configure tasks when configuring
   ansible.builtin.import_tasks: configure.yml
