@@ -7,9 +7,7 @@ The format is keeps the same versions as upstream OnDemand.  See
 
 ## [3.0.1] - 2023-04-06
 
-
-
-## [Unreleased]
+### Added
 
 - Support for EL9 in [184](https://github.com/OSC/ood-ansible/pull/184).
 - Support for `server_aliases` in [186](https://github.com/OSC/ood-ansible/pull/186).
