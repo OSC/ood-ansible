@@ -45,6 +45,8 @@ httpd_auth:
 - RequestHeader unset Authorization
 - Require valid-user
 
+ood_base_dir: '/opt/ood'
+
 lua_root: "{{ ood_base_dir }}/mod_ood_proxy/lib"
 lua_log_level: info
 
