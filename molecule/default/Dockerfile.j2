@@ -16,7 +16,7 @@ ENV {{ var }} {{ value }}
 
 # Centos:8 is end of life, so hack the mirror to be the vault.
 RUN . /etc/os-release && \
-    if [ "$NAME" == "CentOS Linux" ] && [ "$VERSION_ID" == "8" ]; then \
+    if [ "$NAME" == "CentOS Stream" ] && [ "$VERSION_ID" == "8" ]; then \
       sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-* && \
       sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*; \
     fi
