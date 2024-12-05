@@ -1,13 +1,3 @@
-- name: Template apache file
-  ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: 'u=rw,g=r,o='
-  loop:
-  - { src: "ood-portal.conf.j2", dest: "{{ apache_conf_dir }}/ood-portal.conf" }
-  when: not ood_portal_generator
-  notify: Restart apache httpd
-
 - name: Template ood_portal.yml
   ansible.builtin.template:
     src: "ood_portal.yml.j2"
