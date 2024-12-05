@@ -1,10 +1,3 @@
-- name: Template passenger locations ini file
-  ansible.builtin.template:
-    src: "locations.ini.j2"
-    dest: "{{ passenger_lib_dir }}/locations.ini"
-    mode: 'u=rw,g=r,o=r'
-  when: install_from_src
-
 - name: Template apache file
   ansible.builtin.template:
     src: "{{ item.src }}"

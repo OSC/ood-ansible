@@ -1,6 +1,0 @@
-# {{ ansible_managed }}
-Defaults:{{ apache_user }} !requiretty, !authenticate
-Defaults:{{ apache_user }} env_keep += "NGINX_STAGE_* OOD_*"
-{{ apache_user }} ALL=(ALL) NOPASSWD: {{ ood_base_dir }}/nginx_stage/sbin/nginx_stage
-Cmnd_Alias KUBECTL = /usr/local/bin/kubectl, /usr/bin/kubectl, /bin/kubectl
-Defaults!KUBECTL !syslog
