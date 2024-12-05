@@ -3,10 +3,6 @@
 # See https://osc.github.io/ood-documentation/latest/reference/files/ood-portal-yml.html
 # for more details on this file and it's configurations.
 
-# When true this configuration will run the ood_portal_generator to generate the apache
-# config files. When false, this role will generate an equivalent apache configuration.
-ood_portal_generator: true
-
 # Use this variable to define anything you need inside ood VirtualHost that
 # isn't already there.
 # Tip: Could be multi-line yml with | or >, so you could add new Location
