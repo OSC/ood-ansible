@@ -119,6 +119,7 @@ oidc_settings_samefile: false
 # oidc_state_max_number_of_cookies: "10 true"
 # oidc_cookie_same_site: "On"
 # oidc_settings: {}
+# ood_oidc_crypto_passphrase: changeme
 # dex_uri: null
 # dex_settings: |
 #   dex:
