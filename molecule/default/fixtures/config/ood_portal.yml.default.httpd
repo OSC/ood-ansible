@@ -80,6 +80,12 @@ logroot: "/var/log/httpd"
 # Default: true
 use_rewrites: true
 
+# Specify the host to redirect to when redirecting from port 80
+# Example:
+#     http_redirect_host: my.proxy.host
+# Default: '%{HTTP_HOST}'
+http_redirect_host: '%{HTTP_HOST}'
+
 # Should Maintenance Rewrite rules be added
 # Example:
 #   use_maintenance: false
@@ -379,6 +385,12 @@ pun_max_retries: 5
 #     oidc_scope: "openid profile email groups"
 # Default: "openid profile email"
 #oidc_scope: "openid profile email"
+
+# OIDC crypto passphrase
+# Example:
+#   oidc_crypto_passphrase: "f1d2d2f924e986ac86fdf7b36c94bcdf32beec15"
+# Default: SHA1 sum of servername
+#oidc_crypto_passphrase: ~
 
 # OIDC session inactivity timeout
 # Example:
