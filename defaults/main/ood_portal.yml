@@ -15,6 +15,7 @@
 # - 443
 
 httpd_use_rewrites: true
+ood_http_redirect_host: '%{HTTP_HOST}'
 maintenance_ip_allowlist: []
 use_maintenance: true
 # security_csp_frame_ancestors:

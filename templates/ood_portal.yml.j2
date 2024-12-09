@@ -108,6 +108,12 @@ logroot: "{{ apache_log_dir }}"
 # Default: true
 use_rewrites: {{ httpd_use_rewrites | bool | lower }}
 
+# Specify the host to redirect to when redirecting from port 80
+# Example:
+#     http_redirect_host: my.proxy.host
+# Default: '%{HTTP_HOST}'
+http_redirect_host: '{{ ood_http_redirect_host }}'
+
 # Should Maintenance Rewrite rules be added
 # Example:
 #   use_maintenance: false
