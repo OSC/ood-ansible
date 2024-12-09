@@ -131,10 +131,6 @@ maintenance_ip_allowlist:
 {% for item in maintenance_ip_allowlist  %}
   - '{{ item }}'
 {% endfor %}
-{% elif maintenance_ip_whitelist is defined and maintenance_ip_whitelist|length > 0 %}
-{% for item in maintenance_ip_whitelist  %}
-  - '{{ item }}'
-{% endfor %}
 {% else %}
 maintenance_ip_allowlist: []
 {% endif %}
