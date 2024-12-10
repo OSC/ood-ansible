@@ -11,6 +11,7 @@
     - { src: "fixtures/apps/bc_desktop/", dest: "bc_desktop/" }
     - { src: "fixtures/config/auth_openidc.conf", dest: "auth_openidc.conf" }
     - { src: "fixtures/ondemand.d/ondemand_custom.yml", dest: "ondemand.yml" }
+    - { src: "fixtures/ondemand.d/motd.yml", dest: "motd.yml" }
 
 - name: Verify config files
   ansible.builtin.command: "diff /tmp/{{ item.left }} {{ item.right }}"
@@ -23,6 +24,7 @@
     - { left: "bc_desktop/submit/submit.yml.erb", right: "{{ ood_base_conf_dir }}/apps/bc_desktop/submit/submit.yml.erb" }
     - { left: "auth_openidc.conf", right: "{{ apache_conf_dir }}/auth_openidc.conf" }
     - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
+    - { left: "motd.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/motd.yml" }
   changed_when: false
 
 - name: Verify sys/jupyter was installed correctly
