@@ -65,6 +65,8 @@ globus_endpoints:
 
 google_analytics_tag_id: 'abc123'
 
+motd_render_html: true
+
 ood_ondemand_d_configs:
   motd:
     content:
