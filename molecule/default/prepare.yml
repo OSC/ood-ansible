@@ -15,3 +15,8 @@
       - ca-certificates
       - systemd
       - git
+
+    - name: Create secondary group
+      ansible.builtin.group:
+        name: specialusers
+        state: present

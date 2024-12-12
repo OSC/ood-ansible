@@ -15,6 +15,7 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
     - [ood_apps](#ood_apps)
   - [Open ID Connect](#open-id-connect)
     - [Install Dex](#install-dex)
+  - [OnDemand.d Configurations](#ondemandd-configurations)
 - [Contributing](#contributing)
 
 ## Version compatibility
@@ -293,6 +294,51 @@ See [auth\_openidc](https://github.com/zmartzone/mod_auth_openidc) for more info
 #### Install Dex
 
 To install dex for OIDC use set the flag `install_ondemand_dex` to true and it will install the package.
+
+### OnDemand.d Configurations
+
+In the 4.0 release of this role, configurations for `ondemand.d` files was changed.
+While this role will continue to support the old way of specifing each
+variable and writing them all out to a single `ondemand.d/ondemand.yml` file,
+users should begin to migrate to the new way to write these files.
+
+4.0 introduced `ood_ondemand_d_configs` which will in turn write out as many files
+as you've provided.
+
+Each configuration at a minimum needs `content` which will be the content of
+the file that's begin written. It can additionally accept ``group`` and ``mode``
+to set the file's group ownership and file access mode. These files are always
+owned by the ``root`` user.
+
+In this example, we're writing out two files, ``motd.yml`` and ``globus.yml``.
+These filenames are given by the top level keys under ``ood_ondemand_d_configs``.
+
+``content`` specifies the content of the file that's going to be written out.
+This should be in YAML and will be written out in YAML.
+
+In this configuration ``motd.yml`` will be written out with ``644 root:root``
+permissions.  ``globus.yml`` on the other hand will be written out with
+``640 root:specialusers`` permissions so it'll only be available for certain
+users.
+
+```yaml
+ood_ondemand_d_configs:
+  motd:
+    content:
+      motd_render_html: true
+  globus:
+    content:
+      globus_endpoints:
+        - path: "<%= CurrentUser.home %>"
+          endpoint: "716de4ac-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+          endpoint_path: "/"
+
+        - path: "/project"
+          endpoint: "9f1fe759-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+          endpoint_path: "/"
+    group: specialusers
+    mode: 640
+```
 
 ## Contributing
 
