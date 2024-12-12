@@ -12,6 +12,7 @@
     - { src: "fixtures/config/auth_openidc.conf", dest: "auth_openidc.conf" }
     - { src: "fixtures/ondemand.d/ondemand_custom.yml", dest: "ondemand.yml" }
     - { src: "fixtures/ondemand.d/motd.yml", dest: "motd.yml" }
+    - { src: "fixtures/ondemand.d/globus.yml", dest: "globus.yml" }
 
 - name: Verify config files
   ansible.builtin.command: "diff /tmp/{{ item.left }} {{ item.right }}"
@@ -25,6 +26,7 @@
     - { left: "auth_openidc.conf", right: "{{ apache_conf_dir }}/auth_openidc.conf" }
     - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
     - { left: "motd.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/motd.yml" }
+    - { left: "globus.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/globus.yml" }
   changed_when: false
 
 - name: Verify sys/jupyter was installed correctly
@@ -42,3 +44,15 @@
     clone: no
     update: no
     version: v1.0.1
+
+- name: ensure globus.yml has right permissions
+  ansible.builtin.file:
+    path: /etc/ood/config/ondemand.d/globus.yml
+    group: specialusers
+    owner: root
+    mode: 640
+    state: file
+  register: globus_perms
+  failed_when: globus_perms['changed'] is true
+
+- debug: var=globus_perms

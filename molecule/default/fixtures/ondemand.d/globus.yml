@@ -1,0 +1,7 @@
+globus_endpoints:
+-   endpoint: 716de4ac-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    endpoint_path: /
+    path: <%= CurrentUser.home %>
+-   endpoint: 9f1fe759-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    endpoint_path: /
+    path: /project
