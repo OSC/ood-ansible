@@ -45,12 +45,23 @@
     update: no
     version: v1.0.1
 
-- name: ensure globus.yml has right permissions
-  ansible.builtin.file:
+- name: Get globus.yml file stats.
+  stat:
     path: /etc/ood/config/ondemand.d/globus.yml
-    group: specialusers
-    owner: root
-    mode: 640
-    state: file
   register: globus_perms
-  failed_when: globus_perms['changed'] is true
+
+- debug: var=globus_perms
+
+- name: Assert that globus.yml has correct permissions
+  assert:
+    that:
+      - "globus_perms.stat.mode == '0640'"
+    success_msg: 'globus.yml has correct permissions.'
+    fail_msg: "globus.yml permissions are {{ globus_perms.stat.mode }} when they should be '0640'"
+
+- name: Assert that globus.yml has correct group ownership
+  assert:
+    that:
+      - "globus_perms.stat.gr_name == 'specialusers'"
+    success_msg: 'globus.yml has correct group ownership.'
+    fail_msg: "globus.yml group ownership is {{ globus_perms.stat.gr_name }} when they should be 'specialusers'"
