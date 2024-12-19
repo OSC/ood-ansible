@@ -24,12 +24,14 @@
       set_fact:
         ruby_version: 3.1
         nodejs_version: 18
-      when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '8'
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version >= '8'
 
     - name: Use default versions on el9
       set_fact:
         additional_rpm_installs:
           - lua-posix
+          - "@ruby:{{ ruby_version }}"
+          - "@nodejs:{{ nodejs_version }}"
       when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '9'
 
   roles:
