@@ -48,7 +48,7 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
-          sudo apt update && sudo apt upgrade && sudo apt install -y podman
+          sudo apt update && sudo apt upgrade -y && sudo apt install -y podman
 
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
