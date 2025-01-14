@@ -66,3 +66,20 @@ globus_endpoints:
 google_analytics_tag_id: 'abc123'
 
 motd_render_html: true
+
+ood_ondemand_d_configs:
+  motd:
+    content:
+      motd_render_html: true
+  globus:
+    content:
+      globus_endpoints:
+        - path: "<%= CurrentUser.home %>"
+          endpoint: "716de4ac-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+          endpoint_path: "/"
+
+        - path: "/project"
+          endpoint: "9f1fe759-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+          endpoint_path: "/"
+    group: specialusers
+    mode: 640

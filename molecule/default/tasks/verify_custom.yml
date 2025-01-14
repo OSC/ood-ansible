@@ -11,6 +11,8 @@
     - { src: "fixtures/apps/bc_desktop/", dest: "bc_desktop/" }
     - { src: "fixtures/config/auth_openidc.conf", dest: "auth_openidc.conf" }
     - { src: "fixtures/ondemand.d/ondemand_custom.yml", dest: "ondemand.yml" }
+    - { src: "fixtures/ondemand.d/motd.yml", dest: "motd.yml" }
+    - { src: "fixtures/ondemand.d/globus.yml", dest: "globus.yml" }
 
 - name: Verify config files
   ansible.builtin.command: "diff /tmp/{{ item.left }} {{ item.right }}"
@@ -23,6 +25,8 @@
     - { left: "bc_desktop/submit/submit.yml.erb", right: "{{ ood_base_conf_dir }}/apps/bc_desktop/submit/submit.yml.erb" }
     - { left: "auth_openidc.conf", right: "{{ apache_conf_dir }}/auth_openidc.conf" }
     - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
+    - { left: "motd.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/motd.yml" }
+    - { left: "globus.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/globus.yml" }
   changed_when: false
 
 - name: Verify sys/jupyter was installed correctly
@@ -40,3 +44,24 @@
     clone: no
     update: no
     version: v1.0.1
+
+- name: Get globus.yml file stats.
+  stat:
+    path: /etc/ood/config/ondemand.d/globus.yml
+  register: globus_perms
+
+- debug: var=globus_perms
+
+- name: Assert that globus.yml has correct permissions
+  assert:
+    that:
+      - "globus_perms.stat.mode == '0640'"
+    success_msg: 'globus.yml has correct permissions.'
+    fail_msg: "globus.yml permissions are {{ globus_perms.stat.mode }} when they should be '0640'"
+
+- name: Assert that globus.yml has correct group ownership
+  assert:
+    that:
+      - "globus_perms.stat.gr_name == 'specialusers'"
+    success_msg: 'globus.yml has correct group ownership.'
+    fail_msg: "globus.yml group ownership is {{ globus_perms.stat.gr_name }} when they should be 'specialusers'"

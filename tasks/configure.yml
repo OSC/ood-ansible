@@ -35,6 +35,16 @@
     dest: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml"
     mode: 'u=rw,g=r,o=r'
 
+- name: Create other ondemand.d files
+  copy:
+    content: "{{ ood_ondemand_d_configs[item].content | to_nice_yaml }}"
+    dest: "{{ ood_base_conf_dir }}/ondemand.d/{{ item }}.yml"
+    mode: "{{ ood_ondemand_d_configs[item].mode | default('644') }}"
+    group: "{{ ood_ondemand_d_configs[item].group | default('root') }}"
+  loop: "{{ ood_ondemand_d_configs | list | default([]) }}"
+  when: ood_ondemand_d_configs is defined
+
+
 - name: Enable Debian apache mods
   ansible.builtin.file:
     src: "{{ apache_etc_dir }}/mods-available/{{ item }}.load"

@@ -48,26 +48,8 @@ jobs:
         run: |
           python3 -m pip install -r molecule/requirements.txt
           ansible-galaxy collection install community.general
-          sudo apt update && sudo apt install -y podman
+          sudo apt update && sudo apt upgrade -y && sudo apt install -y podman
 
-      # we have to patch crun here because Ubuntu fails with the errors similar to the 
-      # github issue below.
-      # https://github.com/containers/crun/issues/1308
-      - name: patch crun
-        run: |
-          export CRUN_VER='1.14.3'
-          mkdir -p "${HOME}/.local/bin"
-          curl -L "https://github.com/containers/crun/releases/download/${CRUN_VER}/crun-${CRUN_VER}-linux-amd64" -o "${HOME}/.local/bin/crun"
-          chmod +x "${HOME}/.local/bin/crun"
-
-          mkdir -p "${HOME}/.config/containers"
-          cat << EOF > "${HOME}/.config/containers/containers.conf"
-          [engine.runtimes]
-          crun = [
-            "${HOME}/.local/bin/crun",
-            "/usr/bin/crun"
-          ]
-          EOF
       - name: run tests
         run: molecule test --scenario-name=${{ matrix.scenario }}
         env:
