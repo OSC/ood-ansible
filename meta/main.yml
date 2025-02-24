@@ -1,3 +1,6 @@
+dependencies:
+  - ansible.posix
+
 galaxy_info:
   role_name: open_ondemand
   namespace: osc

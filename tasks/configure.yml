@@ -98,3 +98,12 @@
     name: "{{ apache_service_name }}"
     state: "{{ apache_service_state }}"
     enabled: "{{ apache_service_enabled }}"
+
+
+- name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+  ansible.posix.seboolean:
+    name: "{{item.boolean}}"
+    state: "{{item.boolean_value}}"
+    persistent: true
+  with_items: seboolean_configuration
+  when: install_ondemand_selinux and seboolean_configuration is defined
