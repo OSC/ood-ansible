@@ -40,6 +40,10 @@ ood_use_existing_repo_file: false
 install_ondemand_dex: false
 ondemand_dex_package: ondemand-dex # behaviour as for ondemand_package
 
+# flip this flag if you want to install the ondemand-selinux RPM
+install_ondemand_selinux: false
+ondemand_selinux_package: ondemand-selinux # behaviour as for ondemand_package
+
 # needed for testing. no reason to change these in production.
 disable_htcacheclean: false
 nodejs_version: 20
