@@ -21,6 +21,8 @@ RUN . /etc/os-release && \
       sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*; \
     fi
 
+RUN chmod 600 /etc/shadow
+
 {% if item.image == 'centos:7' %}
 RUN yum makecache fast && yum install -y python sudo yum-plugin-ovl bash iproute wget && \
   wget --no-check-certificate https://copr.fedorainfracloud.org/coprs/jsynacek/systemd-backports-for-centos-7/repo/epel-7/jsynacek-systemd-backports-for-centos-7-epel-7.repo -O /etc/yum.repos.d/jsynacek-systemd-centos-7.repo && \
