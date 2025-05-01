@@ -6,6 +6,14 @@
     enabled: "{{ apache_service_enabled }}"
   become: true
 
+- name: Restart ondemand-dex
+  ansible.builtin.systemd:
+    name: "{{ ondemand_dex_service_name }}"
+    state: "{{ 'restarted' if 'started' in ondemand_dex_service_state else omit }}" # effectively makes handler conditional on state=[re]started
+    enabled: "{{ ondemand_dex_service_enabled }}"
+  become: true
+  when: install_ondemand_dex
+
 - name: Update nginx stage
   ansible.builtin.command: "{{ ood_base_dir }}/nginx_stage/sbin/update_nginx_stage"
   become: true
