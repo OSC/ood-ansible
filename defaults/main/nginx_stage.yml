@@ -7,6 +7,7 @@
 pun_custom_env_declarations: []
 # pun_custom_env is undefined by default
 passenger_pool_idle_time: 300
+passenger_disable_anonymous_telemetry: on
 passenger_options: {}
 
 # user_regex: '[\w@\.\-]+'
