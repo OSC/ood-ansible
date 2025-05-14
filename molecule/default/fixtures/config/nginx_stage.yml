@@ -91,11 +91,6 @@ passenger_root: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passe
 #
 #passenger_python: '/opt/ood/nginx_stage/bin/python'
 
-# Option to disable the Passenger telemetry.
-# Set to `on` if you don't want to regularly send anonymous telemetry data to Phusion
-#
-passenger_disable_anonymous_telemetry: on
-
 # Max file upload size in bytes (e.g., 10737420000)
 #
 nginx_file_upload_max: 10737420000
