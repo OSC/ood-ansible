@@ -77,11 +77,6 @@ mime_types_path: "/opt/rh/ondemand/root/etc/nginx/mime.types"
 #
 passenger_root: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini"
 
-# Option to disable the Passenger telemetry.
-# Set to `on` if you don't want to regularly send anonymous telemetry data to Phusion
-#
-passenger_disable_anonymous_telemetry: on
-
 # Path to Ruby binary used by nginx_stage
 #
 #passenger_ruby: '/opt/ood/nginx_stage/bin/ruby'
