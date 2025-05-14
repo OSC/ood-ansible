@@ -39,6 +39,9 @@ ood_use_existing_repo_file: false
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false
 ondemand_dex_package: ondemand-dex # behaviour as for ondemand_package
+ondemand_dex_service_name: ondemand-dex
+ondemand_dex_service_state: started
+ondemand_dex_service_enabled: true
 
 # flip this flag if you want to install the ondemand-selinux RPM
 install_ondemand_selinux: false
