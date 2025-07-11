@@ -110,10 +110,12 @@ passenger_root: "{{ locations_ini }}"
 #
 passenger_pool_idle_time: {{ passenger_pool_idle_time }}
 
+{% if passenger_disable_anonymous_telemetry is defined -%}
 # Option to disable the Passenger telemetry.
 # Set to `on` if you don't want to regularly send anonymous telemetry data to Phusion
 #
 passenger_disable_anonymous_telemetry: {{ passenger_disable_anonymous_telemetry }}
+{%- endif -%}
 
 # Hash of Passenger configuration options
 # Keys without passenger_ prefix will be ignored
