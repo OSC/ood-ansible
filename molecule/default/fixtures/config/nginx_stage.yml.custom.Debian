@@ -99,6 +99,11 @@ passenger_root: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passe
 #
 passenger_pool_idle_time: 400
 
+# Option to disable the Passenger telemetry.
+# Set to `on` if you don't want to regularly send anonymous telemetry data to Phusion
+#
+passenger_disable_anonymous_telemetry: on
+
 # Hash of Passenger configuration options
 # Keys without passenger_ prefix will be ignored
 #

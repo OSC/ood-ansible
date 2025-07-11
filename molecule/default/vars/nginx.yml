@@ -9,3 +9,5 @@ passenger_options:
 
 pun_custom_env:
   MY_ENV_VAR: 'is so cool'
+
+passenger_disable_anonymous_telemetry: 'on'
