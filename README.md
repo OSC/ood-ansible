@@ -294,6 +294,7 @@ See [auth\_openidc](https://github.com/zmartzone/mod_auth_openidc) for more info
 #### Install Dex
 
 To install dex for OIDC use set the flag `install_ondemand_dex` to true and it will install the package.
+You can use the `ondemand_dex_service_state` and `ondemand_dex_service_enabled` variables in [default/main/install.yml](defaults/main/install.yml#L43) to set the state of the service (default: started / enabled).
 
 ### OnDemand.d Configurations
 

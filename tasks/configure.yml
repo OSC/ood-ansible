@@ -3,7 +3,9 @@
     src: "ood_portal.yml.j2"
     dest: "{{ ood_base_conf_dir }}/ood_portal.yml"
     mode: 'u=rw,g=r,o='
-  notify: Restart apache httpd
+  notify: 
+    - Restart apache httpd
+    - Restart ondemand-dex
 
 - name: Template nginx_stage.yml
   ansible.builtin.template:
@@ -98,3 +100,10 @@
     name: "{{ apache_service_name }}"
     state: "{{ apache_service_state }}"
     enabled: "{{ apache_service_enabled }}"
+
+- name: Start ondemand-dex service if installed
+  ansible.builtin.systemd:
+    name: "{{ ondemand_dex_service_name }}"
+    state: "{{ ondemand_dex_service_state }}"
+    enabled: "{{ ondemand_dex_service_enabled }}"
+  when: install_ondemand_dex
