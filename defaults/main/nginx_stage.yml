@@ -20,3 +20,7 @@ nginx_bin: "{{ nginx_dir }}/bin/nginx"
 nginx_mime_types: "{{ nginx_dir }}/conf/mime.types"
 nginx_file_upload_max: 10737420000
 locations_ini: "{{ passenger_lib_dir }}/locations.ini"
+
+# passenger_disable_anonymous_telemetry is not defined as it's not supported
+# in many versions.
+# passenger_disable_anonymous_telemetry: on
