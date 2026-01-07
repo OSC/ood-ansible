@@ -30,6 +30,7 @@ Version 1.8.1 of this role will still install version 1.8.20 of Open OnDemand bu
 new features to _this role_.
 
 ## Supported Operating Systems
+
 * CentOS
 * Debian
 * Fedora
