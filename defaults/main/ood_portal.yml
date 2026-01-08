@@ -81,10 +81,6 @@ nginx_app_root:
   usr: "{{ ood_usr_app_dir }}/%{owner}/gateway/%{name}"
   sys: "{{ ood_sys_app_dir }}/%{name}"
 
-
-# analytics_url: "http://www.google-analytics.com/collect"
-# analytics_id: "123-my-id"
-
 httpd_public_uri: "/public"
 httpd_public_root: "/var/www/ood/public"
 
