@@ -153,6 +153,30 @@ maintenance_ip_allowlist: []
 {% else %}#security_strict_transport: false
 {% endif %}
 
+# Fix Cross-Site-Request authentication headers proxying
+# Example:
+#   strip_proxy_headers: []
+# Default: ["Authorization", "OIDC_CLAIM_sub", "OIDC_CLAIM_preferred_username", "OIDC_CLAIM_given_name", "OIDC_CLAIM_zoneinfo", "OIDC_CLAIM_locale", "OIDC_CLAIM_email", "OIDC_CLAIM_email_verified", "OIDC_CLAIM_iss", "OIDC_CLAIM_nonce", "OIDC_CLAIM_aud", "OIDC_CLAIM_acr", "OIDC_CLAIM_azp", "OIDC_CLAIM_auth_time", "OIDC_CLAIM_exp", "OIDC_CLAIM_iat", "OIDC_CLAIM_jti", "OIDC_access_token", "OIDC_access_token_expires"]
+{% if strip_proxy_headers is defined %}
+strip_proxy_headers:
+{% for item in strip_proxy_headers  %}
+  - '{{ item }}'
+{% endfor %}
+{% else %}#strip_proxy_headers: ["Authorization", "OIDC_CLAIM_sub", "OIDC_CLAIM_preferred_username", "OIDC_CLAIM_given_name", "OIDC_CLAIM_zoneinfo", "OIDC_CLAIM_locale", "OIDC_CLAIM_email", "OIDC_CLAIM_email_verified", "OIDC_CLAIM_iss", "OIDC_CLAIM_nonce", "OIDC_CLAIM_aud", "OIDC_CLAIM_acr", "OIDC_CLAIM_azp", "OIDC_CLAIM_auth_time", "OIDC_CLAIM_exp", "OIDC_CLAIM_iat", "OIDC_CLAIM_jti", "OIDC_access_token", "OIDC_access_token_expires"]
+{% endif %}
+
+# Fix Cross-Site-Request authentication cookies proxying
+# Example:
+#   strip_proxy_cookies: []
+# Default: ["mod_auth_openidc_session_\\d+", "mod_auth_openidc_session"]
+{% if strip_proxy_cookies is defined %}
+strip_proxy_cookies:
+{% for item in strip_proxy_cookies  %}
+  - '{{ item }}'
+{% endfor %}
+{% else %}#strip_proxy_cookies: ["mod_auth_openidc_session_\\d+", "mod_auth_openidc_session"]
+{% endif %}
+
 # Root directory of the Lua handler code
 # Example:
 #     lua_root: '/path/to/lua/handlers'

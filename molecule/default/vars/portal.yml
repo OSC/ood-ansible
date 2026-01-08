@@ -30,3 +30,6 @@ ood_auth_openidc:
   OIDCClientID: myid
   OIDCProviderMetadataURL: https://localhost/
   OIDCCryptoPassphrase: mycryptopass
+
+strip_proxy_cookies: ["mod_auth_openidc_session"]
+strip_proxy_headers: ["Authorization", "OIDC_access_token"]
