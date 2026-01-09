@@ -67,6 +67,9 @@ pun_stage_cmd: "sudo {{ ood_base_dir }}/nginx_stage/sbin/nginx_stage"
 
 # node_uri: '/node'
 # rnode_uri: '/rnode'
+# secure_node_uri: '/secure-node'
+# secure_rnode_uri: '/secure-rnode'
+# ssl_proxy: []
 host_regex: '[^/]+'
 
 pun_uri: "/pun"
