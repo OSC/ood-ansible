@@ -38,3 +38,7 @@ ood_auth_openidc:
 
 strip_proxy_cookies: ["mod_auth_openidc_session"]
 strip_proxy_headers: ["Authorization", "OIDC_access_token"]
+
+register_method: Alias
+register_method_options:
+  - 'WSGIDaemonProcess register user=www-data group=www-data threads=5 home=/var/www/flask-apps/register'
