@@ -110,6 +110,15 @@ passenger_root: "{{ locations_ini }}"
 #
 passenger_pool_idle_time: {{ passenger_pool_idle_time }}
 
+# The path to the Passenger log file for the user.
+# Set to `null` to use the default per-user NGINX error log.
+#
+{% if passenger_log_file is defined %}
+passenger_log_file: '{{ passenger_log_file }}'
+{% else %}
+#passenger_log_file: '/var/log/ondemand-nginx/%{user}/error.log'
+{% endif %}
+
 # Option to disable the Passenger telemetry.
 # Set to `on` if you don't want to regularly send anonymous telemetry data to Phusion
 #

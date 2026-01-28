@@ -11,3 +11,6 @@ pun_custom_env:
   MY_ENV_VAR: 'is so cool'
 
 passenger_disable_anonymous_telemetry: 'on'
+
+# note the misspelling here that it's different than the default 'error.log'.
+passenger_log_file: '/var/log/ondemand-nginx/%{user}/ezzor.log'
