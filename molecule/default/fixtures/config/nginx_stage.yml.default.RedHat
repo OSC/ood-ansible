@@ -96,6 +96,11 @@ passenger_root: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passe
 #
 passenger_pool_idle_time: 300
 
+# The path to the Passenger log file for the user.
+# Set to `null` to use the default per-user NGINX error log.
+#
+#passenger_log_file: '/var/log/ondemand-nginx/%{user}/error.log'
+
 # Option to disable the Passenger telemetry.
 # Set to `on` if you don't want to regularly send anonymous telemetry data to Phusion
 #
