@@ -276,6 +276,22 @@ min_uid: {{ nginx_min_uid }}
 #
 #disabled_shell: '/access/denied'
 
+# Define an error message that is displayed to users when they have a 
+#     disabled_shell.
+{% if disabled_shell_message is defined %}
+disabled_shell_message: '{{ disabled_shell_message }}'
+{% else %}
+#disabled_shell_message: 'user has a disabled shell: %s'
+{% endif %}
+
+# Hide the stderr "Run 'nginx_stage --help' to see a full list of available 
+#     command line options." message when calling nginx_stage
+{% if show_nginx_stage_help_message is defined %}
+show_nginx_stage_help_message: {{ show_nginx_stage_help_message | bool | lower }}
+{% else %}
+#show_nginx_stage_help_message: true
+{% endif %}
+
 # Set BUNDLE_USER_CONFIG to /dev/null in the PUN environment
 # NB: This prevents a user's ~/.bundle/config from affecting OnDemand applications
 #

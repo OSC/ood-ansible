@@ -14,3 +14,7 @@ passenger_disable_anonymous_telemetry: 'on'
 
 # note the misspelling here that it's different than the default 'error.log'.
 passenger_log_file: '/var/log/ondemand-nginx/%{user}/ezzor.log'
+
+
+disabled_shell_message: 'user %s has a disabled shell. Open a ticket with Support.'
+show_nginx_stage_help_message: false
