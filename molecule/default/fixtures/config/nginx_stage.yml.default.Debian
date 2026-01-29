@@ -244,7 +244,6 @@ app_root:
 #     command line options." message when calling nginx_stage
 #show_nginx_stage_help_message: true
 
-
 # Set BUNDLE_USER_CONFIG to /dev/null in the PUN environment
 # NB: This prevents a user's ~/.bundle/config from affecting OnDemand applications
 #
