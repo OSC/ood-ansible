@@ -26,3 +26,6 @@ locations_ini: "{{ passenger_lib_dir }}/locations.ini"
 # passenger_disable_anonymous_telemetry: on
 
 # passenger_log_file: '/var/log/ondemand-nginx/%{user}/error.log'
+
+# disabled_shell_message: 'user has a disabled shell: %s'
+# show_nginx_stage_help_message: true
