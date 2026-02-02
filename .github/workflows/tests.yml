@@ -30,8 +30,6 @@ jobs:
           - 'centos/centos:stream8'
           - 'rockylinux:8'
           - 'rockylinux:9'
-          - 'almalinux:8'
-          - 'almalinux:9'
           - 'almalinux:10'
           - 'ubuntu:20.04'
           - 'ubuntu:22.04'
