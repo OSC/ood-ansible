@@ -1,6 +1,6 @@
-ondemand_package: "ondemand{% if ansible_os_family == 'RedHat' %}-{% else %}={% endif %}3.1.13"
+ondemand_package: "ondemand{% if ansible_os_family == 'RedHat' %}-{% else %}={% endif %}4.0.8"
 disable_htcacheclean: true
 
 # test against staging to catch any issues upgrading
-apt_repo_url: "https://apt.osc.edu/ondemand/staging/3.1/ondemand-release-web_3.1.2-{{ deb_distro }}_all.deb"
-rpm_repo_url: "https://yum.osc.edu/ondemand/staging/3.1/ondemand-release-web-3.1-1.{{ el_distro }}.noarch.rpm"
+apt_repo_url: "https://apt.osc.edu/ondemand/staging/4.0/ondemand-release-web_4.1.0-{{ deb_distro }}_all.deb"
+rpm_repo_url: "https://yum.osc.edu/ondemand/staging/4.0/ondemand-release-web-4.1-1.{{ el_distro }}.noarch.rpm"

@@ -1,5 +1,5 @@
 ondemand_package: 'latest'
 
 # test against staging to catch any issues upgrading
-apt_repo_url: "https://apt.osc.edu/ondemand/staging/4.0/ondemand-release-web_4.0.0-{{ deb_distro }}_all.deb"
-rpm_repo_url: "https://yum.osc.edu/ondemand/staging/4.0/ondemand-release-web-4.0-1.{{ el_distro }}.noarch.rpm"
+apt_repo_url: "https://apt.osc.edu/ondemand/staging/4.1/ondemand-release-web_4.1.0-{{ deb_distro }}_all.deb"
+rpm_repo_url: "https://yum.osc.edu/ondemand/staging/4.1/ondemand-release-web-4.1-1.{{ el_distro }}.noarch.rpm"
