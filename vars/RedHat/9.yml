@@ -17,3 +17,6 @@ additional_rpm_installs:
   - "@ruby:{{ ruby_version }}"
 
 rpm_repo_key: https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512
+
+repo_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el9/$basearch/'
+repo_src_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el9/SRPMS/'
