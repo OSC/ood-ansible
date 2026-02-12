@@ -15,7 +15,14 @@
       - ca-certificates
       - systemd
       - git
+    
+    - name: Install extra packages (EL10)
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: latest
+      loop:
       - gpg2
+      when:  ansible_os_family == "RedHat" and ansible_distribution_major_version == '10'
 
     - name: Create secondary group
       ansible.builtin.group:
