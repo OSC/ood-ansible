@@ -49,7 +49,7 @@ ondemand_selinux_package: ondemand-selinux # behaviour as for ondemand_package
 
 # needed for testing. no reason to change these in production.
 disable_htcacheclean: false
-nodejs_version: 20
+nodejs_version: 22
 ruby_version: 3.3
 
 ood_base_apache_dir: "/var/www/ood"
