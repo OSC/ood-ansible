@@ -45,17 +45,6 @@
     state: present
   when: ansible_os_family == "RedHat" and not ood_use_existing_repo_file
 
-- name: Install rhel/centos:8 dependencies
-  ansible.builtin.dnf:
-    name: "{{ item }}"
-    enablerepo:
-      - powertools
-      - codeready-builder-for-rhel-8-x86_64-rpms
-    state: present
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '8'
-  loop:
-    - "{{ additional_rpm_installs }}"
-
 - name: Install additional packages
   ansible.builtin.package:
     name: "{{ item }}"
