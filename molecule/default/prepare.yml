@@ -21,7 +21,7 @@
         name: "{{ item }}"
         state: latest
       loop:
-      - gpg2
+      - gnupg2
       when:  ansible_os_family == "RedHat" and ansible_distribution_major_version == '10'
 
     - name: Create secondary group
