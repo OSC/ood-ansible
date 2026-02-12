@@ -15,6 +15,7 @@
       - ca-certificates
       - systemd
       - git
+      - gpg2
 
     - name: Create secondary group
       ansible.builtin.group:
