@@ -16,14 +16,22 @@
       - systemd
       - git
 
+    - name: Install extra packages (EL10)
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: latest
+      loop:
+      - gnupg2
+      when:  ansible_os_family == "RedHat" and ansible_distribution_major_version == '10'
+
 - name: Install previous version
   hosts: all
 
   pre_tasks:
     - name: Set dependency versions on el8
       set_fact:
-        ruby_version: 3.1
-        nodejs_version: 18
+        ruby_version: 3.3
+        nodejs_version: 20
       when: ansible_os_family == "RedHat" and ansible_distribution_major_version >= '8'
 
     - name: Use default versions on el9

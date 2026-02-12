@@ -2,7 +2,6 @@
 os_dependencies:
 - redhat-rpm-config
 - libnsl
-- lua-posix
 
 apache_oidc_mod_package:  mod_auth_openidc
 
@@ -11,9 +10,9 @@ nginx_bin: "{{ nginx_root }}/sbin/nginx"
 nginx_mime_types: "{{ nginx_root }}/etc/nginx/mime.types"
 locations_ini: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini"
 
-nodejs_version: '22/common'
-
 additional_rpm_installs:
   - lua-posix
-  - "@ruby:{{ ruby_version }}"
-  - "@nodejs:{{ nodejs_version }}"
+  - 'nodejs'
+  - 'ruby'
+
+rpm_repo_key: https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512

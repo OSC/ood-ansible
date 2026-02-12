@@ -27,17 +27,23 @@ jobs:
       max-parallel: 4
       matrix:
         image:
-          - 'centos/centos:stream8'
           - 'rockylinux:8'
           - 'rockylinux:9'
+          - 'rockylinux/rockylinux:10'
           - 'almalinux:8'
           - 'almalinux:9'
-          - 'ubuntu:20.04'
+          - 'almalinux:10'
           - 'ubuntu:22.04'
           - 'ubuntu:24.04'
         scenario:
           - 'default'
           - 'upgrade'
+        exclude:
+          # 4.0 did not support el:10
+          - scenario: upgrade
+            image: 'rockylinux/rockylinux:10'
+          - scenario: upgrade
+            image: 'almalinux:10'
 
     steps:
       - name: checkout

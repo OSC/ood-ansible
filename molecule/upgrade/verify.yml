@@ -58,7 +58,7 @@
   - name: Verify OOD version
     ansible.builtin.shell: |
       set -o pipefail
-      grep -P '4.0.(\d)*' /opt/ood/VERSION
+      grep -P '4.1.(\d)*' /opt/ood/VERSION
     args:
       executable: /bin/bash
     changed_when: false

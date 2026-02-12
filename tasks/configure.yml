@@ -65,7 +65,7 @@
     src: "{{ apache_etc_dir }}/mods-available/ssl.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/ssl.load"
     state: link
-  when: ansible_os_family == "Debian" and ssl is defined
+  when: ansible_os_family == "Debian" and (ssl is defined or ssl_proxy is defined)
 
 - name: Enable Debian oidc mod
   ansible.builtin.file:
