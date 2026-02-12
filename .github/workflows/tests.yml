@@ -33,7 +33,6 @@ jobs:
           - 'almalinux:8'
           - 'almalinux:9'
           - 'almalinux:10'
-          - 'ubuntu:20.04'
           - 'ubuntu:22.04'
           - 'ubuntu:24.04'
         scenario:
