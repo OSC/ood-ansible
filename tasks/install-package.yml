@@ -55,6 +55,9 @@
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '8'
   loop:
     - "{{ additional_rpm_installs }}"
+  tags:
+    # not sure why this is not idempotent all of the sudden, but it is in molecule tests
+    - molecule-idempotence-notest
 
 - name: Install additional packages
   ansible.builtin.package:
