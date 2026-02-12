@@ -27,7 +27,6 @@ jobs:
       max-parallel: 4
       matrix:
         image:
-          - 'centos/centos:stream8'
           - 'rockylinux:8'
           - 'rockylinux:9'
           - 'almalinux:10'
