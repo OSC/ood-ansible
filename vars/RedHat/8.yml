@@ -17,3 +17,6 @@ additional_rpm_installs:
   - lua-posix
   - "@ruby:{{ ruby_version }}"
   - "@nodejs:{{ nodejs_version }}"
+
+repo_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el8/$basearch/'
+repo_src_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el8/SRPMS/'
