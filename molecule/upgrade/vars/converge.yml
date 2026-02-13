@@ -1,4 +1,2 @@
 ondemand_package: 'latest'
 
-apt_repo_url: "https://apt.osc.edu/ondemand/4.1/ondemand-release-web_4.1.0-{{ deb_distro }}_all.deb"
-rpm_repo_url: "https://yum.osc.edu/ondemand/4.1/ondemand-release-web-4.1-1.{{ el_distro }}.noarch.rpm"
