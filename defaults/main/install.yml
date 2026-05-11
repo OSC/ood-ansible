@@ -44,7 +44,7 @@ ood_use_existing_repo_file: false
 # Users can supply different 'repo_base_url' and 'repo_src_base_url' variables to look
 # at a different repository. Though 'repo_src_base_url' is only available for RHEL
 # type systems.
-dl_repo_package: true
+ood_dl_repo_package: true
 
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false

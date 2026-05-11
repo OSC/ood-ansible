@@ -29,7 +29,7 @@
     name: "{{ rpm_repo_url }}"
     state: present
     disable_gpg_check: "{{ disable_gpg_check_rpm_repo | bool }}"
-  when: ansible_os_family == "RedHat" and dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_os_family == "RedHat" and ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Create repo file (RHEL)
   ansible.builtin.template:
@@ -38,7 +38,7 @@
     mode: 'u=rw,g=r,o=r'
     owner: root
     group: root
-  when: ansible_os_family == "RedHat" and not dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_os_family == "RedHat" and not ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Install the apt repo
   ansible.builtin.apt:
@@ -46,7 +46,7 @@
     state: present
     update_cache: "{{ apt_update_cache | bool }}"
     dpkg_options: 'force-confnew'
-  when: ansible_os_family == "Debian" and dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_os_family == "Debian" and ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Create repo file (Debian)
   ansible.builtin.template:
@@ -55,7 +55,7 @@
     mode: 'u=rw,g=r,o=r'
     owner: root
     group: root
-  when: ansible_os_family == "Debian" and not dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_os_family == "Debian" and not ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Enable epel
   ansible.builtin.package:
