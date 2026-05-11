@@ -41,8 +41,8 @@ ood_use_existing_repo_file: false
 # using 'ood_use_existing_repo_file' users supply the repository file outside of this role.
 #
 # When both are set to false this this role will manage the repository file.
-# Users can supply different 'repo_base_url' and 'repo_src_base_url' variables to look
-# at a different repository. Though 'repo_src_base_url' is only available for RHEL
+# Users can supply different 'ood_repo_base_url' and 'ood_repo_src_base_url' variables to look
+# at a different repository. Though 'ood_repo_src_base_url' is only available for RHEL
 # type systems.
 ood_dl_repo_package: true
 

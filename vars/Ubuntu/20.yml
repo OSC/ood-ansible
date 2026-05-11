@@ -28,4 +28,4 @@ nginx_bin: "{{ nginx_root }}/usr/sbin/nginx"
 nginx_mime_types: "{{ nginx_root }}/etc/nginx/mime.types"
 locations_ini: "/opt/ood/ondemand/root/usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini"
 
-repo_base_url: https://apt.osc.edu/ondemand/4.0/web/apt
+ood_repo_base_url: 'https://apt.osc.edu/ondemand/4.0/web/apt'
