@@ -7,6 +7,7 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
 ## Table of Contents
 
 - [Version compatibility](#version-compatibility)
+- [Install a specific version](#installing-a-specific-version)
 - [Tags](#tags)
 - [Overrides](#overrides)
   - [Using this role to manage cluster and apps](#using-this-role-to-manage-cluster-and-apps)
@@ -65,6 +66,15 @@ ondemand_package: 'ondemand-2.0.20'
 ondemand_package_excludes:
   - '*-2.1'
 ```
+
+### Install from different repository
+
+There are two ways to install from a different repository other than the one provided
+by OSC. Users can either set `ood_use_existing_repo_file` to `true` (defaults to `false`)
+and provide a different repository file outside this role. Or they can set `ood_dl_repo_package`
+to `false` and let this role template a repository file. The templated file this role provides
+uses `ood_repo_base_url` and `ood_repo_src_base_url` variables, though `ood_repo_src_base_url`
+is only applicable to RHEL type systems.
 
 ## Tags
 
