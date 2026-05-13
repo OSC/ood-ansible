@@ -14,6 +14,13 @@
     key: "{{ rpm_repo_key }}"
   when: ansible_os_family == "RedHat"
 
+- name: Install the rpm repo's key to /etc
+  ansible.builtin.get_url:
+    url: "{{ rpm_repo_key }}"
+    dest: /etc/pki/rpm-gpg
+    mode: '0600'
+  when: ansible_os_family == "RedHat" and not ood_dl_repo_package and not ood_use_existing_repo_file
+
 - name: Install apt repo keys
   ansible.builtin.apt_key:
     state: present
