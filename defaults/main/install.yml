@@ -36,6 +36,16 @@ apt_update_cache: true
 # Set to "true" to skip installation of custom repo config files
 ood_use_existing_repo_file: false
 
+# Similar to 'ood_use_existing_repo_file' only that this role will populate the
+# repository files instead of downloading a package that does the same. When
+# using 'ood_use_existing_repo_file' users supply the repository file outside of this role.
+#
+# When both are set to false this this role will manage the repository file.
+# Users can supply different 'ood_repo_base_url' and 'ood_repo_src_base_url' variables to look
+# at a different repository. Though 'ood_repo_src_base_url' is only available for RHEL
+# type systems.
+ood_dl_repo_package: true
+
 # flip this flag if you want to install the ondemand-dex RPM
 install_ondemand_dex: false
 ondemand_dex_package: ondemand-dex # behaviour as for ondemand_package
