@@ -1,7 +1,11 @@
 ---
 - name: Converge
   hosts: default
-  roles:
-    - role: ood-ansible
-  vars_files:
-    - vars/converge.yml
+  tasks:
+    - name: include vars
+      ansible.builtin.include_vars:
+        file: vars/converge.yml
+    - name: run role
+      ansible.builtin.include_role:
+        name: ood-ansible
+    
