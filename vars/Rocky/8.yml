@@ -17,5 +17,5 @@ additional_rpm_installs:
   - "@ruby:{{ ruby_version }}"
   - "@nodejs:{{ nodejs_version }}"
 
-ood_repo_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el8/$basearch/'
-ood_repo_src_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el8/SRPMS/'
+ood_repo_base_url: 'https://yum.osc.edu/ondemand/4.1/web/el8/$basearch/'
+ood_repo_src_base_url: 'https://yum.osc.edu/ondemand/4.1/web/el8/SRPMS/'

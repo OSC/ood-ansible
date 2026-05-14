@@ -1,26 +1,39 @@
 ---
 - name: Converge
   hosts: default
-  roles:
-    - role: ood-ansible
-  vars_files:
-    - vars/install.yml
+  tasks:
+    - name: include vars
+      ansible.builtin.include_vars:
+        file: vars/install.yml
+    - name: run rule
+      ansible.builtin.include_role:
+        name: ood-ansible
 
 - name: Custom
   hosts: custom
-  roles:
-    - role: ood-ansible
-  vars_files:
-    - vars/apps.yml
-    - vars/nginx.yml
-    - vars/portal.yml
-    - vars/ondemand.yml
-    - vars/install.yml
+  tasks:
+    - name: include vars
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - vars/apps.yml
+        - vars/nginx.yml
+        - vars/portal.yml
+        - vars/ondemand.yml
+        - vars/install.yml
+    - name: run role
+      ansible.builtin.include_role:
+        name: ood-ansible
 
 - name: OIDC
   hosts: oidc
-  roles:
-    - role: ood-ansible
-  vars_files:
-    - vars/oidc_portal.yml
-    - vars/install.yml
+  tasks:
+    - name: include vars
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - vars/oidc_portal.yml
+        - vars/install.yml
+    - name: run role
+      ansible.builtin.include_role:
+        name: ood-ansible
