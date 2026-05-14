@@ -18,5 +18,5 @@ additional_rpm_installs:
 
 rpm_repo_key: https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512
 
-ood_repo_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el9/$basearch/'
-ood_repo_src_base_url: 'https://yum.osc.edu/ondemand/4.0/web/el9/SRPMS/'
+ood_repo_base_url: 'https://yum.osc.edu/ondemand/4.1/web/el9/$basearch/'
+ood_repo_src_base_url: 'https://yum.osc.edu/ondemand/4.1/web/el9/SRPMS/'
