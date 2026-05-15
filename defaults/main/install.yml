@@ -22,7 +22,7 @@ apt_repo_url: "https://apt.osc.edu/ondemand/4.2/ondemand-release-web_4.2.0-{{ de
 
 rpm_repo_key: "https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand"
 deb_repo_key: "https://apt.osc.edu/ondemand/DEB-GPG-KEY-ondemand-SHA512"
-deb_repo_key_id: "4B72FE2B92D31755"
+deb_repo_key_id: "C2ADB19AFD775498"
 node_repo_key: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
 node_repo_key_id: "6F71F525282841EEDAF851B42F59B5F99B1BE0B4"
 
