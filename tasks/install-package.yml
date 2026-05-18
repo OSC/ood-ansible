@@ -21,15 +21,25 @@
     mode: '0600'
   when: ansible_os_family == "RedHat" and not ood_dl_repo_package and not ood_use_existing_repo_file
 
-- name: Install apt repo keys
+- name: Install apt repo keys (legacy Debian)
   ansible.builtin.apt_key:
     state: present
     url: "{{ item.url }}"
     id: "{{ item.id }}"
-  when: ansible_os_family == "Debian"
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "26.04") || (ansible_distribution == "Debian" and ansible_distribution_major_version < "13")
   loop:
   - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}" }
   - { url: "{{ node_repo_key }}", id: "{{ node_repo_key_id }}" }
+
+- name: Install apt repo keys (current Debian)
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: /etc/apt/trusted.gpg.d/jenkins.asc
+    mode: '0644'
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version >= "26.04") || (ansible_distribution == "Debian" and ansible_distribution_major_version >= "13")
+  loop:
+  - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}", basename: "DEB-GPG-KEY-ondemand-SHA512" }
+  - { url: "{{ node_repo_key }}", id: "{{ node_repo_key_id }}", basename: "node.asc" }
 
 - name: Install the rpm repo
   ansible.builtin.package:
