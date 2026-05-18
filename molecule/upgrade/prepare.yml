@@ -24,14 +24,6 @@
       - gnupg2
       when:  ansible_os_family == "RedHat" and ansible_distribution_major_version == '10'
 
-    - name: Install extra packages (Debian)
-      ansible.builtin.package:
-        name: "{{ item }}"
-        state: latest
-      loop:
-      - apt-key
-      when:  ansible_os_family == "Debian"
-
 - name: Install previous version
   hosts: all
   roles:
