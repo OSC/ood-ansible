@@ -26,7 +26,7 @@
     state: present
     url: "{{ item.url }}"
     id: "{{ item.id }}"
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "26.04") or (ansible_distribution == "Debian" and ansible_distribution_major_version < "13")
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "26") or (ansible_distribution == "Debian" and ansible_distribution_major_version < "13")
   loop:
   - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}" }
   - { url: "{{ node_repo_key }}", id: "{{ node_repo_key_id }}" }
