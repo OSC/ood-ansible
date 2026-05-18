@@ -33,17 +33,15 @@ jobs:
           - 'almalinux:8'
           - 'almalinux:9'
           - 'almalinux:10'
-          - 'ubuntu:22.04'
           - 'ubuntu:24.04'
+          - 'ubuntu:26.04'
         scenario:
           - 'default'
           - 'upgrade'
         exclude:
-          # 4.0 did not support el:10
+          # 4.1 did not support ubuntu 26
           - scenario: upgrade
-            image: 'rockylinux/rockylinux:10'
-          - scenario: upgrade
-            image: 'almalinux:10'
+            image: 'ubuntu:26.04'
 
     steps:
       - name: checkout
