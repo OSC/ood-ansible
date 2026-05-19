@@ -35,13 +35,17 @@ jobs:
           - 'almalinux:10'
           - 'ubuntu:24.04'
           - 'ubuntu:26.04'
+          - 'debian:12'
+          - 'debian:13'
         scenario:
           - 'default'
           - 'upgrade'
         exclude:
-          # 4.1 did not support ubuntu 26
+          # 4.1 did not support these operating systems
           - scenario: upgrade
             image: 'ubuntu:26.04'
+          - scenario: upgrade
+            image: 'debian:13'
 
     steps:
       - name: checkout
