@@ -435,7 +435,7 @@ oidc_scope: "openid profile email groups"
 # Example:
 #   oidc_crypto_passphrase: "f1d2d2f924e986ac86fdf7b36c94bcdf32beec15"
 # Default: SHA1 sum of servername
-#oidc_crypto_passphrase: ~
+oidc_crypto_passphrase: mycryptopass
 
 # OIDC session inactivity timeout
 # Example:
@@ -470,7 +470,6 @@ oidc_cookie_same_site: "Off"
 #       OIDCPassRefreshToken: On
 # Default: {} (empty hash)
 oidc_settings:
-  OIDCCryptoPassphrase: 'mycryptopass'
   OIDCPassRefreshToken: 'On'
 
 # The Dex URI behind Apache reverse proxy

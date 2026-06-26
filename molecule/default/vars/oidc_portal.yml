@@ -26,6 +26,6 @@ oidc_session_inactivity_timeout: 9001
 oidc_session_max_duration: 9001
 oidc_state_max_number_of_cookies: "3 true"
 oidc_cookie_same_site: 'Off'
+oidc_crypto_passphrase: mycryptopass
 oidc_settings:
-  OIDCCryptoPassphrase: mycryptopass
   OIDCPassRefreshToken: 'On'
