@@ -15,8 +15,8 @@ platforms:
     image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
-      "/run": "rw"
-      "/tmp": "rw"
+      - /run
+      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 

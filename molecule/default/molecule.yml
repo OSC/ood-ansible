@@ -15,24 +15,24 @@ platforms:
     image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
-      "/run": "rw"
-      "/tmp": "rw"
+      - /run
+      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
   - name: custom
     image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
-      "/run": "rw"
-      "/tmp": "rw"
+      - /run
+      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
   - name: oidc
     image: ${IMAGE:-"rockylinux:8"}
     command: /sbin/init
     tmpfs:
-      "/run": "rw"
-      "/tmp": "rw"
+      - /run
+      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 

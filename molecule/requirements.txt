@@ -6,6 +6,8 @@ ansible-lint
 ansible_compat
 docker
 molecule
-molecule-plugins
+# there's some issue with tmpfs dict vs array in podman
+# https://github.com/ansible-community/molecule-plugins/pull/378
+molecule-plugins[podman]==23.5.0
 molecule-podman
 yamllint
