@@ -32,14 +32,7 @@ new features to _this role_.
 
 ## Supported Operating Systems
 
-* CentOS
-* Debian
-* Fedora
-* RedHat
-* Rocky Linux
-* Suse
-* Ubuntu 18
-* Ubuntu 20
+This role can install on any [Open OnDemand supported operating system](https://osc.github.io/ood-documentation/latest/requirements.html#os-support).
 
 ## Installing a specific version
 
