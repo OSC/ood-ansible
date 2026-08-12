@@ -6,6 +6,6 @@ ansible-lint
 ansible_compat
 docker
 molecule
-molecule-plugins
+molecule-plugins[podman]==23.5.0
 molecule-podman
 yamllint
