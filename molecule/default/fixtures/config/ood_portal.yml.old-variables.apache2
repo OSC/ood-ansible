@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+# Ansible managed
 ---
 #
 # Portal configuration
@@ -8,44 +8,31 @@
 # Example:
 #     listen_addr_port: 443
 # Default: null (don't add any more listen directives)
-{% if listen_addr_port is defined %}listen_addr_port: {{ listen_addr_port }}
-{% else %}#listen_addr_port: null
-{% endif %}
+#listen_addr_port: null
 
 # The server name used for name-based Virtual Host
 # Example:
 #     servername: 'www.example.com'
 # Default: null (don't use name-based Virtual Host)
-{% if servername is defined %}servername: {{ servername }}
-{% else %}#servername: null
-{% endif %}
+servername: localhost
 
 # The server aliases used for the name-based Virtual Host
 # Example:
 #     server_aliases:
 #       - foo.example.com
-{% if server_aliases is defined and server_aliases|length > 0 %}
-server_aliases:
-{% for item in server_aliases  %}
-  - '{{ item }}'
-{% endfor %}
-{% else %}
 #server_aliases: []
-{% endif %}
 
 # The server name used for rewrites
 # Example:
 #     proxy_server: 'proxy.example.com'
 # Default: The value of servername
-{% if proxy_server is defined %}proxy_server: {{ proxy_server }}
-{% else %}#proxy_server: null
-{% endif %}
+#proxy_server: null
 
 # The port specification for the Virtual Host
 # Example:
 #     port: 8080
 #Default: null (use default port 80 or 443 if SSL enabled)
-port: {{ httpd_port }}
+port: 80
 
 # List of SSL Apache directives
 # Example:
@@ -53,76 +40,57 @@ port: {{ httpd_port }}
 #       - 'SSLCertificateFile "/etc/pki/tls/certs/www.example.com.crt"'
 #       - 'SSLCertificateKeyFile "/etc/pki/tls/private/www.example.com.key"'
 # Default: null (no SSL support)
-{% if ssl is defined %}
-ssl:
-{% for item in ssl  %}
-- '{{ item }}'
-{% endfor %}
-{% else %}
 # Default: null (no SSL support)
-{% endif %}
 
 # Disable logging entirely. With this you can have custom log directives
 # in a seperate configuration file.
 # Example:
 #     disable_logs: true
 # Default: false (logs are enabled)
-{% if disable_logs is defined %}disable_logs: {{ disable_logs | bool | lower }}
-{% else %}#disable_logs: false
-{% endif %}
+#disable_logs: false
 
 # Root directory of log files (can be relative ServerRoot)
 # Example:
 #     logroot: '/path/to/my/logs'
 # Default: 'logs' (this is relative to ServerRoot)
-logroot: "{{ apache_log_dir }}"
+logroot: "/var/log/apache2"
 
 # Error log filename
 # Example:
 #     errorlog: 'error.log'
 # Default: 'error.log' (If 'servername' and 'ssl' options are defined 
 # the default value will be <servername>_error_ssl.log)
-{% if httpd_error_log is defined %}errorlog: '{{ httpd_error_log }}'
-{% else %}#errorlog: 'error.log'
-{% endif %}
+#errorlog: 'error.log'
 
 # Access log filename
 # Example:
 #     accesslog: 'access.log'
 # Default: 'access.log' (If 'servername' and 'ssl' options are defined 
 # the default value will be <servername>_access_ssl.log)
-{% if httpd_access_log is defined %}accesslog: '{{ httpd_access_log }}'
-{% else %}#accesslog: 'access.log'
-{% endif %}
+#accesslog: 'access.log'
 
 # Apache access log format (Don't specify log nickname see: http://httpd.apache.org/docs/current/mod/mod_log_config.html#transferlog)
 # Example:
 #     logformat: '"%v %h \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{SSL_PROTOCOL}x %T"'
 # Default: Apache combined format
-{% if httpd_logformat is defined %}logformat: '{{ httpd_logformat }}'
-{% endif %}
 
 # Should RewriteEngine be used
 # Example:
 #     use_rewrites: false
 # Default: true
-{% if httpd_use_rewrites is defined %}
-use_rewrites: {{ httpd_use_rewrites | bool | lower }}
-{% else %}
-use_rewrites: {{ ood_httpd_use_rewrites | bool | lower }}
-{% endif %}
+use_rewrites: false
 
 # Specify the host to redirect to when redirecting from port 80
 # Example:
 #     http_redirect_host: my.proxy.host
 # Default: '%{HTTP_HOST}'
-http_redirect_host: '{{ ood_http_redirect_host }}'
+http_redirect_host: '%{HTTP_HOST}'
 
 # Should Maintenance Rewrite rules be added
 # Example:
 #   use_maintenance: false
 # Default: true
-use_maintenance: {{ use_maintenance | bool | lower }}
+use_maintenance: true
 
 # List of IPs to allow when maintenance is enabled
 # Example:
@@ -130,14 +98,7 @@ use_maintenance: {{ use_maintenance | bool | lower }}
 #     - 192.168.0..*
 #     - 192.168.1..*
 # Default: [] (no IPs allowed)
-{% if maintenance_ip_allowlist is defined and maintenance_ip_allowlist|length > 0 %}
-maintenance_ip_allowlist:
-{% for item in maintenance_ip_allowlist  %}
-  - '{{ item }}'
-{% endfor %}
-{% else %}
 maintenance_ip_allowlist: []
-{% endif %}
 
 # Set Header Content-Security-Policy frame-ancestors.
 # Example:
@@ -145,96 +106,72 @@ maintenance_ip_allowlist: []
 # Example to disable setting:
 #   security_csp_frame_ancestors: false
 # Default: based on servername and ssl settings
-{% if security_csp_frame_ancestors is defined %}security_csp_frame_ancestors: {{ security_csp_frame_ancestors }}
-{% else %}#security_csp_frame_ancestors:
-{% endif %}
+#security_csp_frame_ancestors:
 
 # Set Header Strict-Transport-Security to help enforce SSL
 # Example:
 #   security_strict_transport: false
 # Default: true when ssl is enabled, false otherwise
-{% if security_strict_transport is defined %}security_strict_transport: {{ security_strict_transport | bool }}
-{% else %}#security_strict_transport: false
-{% endif %}
+#security_strict_transport: false
 
 # Fix Cross-Site-Request authentication headers proxying
 # Example:
 #   strip_proxy_headers: []
 # Default: ["Authorization", "OIDC_CLAIM_sub", "OIDC_CLAIM_preferred_username", "OIDC_CLAIM_given_name", "OIDC_CLAIM_zoneinfo", "OIDC_CLAIM_locale", "OIDC_CLAIM_email", "OIDC_CLAIM_email_verified", "OIDC_CLAIM_iss", "OIDC_CLAIM_nonce", "OIDC_CLAIM_aud", "OIDC_CLAIM_acr", "OIDC_CLAIM_azp", "OIDC_CLAIM_auth_time", "OIDC_CLAIM_exp", "OIDC_CLAIM_iat", "OIDC_CLAIM_jti", "OIDC_access_token", "OIDC_access_token_expires"]
-{% if strip_proxy_headers is defined %}
-strip_proxy_headers:
-{% for item in strip_proxy_headers  %}
-  - '{{ item }}'
-{% endfor %}
-{% else %}#strip_proxy_headers: ["Authorization", "OIDC_CLAIM_sub", "OIDC_CLAIM_preferred_username", "OIDC_CLAIM_given_name", "OIDC_CLAIM_zoneinfo", "OIDC_CLAIM_locale", "OIDC_CLAIM_email", "OIDC_CLAIM_email_verified", "OIDC_CLAIM_iss", "OIDC_CLAIM_nonce", "OIDC_CLAIM_aud", "OIDC_CLAIM_acr", "OIDC_CLAIM_azp", "OIDC_CLAIM_auth_time", "OIDC_CLAIM_exp", "OIDC_CLAIM_iat", "OIDC_CLAIM_jti", "OIDC_access_token", "OIDC_access_token_expires"]
-{% endif %}
+#strip_proxy_headers: ["Authorization", "OIDC_CLAIM_sub", "OIDC_CLAIM_preferred_username", "OIDC_CLAIM_given_name", "OIDC_CLAIM_zoneinfo", "OIDC_CLAIM_locale", "OIDC_CLAIM_email", "OIDC_CLAIM_email_verified", "OIDC_CLAIM_iss", "OIDC_CLAIM_nonce", "OIDC_CLAIM_aud", "OIDC_CLAIM_acr", "OIDC_CLAIM_azp", "OIDC_CLAIM_auth_time", "OIDC_CLAIM_exp", "OIDC_CLAIM_iat", "OIDC_CLAIM_jti", "OIDC_access_token", "OIDC_access_token_expires"]
 
 # Fix Cross-Site-Request authentication cookies proxying
 # Example:
 #   strip_proxy_cookies: []
 # Default: ["mod_auth_openidc_session_\\d+", "mod_auth_openidc_session"]
-{% if strip_proxy_cookies is defined %}
-strip_proxy_cookies:
-{% for item in strip_proxy_cookies  %}
-  - '{{ item }}'
-{% endfor %}
-{% else %}#strip_proxy_cookies: ["mod_auth_openidc_session_\\d+", "mod_auth_openidc_session"]
-{% endif %}
+#strip_proxy_cookies: ["mod_auth_openidc_session_\\d+", "mod_auth_openidc_session"]
 
 # Root directory of the Lua handler code
 # Example:
 #     lua_root: '/path/to/lua/handlers'
 # Default : '/opt/ood/mod_ood_proxy/lib' (default install directory of mod_ood_proxy)
-lua_root: "{{ lua_root }}"
+lua_root: "/opt/ood/mod_ood_proxy/lib"
 
 # Verbosity of the Lua module logging
 # (see https://httpd.apache.org/docs/2.4/mod/core.html#loglevel)
 # Example:
 #     lua_log_level: 'warn'
 # Default: 'info' (get verbose logs)
-lua_log_level: "{{ lua_log_level }}"
+lua_log_level: "info"
 
 # Lua regular expression used to map authenticated-user to system-user
 # This configuration is ignored if user_map_cmd is defined
 # Example:
 #     user_map_match: '^([^@]+)@.*$'
 # Default: '.*'
-{% if user_map_match is defined %}user_map_match: '{{ user_map_match }}'
-{% else %}# user_map_match: '.*'
-{% endif %}
+user_map_match: '.*'
 
 # System command used to map authenticated-user to system-user
 # This option takes precedence over user_map_match
 # Example:
 #     user_map_cmd: '/usr/local/bin/ondemand-usermap'
 # Default: null (use user_map_match)
-{% if user_map_cmd is defined %}user_map_cmd: {{ user_map_cmd }}
-{% else %}#user_map_cmd: null
-{% endif %}
+#user_map_cmd: null
 
 # Use an alternative CGI environment variable instead of REMOTE_USER for
 # determining the authenticated-user fed to the mapping script
 # Example:
 #     user_env: 'OIDC_CLAIM_preferred_username'
 # Default: null (use REMOTE_USER)
-{% if user_env is defined %}user_env: {{ user_env }}
-{% else %}#user_env: null
-{% endif %}
+#user_env: null
 
 # Redirect user to the following URI if fail to map there authenticated-user to
 # a system-user
 # Example:
 #     map_fail_uri: '/register'
 # Default: null (don't redirect, just display error message)
-{% if map_fail_uri is defined %}map_fail_uri: {{ map_fail_uri }}
-{% else %}#map_fail_uri: null
-{% endif %}
+#map_fail_uri: null
 
 # System command used to run the `nginx_stage` script with sudo privileges
 # Example:
 #     pun_stage_cmd: 'sudo /path/to/nginx_stage'
 # Default: 'sudo /opt/ood/nginx_stage/sbin/nginx_stage' (don't forget sudo)
-pun_stage_cmd: "{{ pun_stage_cmd }}"
+pun_stage_cmd: "sudo /opt/ood/nginx_stage/sbin/nginx_stage"
 
 # List of Apache authentication directives
 # NB: Be sure the appropriate Apache module is installed for this
@@ -243,9 +180,11 @@ pun_stage_cmd: "{{ pun_stage_cmd }}"
 #  - 'AuthType openid-connect'
 #  - 'Require valid-user'
 auth:
-{% for auth in httpd_auth  %}
-- '{{ auth }}'
-{% endfor %}
+- 'AuthType Basic'
+- 'AuthName "private"'
+- 'AuthUserFile "/etc/apache2/.htpasswd"'
+- 'RequestHeader unset Authorization'
+- 'Require valid-user'
 
 # List of custom apache directives to apply to the entire vhost.
 # Note this is an array of strings.
@@ -253,14 +192,7 @@ auth:
 #     custom_vhost_directives:
 #       - 'SetEnv SPECIAL_ENV_VAR custom'
 # Default: [] (no custom directives)
-{% if custom_vhost_directives is defined %}
-custom_vhost_directives:
-{% for directive in custom_vhost_directives  %}
-- '{{ directive }}'
-{% endfor %}
-{% else %}
 #custom_vhost_directives: []
-{% endif %}
 
 # List of custom apache directives to apply to the Locations.
 # Note this is an array of strings.
@@ -268,21 +200,14 @@ custom_vhost_directives:
 #     custom_location_directives:
 #       - 'SetEnv SPECIAL_ENV_VAR custom'
 # Default: [] (no custom directives)
-{% if custom_location_directives is defined %}
-custom_location_directives:
-{% for directive in custom_location_directives  %}
-- '{{ directive }}'
-{% endfor %}
-{% else %}
 #custom_location_directives: []
-{% endif %}
 
 # Redirect user to the following URI when accessing root URI
 # Example:
 #     root_uri: '/my_uri'
 #     # https://www.example.com/ => https://www.example.com/my_uri
 # Default: '/pun/sys/dashboard' (default location of the OOD Dashboard app)
-root_uri: {{ root_uri }}
+root_uri: /pun/sys/dashboard
 
 #
 # Publicly available assets
@@ -292,14 +217,14 @@ root_uri: {{ root_uri }}
 # Example:
 #     public_uri: '/assets'
 # Default: '/public'
-public_uri: "{{ httpd_public_uri }}"
+public_uri: "/public"
 
 # Root directory that serves the public sub-uri (be careful, everything under
 # here is open to the public)
 # Example:
 #     public_root: '/path/to/public/assets'
 # Default: '/var/www/ood/public'
-public_root: "{{ httpd_public_root }}"
+public_root: "/var/www/ood/public"
 
 #
 # Logout redirect helper
@@ -310,14 +235,14 @@ public_root: "{{ httpd_public_root }}"
 #     logout_uri: '/log_me_out'
 # NB: If you change this, then modify the Dashboard app with the new sub-uri
 # Default: '/logout' (the Dashboard app is by default going to expect this)
-logout_uri: "{{ logout_uri }}"
+logout_uri: "/logout"
 
 # Redirect user to the following URI when accessing logout URI
 # Example:
 #     logout_redirect: '/oidc?logout=https%3A%2F%2Fwww.example.com'
 # Default: '/pun/sys/dashboard/logout' (the Dashboard app provides a simple
 # HTML page explaining logout to the user)
-logout_redirect: "{{ logout_redirect }}"
+logout_redirect: "/pun/sys/dashboard/logout"
 
 #
 # Reverse proxy to backend nodes
@@ -328,25 +253,21 @@ logout_redirect: "{{ logout_redirect }}"
 #     host_regex: '[\w.-]+\.example\.com'
 # Default: '[^/]+' (allow reverse proxying to all hosts, this allows external
 # hosts as well)
-host_regex: '{{ host_regex }}'
+host_regex: '[^/]+'
 
 # Sub-uri used to reverse proxy to backend web server running on node that
 # knows the full URI path
 # Example:
 #     node_uri: '/node'
 # Default: null (disable this feature)
-{% if node_uri is defined %}node_uri: {{ node_uri }}
-{% else %}#node_uri: null
-{% endif %}
+#node_uri: null
 
 # Sub-uri used to reverse proxy to backend web server running on node that
 # ONLY uses *relative* URI paths
 # Example:
 #     rnode_uri: '/rnode'
 # Default: null (disable this feature)
-{% if rnode_uri is defined %}rnode_uri: {{ rnode_uri }}
-{% else %}#rnode_uri: null
-{% endif %}
+#rnode_uri: null
 
 # This path will force the upstream connection to use HTTPS or WSS, used for
 # backend applications that are running their own SSL termination
@@ -355,9 +276,7 @@ host_regex: '{{ host_regex }}'
 # Example:
 #     secure_node_uri: '/secure-node'
 # Default: null (disable this feature)
-{% if secure_node_uri is defined %}secure_node_uri: {{ secure_node_uri }}
-{% else %}#secure_node_uri: null
-{% endif %}
+#secure_node_uri: null
 
 # This path will force the upstream connection to use HTTPS or WSS, used for
 # backend applications that are running their own SSL termination
@@ -366,9 +285,7 @@ host_regex: '{{ host_regex }}'
 # Example:
 #     secure_rnode_uri: '/secure-rnode'
 # Default: null (disable this feature)
-{% if secure_rnode_uri is defined %}secure_rnode_uri: {{ secure_rnode_uri }}
-{% else %}#secure_rnode_uri: null
-{% endif %}
+#secure_rnode_uri: null
 
 # List of SSL Proxy Apache directives
 # These settings control SSL validation for the upstream connection and require
@@ -379,14 +296,7 @@ host_regex: '{{ host_regex }}'
 #       - 'SSLProxyCheckPeerCN Off'
 #       - 'SSLProxyCheckPeerName Off'
 # Default: [] (no additional SSL proxy settings)
-{% if ssl_proxy is defined %}
-ssl_proxy:
-{% for directive in ssl_proxy  %}
-  - '{{ directive }}'
-{% endfor %}
-{% else %}
 #ssl_proxy: []
-{% endif %}
 
 #
 # Per-user NGINX Passenger apps
@@ -396,36 +306,34 @@ ssl_proxy:
 # Example:
 #     nginx_uri: '/my_pun_controller'
 # Default: '/nginx'
-nginx_uri: {{ nginx_uri }}
+nginx_uri: /nginx
 
 # Sub-uri used to access the PUN processes
 # Example:
 #     pun_uri: '/my_pun_apps'
 # Default: '/pun'
-pun_uri: "{{ pun_uri }}"
+pun_uri: "/pun"
 
 # Root directory that contains the PUN Unix sockets that the proxy uses to
 # connect to
 # Example:
 #     pun_socket_root: '/path/to/pun/sockets'
 # Default: '/var/run/ondemand-nginx' (default location set in nginx_stage)
-pun_socket_root: "{{ pun_socket_root }}"
+pun_socket_root: "/var/run/ondemand-nginx"
 
 # Number of times the proxy attempts to connect to the PUN Unix socket before
 # giving up and displaying an error to the user
 # Example:
 #     pun_max_retries: 25
 # Default: 5 (only try 5 times)
-pun_max_retries: {{ pun_max_retries }}
+pun_max_retries: 5
 
 # The PUN pre hook command to execute as root
 #
 # Example:
 #    pun_pre_hook_root_cmd: '/opt/hpc-site/ood_pun_prehook'
 # Default: null (do not run any PUN pre hook as root)
-{% if pun_pre_hook_root_cmd is defined %}pun_pre_hook_root_cmd: '{{ pun_pre_hook_root_cmd }}'
-{% else %}# pun_pre_hook_root_cmd: null
-{% endif %}
+# pun_pre_hook_root_cmd: null
 
 # Comma separated list of environment variables to pass from the apache context
 # into the PUN pre hook. Defaults to null so nothing is exported.
@@ -433,9 +341,7 @@ pun_max_retries: {{ pun_max_retries }}
 # Example:
 #    pun_pre_hook_exports: 'OIDC_ACCESS_TOKEN,OIDC_CLAIM_EMAIL'
 # Default: null (pass nothing)
-{% if pun_pre_hook_exports is defined %}pun_pre_hook_exports: '{{ pun_pre_hook_exports }}'
-{% else %}# pun_pre_hook_exports: null
-{% endif %}
+# pun_pre_hook_exports: null
 
 #
 # Support for OpenID Connect
@@ -445,27 +351,21 @@ pun_max_retries: {{ pun_max_retries }}
 # Example:
 #     oidc_uri: '/oidc'
 # Default: null (disable OpenID Connect support)
-{% if oidc_uri is defined %}oidc_uri: {{ oidc_uri }}
-{% else %}#oidc_uri: null
-{% endif %}
+#oidc_uri: null
 
 # Sub-uri user is redirected to if they are not authenticated. This is used to
 # *discover* what ID provider the user will login through.
 # Example:
 #     oidc_discover_uri: '/discover'
 # Default: null (disable support for discovering OpenID Connect IdP)
-{% if oidc_discover_uri is defined %}oidc_discover_uri: {{ oidc_discover_uri }}
-{% else %}#oidc_discover_uri: null
-{% endif %}
+#oidc_discover_uri: null
 
 # Root directory on the filesystem that serves the HTML code used to display
 # the discovery page
 # Example:
 #     oidc_discover_root: '/var/www/ood/discover'
 # Default: null (disable support for discovering OpenID Connect IdP)
-{% if oidc_discover_root is defined %}oidc_discover_root: {{ oidc_discover_root }}
-{% else %}#oidc_discover_root: null
-{% endif %}
+#oidc_discover_root: null
 
 #
 # Support for registering unmapped users
@@ -478,111 +378,81 @@ pun_max_retries: {{ pun_max_retries }}
 # Example:
 #     register_uri: '/register'
 # Default: null (display error to user if mapping fails)
-{% if register_uri is defined %}register_uri: {{ register_uri }}
-{% else %}#register_uri: null
-{% endif %}
+#register_uri: null
 
 # Root directory on the filesystem that serves the HTML code used to register
 # an unmapped user
 # Example:
 #     register_root: '/var/www/ood/register'
 # Default: null (display error to user if mapping fails)
-{% if register_root is defined %}register_root: {{ register_root }}
-{% else %}#register_root: null
-{% endif %}
+#register_root: null
 
 # Method for url used to register an unmapped user
 # Example:
 #     register_method: 'ScriptAlias'
 # Default: 'Alias'
-{% if register_method is defined %}register_method: '{{ register_method }}'
-{% else %}#register_method: 'Alias'
-{% endif %}
+#register_method: 'Alias'
 
 # List of SSL Apache directives added to register an unmapped user
 # Example:
 #     register_method:
 #     - 'WSGIDaemonProcess register user=www-data group=www-data threads=5 home=/var/www/flask-apps/register'
 # Default: null
-{% if register_method_options is defined %}
-register_method_options:
-{% for option in register_method_options %}
-  - '{{ option }}'
-{% endfor %}
-{% else %}#register_method_options: null
-{% endif %}
+#register_method_options: null
 
 # OIDC metadata URL
 # Example:
 #     oidc_provider_metadata_url: https://example.com:5554/.well-known/openid-configuration
 # Default: null (value auto-generated if using Dex)
-{% if oidc_provider_metadata_url is defined %}oidc_provider_metadata_url: {{ oidc_provider_metadata_url }}
-{% else %}#oidc_provider_metadata_url: null
-{% endif %}
+#oidc_provider_metadata_url: null
 
 # OIDC client ID
 # Example:
 #     oidc_client_id: ondemand.example.com
 # Default: null (value auto-generated if using Dex)
-{% if oidc_client_id is defined %}oidc_client_id: {{ oidc_client_id }}
-{% else %}#oidc_client_id: null
-{% endif %}
+#oidc_client_id: null
 
 # OIDC client secret
 # Example:
 #     oidc_client_secret: 334389048b872a533002b34d73f8c29fd09efc50
 # Default: null (value auto-generated if using Dex)
-{% if oidc_client_secret is defined %}oidc_client_secret: {{ oidc_client_secret }}
-{% else %}#oidc_client_secret: null
-{% endif %}
+#oidc_client_secret: null
 
 # OIDC remote user claim. This is the claim that populates REMOTE_USER
 # Example:
 #     oidc_remote_user_claim: preferred_username
 # Default: preferred_username
-{% if oidc_remote_user_claim is defined %}oidc_remote_user_claim: {{ oidc_remote_user_claim }}
-{% else %}#oidc_remote_user_claim: preferred_username
-{% endif %}
+#oidc_remote_user_claim: preferred_username
 
 # OIDC scopes
 # Example:
 #     oidc_scope: "openid profile email groups"
 # Default: "openid profile email"
-{% if oidc_scope is defined %}oidc_scope: "{{ oidc_scope }}"
-{% else %}#oidc_scope: "openid profile email"
-{% endif %}
+#oidc_scope: "openid profile email"
 
 # OIDC crypto passphrase
 # Example:
 #   oidc_crypto_passphrase: "f1d2d2f924e986ac86fdf7b36c94bcdf32beec15"
 # Default: SHA1 sum of servername
-{% if oidc_crypto_passphrase is defined %}oidc_crypto_passphrase: {{ oidc_crypto_passphrase }}
-{% else %}#oidc_crypto_passphrase: ~
-{% endif %}
+#oidc_crypto_passphrase: ~
 
 # OIDC session inactivity timeout
 # Example:
 #     oidc_session_inactivity_timeout: 28800
 # Default: 28800
-{% if oidc_session_inactivity_timeout is defined %}oidc_session_inactivity_timeout: {{ oidc_session_inactivity_timeout }}
-{% else %}#oidc_session_inactivity_timeout: 28800
-{% endif %}
+#oidc_session_inactivity_timeout: 28800
 
 # OIDC session max duration
 # Example:
 #     oidc_session_max_duration: 28800
 # Default: 28800
-{% if oidc_session_max_duration is defined %}oidc_session_max_duration: {{ oidc_session_max_duration }}
-{% else %}#oidc_session_max_duration: 28800
-{% endif %}
+#oidc_session_max_duration: 28800
 
 # OIDC max number of state cookies and if to automatically clean old cookies
 # Example:
 #     oidc_state_max_number_of_cookies: "10 true"
 # Default: "10 true"
-{% if oidc_state_max_number_of_cookies is defined %}oidc_state_max_number_of_cookies: {{ oidc_state_max_number_of_cookies }}
-{% else %}#oidc_state_max_number_of_cookies: "10 true"
-{% endif %}
+#oidc_state_max_number_of_cookies: "10 true"
 
 # OIDC Enable SameSite cookie
 # When ssl is defined this defaults to 'Off'
@@ -590,9 +460,7 @@ register_method_options:
 # Example:
 #     oidc_cookie_same_site: 'Off'
 # Default: 'On'
-{% if oidc_cookie_same_site is defined %}oidc_cookie_same_site: "{{ oidc_cookie_same_site }}"
-{% else %}#oidc_cookie_same_site: "On"
-{% endif %}
+#oidc_cookie_same_site: "On"
 
 # Additional OIDC settings as key-value pairs
 # Example:
@@ -600,12 +468,6 @@ register_method_options:
 #       OIDCPassIDTokenAs: serialized
 #       OIDCPassRefreshToken: On
 # Default: {} (empty hash)
-{% if oidc_settings is defined %}
-oidc_settings:
-{% for key, value in oidc_settings.items() %}
-  {{ key }}: '{{ value }}'
-{% endfor %}
-{% endif %}
 
 # The Dex URI behind Apache reverse proxy
 # Setting this value to some path will result in Dex listening on localhost
@@ -613,16 +475,11 @@ oidc_settings:
 # Example:
 #   dex_uri: /dex
 # Default: null
-{% if dex_uri is defined %}dex_uri: '{{ dex_uri }}'
-{% else %}#dex_uri: null
-{% endif %}
+#dex_uri: null
 
 # Dex configurations, values inside the "dex" structure are directly used to configure Dex
 # If the value for "dex" key is false or null, Dex support is disabled
 # Dex support will auto-enable if ondemand-dex package is installed
-{% if dex_settings is defined %}
-{{ dex_settings }}
-{% else %}
 #dex:
   # Default based on if ssl key for ood-portal-generator is defined
 #  ssl: false
@@ -675,4 +532,3 @@ oidc_settings:
 #  frontend:
 #    theme: ondemand
 #    dir: /usr/share/ondemand-dex/web
-{% endif %}
