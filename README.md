@@ -303,9 +303,9 @@ You can use the `ondemand_dex_service_state` and `ondemand_dex_service_enabled` 
 ### OnDemand.d Configurations
 
 In the 4.0 release of this role, configurations for `ondemand.d` files was changed.
-While this role will continue to support the old way of specifing each
-variable and writing them all out to a single `ondemand.d/ondemand.yml` file,
-users should begin to migrate to the new way to write these files.
+The old way of specifying each variable and writing them all out to a single
+`ondemand.d/ondemand.yml` file has been deprecated and users should begin to migrate
+to the new way to write these files.
 
 4.0 introduced `ood_ondemand_d_configs` which will in turn write out as many files
 as you've provided.
