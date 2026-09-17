@@ -80,7 +80,7 @@ logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e
 # Example:
 #     use_rewrites: false
 # Default: true
-use_rewrites: true
+use_rewrites: false
 
 # Specify the host to redirect to when redirecting from port 80
 # Example:

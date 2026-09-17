@@ -9,6 +9,9 @@
       ansible.builtin.include_role:
         name: ood-ansible
 
+# Custom is the use case of providing custom variables. Most
+# variables should be supplied here to differ from default to
+# verify templating.
 - name: Custom
   hosts: custom
   tasks:
@@ -34,6 +37,23 @@
       loop:
         - vars/oidc_portal.yml
         - vars/install.yml
+    - name: run role
+      ansible.builtin.include_role:
+        name: ood-ansible
+
+# Old Variables is the use case of providing old variable names
+# (not ood_ prefixed) to ensure backward compatibility.
+# All old variables should be supplied here to differ from default to
+# verify templating.
+- name: Old Variables
+  hosts: old-variables
+  tasks:
+    - name: include vars
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - vars/install.yml
+        - vars/old_variables.yml
     - name: run role
       ansible.builtin.include_role:
         name: ood-ansible
