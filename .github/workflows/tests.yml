@@ -37,7 +37,7 @@ jobs:
           - 'ubuntu:26.04'
           - 'debian:12'
           - 'debian:13'
-          - 'amzn2023'
+          - 'amazonlinux:2023'
         scenario:
           - 'default'
           - 'upgrade'
