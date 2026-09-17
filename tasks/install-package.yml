@@ -1,7 +1,12 @@
 - name: Set el_distro when OS is RHEL
   set_fact:
     el_distro: "el{{ ansible_distribution_major_version }}"
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" and not ansible_distribution == "Amazon"
+
+- name: Set el_distro when OS is Amazon
+  set_fact:
+    el_distro: "amzn{{ ansible_distribution_major_version }}"
+  when: ansible_distribution == "Amazon"
 
 - name: Set deb_distro when OS is Debian
   set_fact:
@@ -78,7 +83,7 @@
   ansible.builtin.package:
     name: 'epel-release'
     state: present
-  when: ansible_os_family == "RedHat" and not ood_use_existing_repo_file
+  when: ansible_os_family == "RedHat" and not ood_use_existing_repo_file and not ansible_distribution == "Amazon"
 
 - name: Install rhel/centos:8 dependencies
   ansible.builtin.dnf:
@@ -115,8 +120,8 @@
   when: ansible_distribution == "Red Hat Enterprise Linux" and ansible_distribution_major_version == '7'
   changed_when: true
 
-- name: Install Open Ondemand (RHEL)
-  ansible.builtin.yum:
+- name: Install Open Ondemand (RHEL Compatible)
+  ansible.builtin.dnf:
     name:  "{{ 'ondemand' if ondemand_package == 'latest' else ondemand_package }}"
     state: "{{ 'latest' if ondemand_package == 'latest' else 'present' }}"
     update_cache: true
