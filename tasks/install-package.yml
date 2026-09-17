@@ -120,21 +120,13 @@
   when: ansible_distribution == "Red Hat Enterprise Linux" and ansible_distribution_major_version == '7'
   changed_when: true
 
-- name: Install Open Ondemand (RHEL)
-  ansible.builtin.yum:
-    name:  "{{ 'ondemand' if ondemand_package == 'latest' else ondemand_package }}"
-    state: "{{ 'latest' if ondemand_package == 'latest' else 'present' }}"
-    update_cache: true
-    exclude: "{{ ondemand_package_excludes | default([]) }}"
-  when: ansible_os_family == "RedHat" and not ansible_distribution == "Amazon"
-
-- name: Install Open Ondemand (Amazon)
+- name: Install Open Ondemand (RHEL Compatible)
   ansible.builtin.dnf:
     name:  "{{ 'ondemand' if ondemand_package == 'latest' else ondemand_package }}"
     state: "{{ 'latest' if ondemand_package == 'latest' else 'present' }}"
     update_cache: true
     exclude: "{{ ondemand_package_excludes | default([]) }}"
-  when: ansible_distribution == "Amazon"
+  when: ansible_os_family == "RedHat"
 
 - name: Install Open Ondemand (Debian)
   ansible.builtin.apt:
