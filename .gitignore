@@ -187,3 +187,9 @@ dmypy.json
 templates/ood_portal_example.yml
 templates/ood-portal.conf.erb
 templates/nginx_stage_example.yml
+
+# venv
+env/
+
+# ansible configs
+ansible.cfg
