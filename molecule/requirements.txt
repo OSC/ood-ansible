@@ -1,6 +1,4 @@
-# lock ansible-core because 2.18 has issues with EL8.
-# specifically https://github.com/ansible/ansible/issues/82068
-ansible-core<2.17
+ansible-core
 ansible
 ansible-lint
 ansible_compat
