@@ -1,37 +1,37 @@
 - name: Set el_distro when OS is RHEL
   set_fact:
-    el_distro: "el{{ ansible_distribution_major_version }}"
-  when: ansible_os_family == "RedHat" and not ansible_distribution == "Amazon"
+    el_distro: "el{{ ansible_facts['distribution_major_version'] }}"
+  when: ansible_facts['os_family'] == "RedHat" and not ansible_facts['distribution'] == "Amazon"
 
 - name: Set el_distro when OS is Amazon
   set_fact:
-    el_distro: "amzn{{ ansible_distribution_major_version }}"
-  when: ansible_distribution == "Amazon"
+    el_distro: "amzn{{ ansible_facts['distribution_major_version'] }}"
+  when: ansible_facts['distribution'] == "Amazon"
 
 - name: Set deb_distro when OS is Debian
   set_fact:
-    deb_distro: "{{ ansible_distribution_release }}"
-  when: ansible_os_family == "Debian"
+    deb_distro: "{{ ansible_facts['distribution_release'] }}"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install the rpm repo's key
   ansible.builtin.rpm_key:
     state: present
     key: "{{ rpm_repo_key }}"
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Install the rpm repo's key to /etc
   ansible.builtin.get_url:
     url: "{{ rpm_repo_key }}"
     dest: /etc/pki/rpm-gpg
     mode: '0600'
-  when: ansible_os_family == "RedHat" and not ood_dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_facts['os_family'] == "RedHat" and not ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Install apt repo keys (legacy Debian)
   ansible.builtin.apt_key:
     state: present
     url: "{{ item.url }}"
     id: "{{ item.id }}"
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "26") or (ansible_distribution == "Debian" and ansible_distribution_major_version < "13")
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] < "26") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] < "13")
   loop:
   - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}" }
   - { url: "{{ node_repo_key }}", id: "{{ node_repo_key_id }}" }
@@ -41,7 +41,7 @@
     url: "{{ item.url }}"
     dest: /etc/apt/trusted.gpg.d/jenkins.asc
     mode: '0644'
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version >= "26.04") or (ansible_distribution == "Debian" and ansible_distribution_major_version >= "13")
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] >= "26.04") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] >= "13")
   loop:
   - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}", basename: "DEB-GPG-KEY-ondemand-SHA512" }
   - { url: "{{ node_repo_key }}", id: "{{ node_repo_key_id }}", basename: "node.asc" }
@@ -51,7 +51,7 @@
     name: "{{ rpm_repo_url }}"
     state: present
     disable_gpg_check: "{{ disable_gpg_check_rpm_repo | bool }}"
-  when: ansible_os_family == "RedHat" and ood_dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_facts['os_family'] == "RedHat" and ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Create repo file (RHEL)
   ansible.builtin.template:
@@ -60,7 +60,7 @@
     mode: 'u=rw,g=r,o=r'
     owner: root
     group: root
-  when: ansible_os_family == "RedHat" and not ood_dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_facts['os_family'] == "RedHat" and not ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Install the apt repo
   ansible.builtin.apt:
@@ -68,7 +68,7 @@
     state: present
     update_cache: "{{ apt_update_cache | bool }}"
     dpkg_options: 'force-confnew'
-  when: ansible_os_family == "Debian" and ood_dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_facts['os_family'] == "Debian" and ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Create repo file (Debian)
   ansible.builtin.template:
@@ -77,13 +77,13 @@
     mode: 'u=rw,g=r,o=r'
     owner: root
     group: root
-  when: ansible_os_family == "Debian" and not ood_dl_repo_package and not ood_use_existing_repo_file
+  when: ansible_facts['os_family'] == "Debian" and not ood_dl_repo_package and not ood_use_existing_repo_file
 
 - name: Enable epel
   ansible.builtin.package:
     name: 'epel-release'
     state: present
-  when: ansible_os_family == "RedHat" and not ood_use_existing_repo_file and not ansible_distribution == "Amazon"
+  when: ansible_facts['os_family'] == "RedHat" and not ood_use_existing_repo_file and not ansible_facts['distribution'] == "Amazon"
 
 - name: Install rhel/centos:8 dependencies
   ansible.builtin.dnf:
@@ -92,7 +92,7 @@
       - powertools
       - codeready-builder-for-rhel-8-x86_64-rpms
     state: present
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == '8'
+  when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == '8'
   loop:
     - "{{ additional_rpm_installs }}"
   tags:
@@ -117,7 +117,7 @@
 
 - name: Enable scl repos in rhel
   ansible.builtin.command: "subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
-  when: ansible_distribution == "Red Hat Enterprise Linux" and ansible_distribution_major_version == '7'
+  when: ansible_facts['distribution'] == "Red Hat Enterprise Linux" and ansible_facts['distribution_major_version'] == '7'
   changed_when: true
 
 - name: Install Open Ondemand (RHEL Compatible)
@@ -126,14 +126,14 @@
     state: "{{ 'latest' if ondemand_package == 'latest' else 'present' }}"
     update_cache: true
     exclude: "{{ ondemand_package_excludes | default([]) }}"
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Install Open Ondemand (Debian)
   ansible.builtin.apt:
     name:  "{{ 'ondemand' if ondemand_package == 'latest' else ondemand_package }}"
     state: "{{ 'latest' if ondemand_package == 'latest' else 'present' }}"
     update_cache: true
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install ondemand-dex
   ansible.builtin.package:
