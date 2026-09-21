@@ -9,8 +9,8 @@
   - name: Include distribution variables
     ansible.builtin.include_vars: "{{ item }}"
     with_first_found:
-      - "../../vars/{{ ansible_distribution }}/{{ ansible_distribution_major_version }}.yml"
-      - "../../vars/{{ ansible_distribution }}.yml"
+      - "../../vars/{{ ansible_facts['distribution'] }}/{{ ansible_facts['distribution_major_version'] }}.yml"
+      - "../../vars/{{ ansible_facts['distribution'] }}.yml"
 
   - name: Get the package facts
     ansible.builtin.package_facts:
@@ -33,7 +33,7 @@
       mode: 'u=rw,g=r,o=r'
     with_items:
       - { src: "fixtures/config/ood_portal.yml.{{ inventory_hostname }}.{{ apache_service_name }}", dest: "ood_portal.yml" }
-      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}.{{ ansible_os_family }}", dest: "nginx_stage.yml" }
+      - { src: "fixtures/config/nginx_stage.yml.{{ inventory_hostname }}.{{ ansible_facts['os_family'] }}", dest: "nginx_stage.yml" }
 
   - name: Verify the config files
     ansible.builtin.command: "diff /tmp/{{ item }} /etc/ood/config/{{ item }}"
