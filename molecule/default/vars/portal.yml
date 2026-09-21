@@ -1,4 +1,7 @@
 # custom ood_portal.yml configurations
+
+ood_httpd_use_rewrites: false
+
 host_regex: 'forge-(l|c)\d+'
 # nobody's should be using both user_* configs here, but this is a test after all
 user_map_cmd: '/opt/site/regex-mapper --regex=''''^([A-Za-z0-9\-_\.]+)@osc.edu$'''''

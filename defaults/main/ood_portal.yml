@@ -2,6 +2,10 @@
 # 
 # See https://osc.github.io/ood-documentation/latest/reference/files/ood-portal-yml.html
 # for more details on this file and it's configurations.
+#
+# Older style variable names with no ood_ prefix are kept commented here purely for
+# historical documentation because they're still used in the template.
+# Users should prefer the ood_ style prefixed variables instead.
 
 # Use this variable to define anything you need inside ood VirtualHost that
 # isn't already there.
@@ -14,7 +18,9 @@
 # - 80
 # - 443
 
-httpd_use_rewrites: true
+# httpd_use_rewrites: true
+ood_httpd_use_rewrites: true
+
 ood_http_redirect_host: '%{HTTP_HOST}'
 maintenance_ip_allowlist: []
 use_maintenance: true
