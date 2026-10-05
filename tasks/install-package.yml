@@ -39,7 +39,7 @@
 - name: Install apt repo keys (current Debian)
   ansible.builtin.get_url:
     url: "{{ item.url }}"
-    dest: /etc/apt/trusted.gpg.d/jenkins.asc
+    dest: "/etc/apt/trusted.gpg.d/{{ item.basename }}"
     mode: '0644'
   when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] >= "26.04") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] >= "13")
   loop:
