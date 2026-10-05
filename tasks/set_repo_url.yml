@@ -1,0 +1,10 @@
+- name: Set repo URLs (RHEL)
+  set_fact:
+    ood_repo_base_url: "https://yum.osc.edu/ondemand/4.2/web/{{ el_distro }}/$basearch/"
+    ood_repo_src_base_url: "https://yum.osc.edu/ondemand/4.2/web/{{ el_distro }}/SRPMS/"
+  when: ansible_facts['os_family'] == 'RedHat' and ood_repo_base_url is not defined and ood_repo_src_base_url is not defined
+
+- name: Set repo URLs (Debian)
+  set_fact:
+    ood_repo_base_url: 'https://apt.osc.edu/ondemand/4.2/web/apt'
+  when: ansible_facts['os_family'] == 'Debian' and ood_repo_base_url is not defined

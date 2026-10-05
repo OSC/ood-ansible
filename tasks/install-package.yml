@@ -46,6 +46,9 @@
   - { url: "{{ deb_repo_key }}", id: "{{ deb_repo_key_id }}", basename: "DEB-GPG-KEY-ondemand-SHA512" }
   - { url: "{{ node_repo_key }}", id: "{{ node_repo_key_id }}", basename: "node.asc" }
 
+- name: Set repo URLs
+  ansible.builtin.include_tasks: set_repo_url.yml
+
 - name: Install the rpm repo
   ansible.builtin.package:
     name: "{{ rpm_repo_url }}"
