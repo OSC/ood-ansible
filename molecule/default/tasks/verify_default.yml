@@ -11,3 +11,8 @@
   with_items:
     - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
   changed_when: false
+
+- name: Ensure the ondemand-release-web package is installed
+  ansible.builtin.package:
+    name: ondemand-release-web
+    state: present

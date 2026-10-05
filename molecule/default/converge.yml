@@ -15,7 +15,7 @@
 - name: Custom
   hosts: custom
   tasks:
-    - name: include vars
+    - name: include global vars
       ansible.builtin.include_vars:
         file: "{{ item }}"
       loop:
@@ -23,10 +23,27 @@
         - vars/nginx.yml
         - vars/portal.yml
         - vars/ondemand.yml
-        - vars/install.yml
-    - name: run role
+    # have to load all the staging repo variables like this bc we can't use if/else blocks
+    - name: include repo vars (Debian)
+      ansible.builtin.include_vars:
+        file: 'vars/install_custom_Debian.yml'
+      when: ansible_facts['os_family'] == 'Debian'
+    - name: include repo vars (RHEL)
+      ansible.builtin.include_vars:
+        file: "vars/install_custom_RedHat_{{ ansible_facts['distribution_major_version'] }}.yml"
+      when: ansible_facts['os_family'] == 'RedHat' and not ansible_facts['distribution'] == "Amazon"
+    - name: include repo vars (Amazon)
+      ansible.builtin.include_vars:
+        file: "vars/install_custom_Amazon.yml"
+      when: ansible_facts['distribution'] == "Amazon"
+    - name: run role (CI)
       ansible.builtin.include_role:
         name: ood-ansible
+      vars:
+          ood_web_repo_user: "{{ lookup('ansible.builtin.env', 'OSC_EARLY_ACCESS_USER', default=undef()) }}"
+          ood_web_repo_password: "{{ lookup('ansible.builtin.env', 'OSC_EARLY_ACCESS_PASSWORD', default=undef()) }}"
+          ood_web_src_repo_user: "{{ lookup('ansible.builtin.env', 'OSC_EARLY_ACCESS_USER', default=undef()) }}"
+          ood_web_src_repo_password: "{{ lookup('ansible.builtin.env', 'OSC_EARLY_ACCESS_PASSWORD', default=undef()) }}"
 
 - name: OIDC
   hosts: oidc
