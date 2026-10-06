@@ -24,6 +24,14 @@
       - gnupg2
       when:  ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == '10'
 
+    - name: Install extra packages (Debian)
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: latest
+      loop:
+      - python3-debian
+      when:  ansible_facts['os_family'] == "Debian"
+
     - name: Create secondary group
       ansible.builtin.group:
         name: specialusers
