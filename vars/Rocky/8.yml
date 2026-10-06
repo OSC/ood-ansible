@@ -17,3 +17,5 @@ additional_rpm_installs:
   - "@ruby:{{ ruby_version }}"
   - "@nodejs:{{ nodejs_version }}"
 
+rpm_repo_key_basename: "RPM-GPG-KEY-ondemand"
+rpm_repo_key: "https://yum.osc.edu/ondemand/{{ rpm_repo_key_basename }}"

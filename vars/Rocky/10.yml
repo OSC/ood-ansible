@@ -14,5 +14,3 @@ additional_rpm_installs:
   - lua-posix
   - 'nodejs'
   - 'ruby'
-
-rpm_repo_key: https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand-SHA512
