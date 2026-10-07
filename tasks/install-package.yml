@@ -96,6 +96,18 @@
     state: present
   when: ansible_facts['os_family'] == "Debian" and not ood_dl_repo_package and not ood_use_existing_repo_file
 
+- name: Add apt credential file (Debian)
+  ansible.builtin.template:
+    src: debian_apt_auth.conf.j2
+    dest: /etc/apt/auth.conf.d/ondemand.conf
+    mode: '0600'
+    owner: root
+    group: root
+  when:
+    - ansible_facts['os_family'] == "Debian"
+    - not ood_dl_repo_package
+    - ood_web_repo_user is defined and ood_web_repo_password is defined
+
 - name: Enable epel
   ansible.builtin.package:
     name: 'epel-release'
