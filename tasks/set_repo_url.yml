@@ -8,3 +8,4 @@
   set_fact:
     ood_repo_base_url: 'https://apt.osc.edu/ondemand/4.2/web/apt'
   when: ansible_facts['os_family'] == 'Debian' and ood_repo_base_url is not defined
+

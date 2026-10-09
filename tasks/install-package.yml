@@ -73,14 +73,40 @@
     dpkg_options: 'force-confnew'
   when: ansible_facts['os_family'] == "Debian" and ood_dl_repo_package and not ood_use_existing_repo_file
 
-- name: Create repo file (Debian)
+- name: Create ondemand-web repo (Debian)
+  ansible.builtin.deb822_repository:
+    name: ondemand-web
+    types: deb
+    uris: "{{ ood_repo_base_url }}"
+    suites: "{{ ansible_facts['distribution_release'] }}"
+    components: main
+    signed_by: "{{ deb_repo_key }}"
+  when: ansible_facts['os_family'] == "Debian" and not ood_dl_repo_package and not ood_use_existing_repo_file
+
+  # ondemand-release-web adds this automatically, so if we're not downloading it
+  # through ood_dl_repo_package then we have to create it here.
+- name: Create nodesource repo (Debian)
+  ansible.builtin.deb822_repository:
+    name: nodesource
+    types: deb
+    uris: "https://deb.nodesource.com/node_{{ nodejs_version }}.x"
+    suites: nodistro
+    components: main
+    signed_by: "{{ node_repo_key }}"
+    state: present
+  when: ansible_facts['os_family'] == "Debian" and not ood_dl_repo_package and not ood_use_existing_repo_file
+
+- name: Add apt credential file (Debian)
   ansible.builtin.template:
-    src: ondemand-web.list.j2
-    dest: /etc/apt/sources.list.d/ondemand-web.list
-    mode: 'u=rw,g=r,o=r'
+    src: debian_apt_auth.conf.j2
+    dest: /etc/apt/auth.conf.d/ondemand.conf
+    mode: '0600'
     owner: root
     group: root
-  when: ansible_facts['os_family'] == "Debian" and not ood_dl_repo_package and not ood_use_existing_repo_file
+  when:
+    - ansible_facts['os_family'] == "Debian"
+    - not ood_dl_repo_package
+    - ood_web_repo_user is defined and ood_web_repo_password is defined
 
 - name: Enable epel
   ansible.builtin.package:

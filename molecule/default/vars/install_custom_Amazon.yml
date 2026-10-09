@@ -1,0 +1,6 @@
+disable_htcacheclean: true
+
+ood_dl_repo_package: false
+ood_use_existing_repo_file: false
+ood_repo_base_url: 'https://yum.osc.edu/ondemand/staging/4.2/web/amzn2023/$basearch/'
+ood_repo_src_base_url: 'https://yum.osc.edu/ondemand/staging/4.2/web/amzn2023/SRPMS/'
