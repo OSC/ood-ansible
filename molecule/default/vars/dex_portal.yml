@@ -1,0 +1,67 @@
+host_regex: 'forge-(l|c)\d+'
+# nobody's should be using both user_* configs here, but this is a test after all
+user_map_cmd: '/opt/site/regex-mapper --regex=''''^([A-Za-z0-9\-_\.]+)@osc.edu$'''''
+user_map_match: '^([^@]+)@.*$'
+rnode_uri: '/custom-rnode-path'
+node_uri: '/custom-node-path'
+httpd_error_log: 'custom_defined_error.log'
+httpd_access_log: 'custom_defined_access.log'
+httpd_logformat: '"%O %h \"%{Referer}i\" \"%r\" %v \"%{User-Agent}i\" %{SSL_PROTOCOL}e %T %>s"'
+security_csp_frame_ancestors: http://my.proxy.server.edu
+security_strict_transport: true
+pun_pre_hook_exports: 'OIDC_ACCESS_TOKEN,OIDC_CLAIM_EMAIL'
+pun_pre_hook_root_cmd: '/opt/site/site_pre_hook'
+
+dex_settings: |
+  dex:
+    # Default based on if ssl key for ood-portal-generator is defined
+    ssl: false
+    # Only used if SSL is disabled
+    http_port: "5556"
+    # Only used if SSL is enabled
+    https_port: "5554"
+    # tls_cert and tls_key take OnDemand configured values for ssl and copy keys to /etc/ood/dex maintaining file names
+    tls_cert: null
+    tls_key: null
+    storage_file: /etc/ood/dex/dex.db
+    grpc: null
+    expiry: null
+    # Client ID, defaults to servername or FQDN
+    client_id: null
+    client_name: OnDemand
+    # Client secret, value auto generated
+    # A value that is a filesystem path can be used to store secret in a file
+    client_secret: /etc/ood/dex/ondemand.secret
+    # The OnDemand redirectURI is auto-generated, this option allows adding additional URIs
+    client_redirect_uris: []
+    # Additional Dex OIDC clients to configure
+    static_clients: []
+    # The following example is to configure OpenLDAP
+    # Docs: https://github.com/dexidp/dex/blob/master/Documentation/connectors/ldap.md
+    connectors:
+      - type: ldap
+        id: ldapg
+        name: LDAP
+        config:
+          host: openldap.my_center.edu:636
+          insecureSkipVerify: false
+          bindDN: cn=admin,dc=example,dc=org
+          bindPW: admin
+          userSearch:
+            baseDN: ou=People,dc=example,dc=org
+            filter: "(objectClass=posixAccount)"
+            username: uid
+            idAttr: uid
+            emailAttr: mail
+            nameAttr: gecos
+            preferredUsernameAttr: uid
+          groupSearch:
+            baseDN: ou=Groups,dc=example,dc=org
+            filter: "(objectClass=posixGroup)"
+            userMatchers:
+              - userAttr: DN
+                groupAttr: member
+            nameAttr: cn
+    frontend:
+      theme: ondemand
+      dir: /usr/share/ondemand-dex/web

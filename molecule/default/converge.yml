@@ -58,6 +58,19 @@
       ansible.builtin.include_role:
         name: ood-ansible
 
+- name: Dex
+  hosts: dex
+  tasks:
+    - name: include vars
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - vars/dex_portal.yml
+        - vars/install.yml
+    - name: run role
+      ansible.builtin.include_role:
+        name: ood-ansible
+
 # Old Variables is the use case of providing old variable names
 # (not ood_ prefixed) to ensure backward compatibility.
 # All old variables should be supplied here to differ from default to
