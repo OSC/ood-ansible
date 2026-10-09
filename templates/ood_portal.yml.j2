@@ -122,7 +122,11 @@ http_redirect_host: '{{ ood_http_redirect_host }}'
 # Example:
 #   use_maintenance: false
 # Default: true
+{% if use_maintenance is defined %}
 use_maintenance: {{ use_maintenance | bool | lower }}
+{% else %}
+use_maintenance: {{ ood_use_maintenance | bool | lower }}
+{% endif %}
 
 # List of IPs to allow when maintenance is enabled
 # Example:
@@ -133,6 +137,11 @@ use_maintenance: {{ use_maintenance | bool | lower }}
 {% if maintenance_ip_allowlist is defined and maintenance_ip_allowlist|length > 0 %}
 maintenance_ip_allowlist:
 {% for item in maintenance_ip_allowlist  %}
+  - '{{ item }}'
+{% endfor %}
+{% elif ood_maintenance_ip_allowlist is defined and ood_maintenance_ip_allowlist|length > 0 %}
+maintenance_ip_allowlist:
+{% for item in ood_maintenance_ip_allowlist  %}
   - '{{ item }}'
 {% endfor %}
 {% else %}
