@@ -492,55 +492,55 @@ register_method_options:
 # Dex configurations, values inside the "dex" structure are directly used to configure Dex
 # If the value for "dex" key is false or null, Dex support is disabled
 # Dex support will auto-enable if ondemand-dex package is installed
-#dex:
+dex:
   # Default based on if ssl key for ood-portal-generator is defined
-#  ssl: false
+  ssl: false
   # Only used if SSL is disabled
-#  http_port: "5556"
+  http_port: "5556"
   # Only used if SSL is enabled
-#  https_port: "5554"
+  https_port: "5554"
   # tls_cert and tls_key take OnDemand configured values for ssl and copy keys to /etc/ood/dex maintaining file names
-#  tls_cert: null
-#  tls_key: null
-#  storage_file: /etc/ood/dex/dex.db
-#  grpc: null
-#  expiry: null
+  tls_cert: null
+  tls_key: null
+  storage_file: /etc/ood/dex/dex.db
+  grpc: null
+  expiry: null
   # Client ID, defaults to servername or FQDN
-#  client_id: null
-#  client_name: OnDemand
+  client_id: null
+  client_name: OnDemand
   # Client secret, value auto generated
   # A value that is a filesystem path can be used to store secret in a file
-#  client_secret: /etc/ood/dex/ondemand.secret
-   # The OnDemand redirectURI is auto-generated, this option allows adding additional URIs
-#  client_redirect_uris: []
+  client_secret: /etc/ood/dex/ondemand.secret
+  # The OnDemand redirectURI is auto-generated, this option allows adding additional URIs
+  client_redirect_uris: []
   # Additional Dex OIDC clients to configure
-#  static_clients: []
+  static_clients: []
   # The following example is to configure OpenLDAP
   # Docs: https://github.com/dexidp/dex/blob/master/Documentation/connectors/ldap.md
-#  connectors:
-#    - type: ldap
-#      id: ldap
-#      name: LDAP
-#      config:
-#        host: openldap.my_center.edu:636
-#        insecureSkipVerify: false
-#        bindDN: cn=admin,dc=example,dc=org
-#        bindPW: admin
-#        userSearch:
-#          baseDN: ou=People,dc=example,dc=org
-#          filter: "(objectClass=posixAccount)"
-#          username: uid
-#          idAttr: uid
-#          emailAttr: mail
-#          nameAttr: gecos
-#          preferredUsernameAttr: uid
-#        groupSearch:
-#          baseDN: ou=Groups,dc=example,dc=org
-#          filter: "(objectClass=posixGroup)"
-#          userMatchers:
-#            - userAttr: DN
-#              groupAttr: member
-#          nameAttr: cn
-#  frontend:
-#    theme: ondemand
-#    dir: /usr/share/ondemand-dex/web
+  connectors:
+    - type: ldap
+      id: ldap
+      name: LDAP
+      config:
+        host: openldap.my_center.edu:636
+        insecureSkipVerify: false
+        bindDN: cn=admin,dc=example,dc=org
+        bindPW: admin
+        userSearch:
+          baseDN: ou=People,dc=example,dc=org
+          filter: "(objectClass=posixAccount)"
+          username: uid
+          idAttr: uid
+          emailAttr: mail
+          nameAttr: gecos
+          preferredUsernameAttr: uid
+        groupSearch:
+          baseDN: ou=Groups,dc=example,dc=org
+          filter: "(objectClass=posixGroup)"
+          userMatchers:
+            - userAttr: DN
+              groupAttr: member
+          nameAttr: cn
+  frontend:
+    theme: ondemand
+    dir: /usr/share/ondemand-dex/web
