@@ -92,7 +92,7 @@ http_redirect_host: '%{HTTP_HOST}'
 # Example:
 #   use_maintenance: false
 # Default: true
-use_maintenance: true
+use_maintenance: false
 
 # List of IPs to allow when maintenance is enabled
 # Example:
@@ -100,7 +100,9 @@ use_maintenance: true
 #     - 192.168.0..*
 #     - 192.168.1..*
 # Default: [] (no IPs allowed)
-maintenance_ip_allowlist: []
+maintenance_ip_allowlist:
+  - '10.0.0.1'
+  - '192.168.1..*'
 
 # Set Header Content-Security-Policy frame-ancestors.
 # Example:
