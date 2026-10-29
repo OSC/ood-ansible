@@ -23,20 +23,15 @@
         - vars/nginx.yml
         - vars/portal.yml
         - vars/ondemand.yml
-    # have to load all the staging repo variables like this bc we can't use if/else blocks
-    - name: include repo vars (Debian)
+    - name: Include variables for running locally
       ansible.builtin.include_vars:
-        file: 'vars/install_custom_Debian.yml'
-      when: ansible_facts['os_family'] == 'Debian'
-    - name: include repo vars (RHEL)
-      ansible.builtin.include_vars:
-        file: "vars/install_custom_RedHat_{{ ansible_facts['distribution_major_version'] }}.yml"
-      when: ansible_facts['os_family'] == 'RedHat' and not ansible_facts['distribution'] == "Amazon"
-    - name: include repo vars (Amazon)
-      ansible.builtin.include_vars:
-        file: "vars/install_custom_Amazon.yml"
-      when: ansible_facts['distribution'] == "Amazon"
-    - name: run role (CI)
+        file: install_custom_local.yml
+      when: "lookup('ansible.builtin.env', 'CI') != 'true'"
+    - name: Include variables for running in CI (use locked staging repository)
+      ansible.builtin.include_tasks:
+        file: ci.yml
+      when: "lookup('ansible.builtin.env', 'CI') == 'true'"
+    - name: run role
       ansible.builtin.include_role:
         name: ood-ansible
       vars:

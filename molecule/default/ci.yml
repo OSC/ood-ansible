@@ -1,0 +1,16 @@
+
+# have to load all the staging repo variables like this bc we can't use if/else blocks
+- name: include repo vars (Debian)
+  ansible.builtin.include_vars:
+    file: 'vars/install_custom_Debian.yml'
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: include repo vars (RHEL)
+  ansible.builtin.include_vars:
+    file: "vars/install_custom_RedHat_{{ ansible_facts['distribution_major_version'] }}.yml"
+  when: ansible_facts['os_family'] == 'RedHat' and not ansible_facts['distribution'] == "Amazon"
+
+- name: include repo vars (Amazon)
+  ansible.builtin.include_vars:
+    file: "vars/install_custom_Amazon.yml"
+  when: ansible_facts['distribution'] == "Amazon"

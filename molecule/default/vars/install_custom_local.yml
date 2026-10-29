@@ -1,0 +1,7 @@
+# when you're running this locally and don't want or need to authenticate
+# with the staging repository. CI in github uses other files to use staging.
+
+disable_htcacheclean: true
+
+ood_dl_repo_package: false
+ood_use_existing_repo_file: false
