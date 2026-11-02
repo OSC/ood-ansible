@@ -17,6 +17,7 @@ This ansible role installs and configures [Open OnDemand](https://openondemand.o
   - [Open ID Connect](#open-id-connect)
     - [Install Dex](#install-dex)
   - [OnDemand.d Configurations](#ondemandd-configurations)
+  - [Using a different repository](#using-a-different-repository)
 - [Contributing](#contributing)
 
 ## Version compatibility
@@ -343,6 +344,58 @@ ood_ondemand_d_configs:
           endpoint_path: "/"
     group: specialusers
     mode: 640
+```
+
+### Using a different repository
+
+By default, this role installs the `ondemand-release-web` package that creates the
+dnf or apt repository files from which the actual ondemand package comes from.
+
+You can change this behaviour to provide a file yourself or use this role to template
+a file for RHEL or use a ansible task for Debain. Both are covered here.
+
+#### Changing the repository
+
+If you want to use a different repository URL than what `ondemand-release-web` provides,
+you need to set `ood_dl_repo_package` to `false` and provide the URL through `ood_repo_base_url`.
+RHEL variants will also need to provide `ood_repo_src_base_url`.
+
+```yaml
+ood_dl_repo_package: false
+ood_repo_base_url: changeme
+ood_repo_src_base_url: rhelonly.changeme
+```
+
+#### Early Access or other password protected repositories
+
+If you are an early access subscriber or using a passowrd protected repository,
+in addition to the items mentioned above, you'll also need to provide `ood_web_repo_user`
+and `ood_web_repo_password`.
+
+Note the examples below use environment variables to prevent storing these crendentials with
+other configurations in your source control.
+
+```yaml
+# early access example configuration
+ood_dl_repo_package: false
+ood_web_repo_user: "{{ lookup('ansible.builtin.env', 'OOD_EARLY_ACCESS_REPO_USER', default=undef()) }}"
+ood_web_repo_password: "{{ lookup('ansible.builtin.env', 'OOD_EARLY_ACCESS_REPO_PASSWORD', default=undef()) }}"
+
+# RHEL early access for OOD 4.2 and el8
+ood_repo_base_url: "https://yum.osc.edu/ondemand/early-access/4.2/web/el8/$basearch/"
+ood_repo_src_base_url: "https://yum.osc.edu/ondemand/early-access/4.2/web/el8/SRPMS/"
+
+# Debian early access for OOD 4.2
+ood_repo_base_url: 'https://apt.osc.edu/ondemand/early-access/4.2/web/apt'
+```
+
+#### Supplying your own file
+
+To supply your own file set the `ood_use_existing_repo_file` to `true` and create the file
+before this role runs.
+
+```yaml
+ood_use_existing_repo_file: true
 ```
 
 ## Contributing

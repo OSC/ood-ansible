@@ -52,7 +52,7 @@
     src: "{{ apache_etc_dir }}/mods-available/{{ item }}.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/{{ item }}.load"
     state: link
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   loop:
   - rewrite
   - lua
@@ -65,14 +65,14 @@
     src: "{{ apache_etc_dir }}/mods-available/ssl.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/ssl.load"
     state: link
-  when: ansible_os_family == "Debian" and (ssl is defined or ssl_proxy is defined)
+  when: ansible_facts['os_family'] == "Debian" and (ssl is defined or ssl_proxy is defined)
 
 - name: Enable Debian oidc mod
   ansible.builtin.file:
     src: "{{ apache_etc_dir }}/mods-available/auth_openidc.load"
     dest: "{{ apache_etc_dir }}/mods-enabled/auth_openidc.load"
     state: link
-  when: ansible_os_family == "Debian" and (oidc_uri is defined or
+  when: ansible_facts['os_family'] == "Debian" and (oidc_uri is defined or
         oidc_discover_uri is defined or
         oidc_discover_root is defined)
 
@@ -84,7 +84,7 @@
       LoadModule headers_module                 /usr/lib64/apache2-prefork/mod_headers.so
       LoadModule proxy_module                   /usr/lib64/apache2-prefork/mod_proxy.so
       LoadModule proxy_http_module              /usr/lib64/apache2-prefork/mod_proxy_http.so
-  when: ansible_os_family == "Suse"
+  when: ansible_facts['os_family'] == "Suse"
 
 - name: Add OpenIDC config to Apache
   ansible.builtin.template:
