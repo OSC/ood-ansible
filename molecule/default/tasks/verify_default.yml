@@ -12,7 +12,11 @@
     - { left: "ondemand.yml", right: "{{ ood_base_conf_dir }}/ondemand.d/ondemand.yml" }
   changed_when: false
 
+- name: Get the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
 - name: Ensure the ondemand-release-web package is installed
-  ansible.builtin.package:
-    name: ondemand-release-web
-    state: present
+  ansible.builtin.fail:
+    msg: ondemand-release-web package was not installed.
+  when: "'ondemand-release-web' not in ansible_facts.packages"
