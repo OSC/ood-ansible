@@ -14,6 +14,7 @@ user_map_match: '^([^@]+)@.*$'
 rnode_uri: '/custom-rnode-path'
 node_uri: '/custom-node-path'
 oidc_uri: '/custom-oidc-path'
+oidc_crypto_passphrase: mycryptopass
 secure_node_uri: '/custom-secure-node'
 secure_rnode_uri: '/custom-secure-rnode'
 ssl_proxy:
@@ -42,7 +43,6 @@ ood_auth_openidc:
   OIDCSessionMaxDuration: 28888
   OIDCClientID: myid
   OIDCProviderMetadataURL: https://localhost/
-  OIDCCryptoPassphrase: mycryptopass
 
 strip_proxy_cookies: ["mod_auth_openidc_session"]
 strip_proxy_headers: ["Authorization", "OIDC_access_token"]
@@ -66,7 +66,7 @@ dex_settings: |
     grpc: null
     expiry: null
     # Client ID, defaults to servername or FQDN
-    client_id: null
+    client_id: e462574e-d6e9-11f1-b090-00155d534d72
     client_name: OnDemand
     # Client secret, value auto generated
     # A value that is a filesystem path can be used to store secret in a file
