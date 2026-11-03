@@ -74,3 +74,13 @@
   ansible.builtin.fail:
     msg: ondemand-release-web package was installed.
   when: "'ondemand-release-web' in ansible_facts.packages"
+
+- name: Ensure the ondemand-dex package is installed
+  ansible.builtin.fail:
+    msg: ondemand-dex package was not installed.
+  when: "'ondemand-dex' not in ansible_facts.packages"
+
+- name: Ensure ondemand-dex is running
+  ansible.builtin.systemd:
+    state: started
+    name: "ondemand-dex"
