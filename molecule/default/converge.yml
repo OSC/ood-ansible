@@ -35,7 +35,7 @@
       ansible.builtin.include_role:
         name: ood-ansible
       vars:
-          ood_web_repo_user: "{{ lookup('ansible.builtin.env', 'OOD_OSC_EARLY_ACCESS_USER', default=undef()) }}"
+          ood_web_repo_user: "{{ lookup('ansible.builtin.env', 'OOD_OSC_EARLY_ACCESS_USERNAME', default=undef()) }}"
           ood_web_repo_password: "{{ lookup('ansible.builtin.env', 'OOD_OSC_EARLY_ACCESS_PASSWORD', default=undef()) }}"
           install_ondemand_dex: true
 
